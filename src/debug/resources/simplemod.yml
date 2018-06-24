@@ -1,0 +1,7 @@
+id: testmod
+name: TestMod
+authors:
+ - Runemoro
+listenerPrefix: org.dimdev.testmod.
+listeners:
+ - TestMod

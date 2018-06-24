@@ -1,0 +1,8 @@
+id: rift
+name: Rift
+authors:
+ - Runemoro
+listenerPrefix: org.dimdev.rift.
+listeners:
+ - Rift
+ - resources.ResourceManager

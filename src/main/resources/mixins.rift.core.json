@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.7.7",
+  "compatibilityLevel": "JAVA_8",
+  "target": "@env(DEFAULT)",
+  "package": "org.dimdev.rift.mixin.core",
+  "refmap": "mixins.modapi.refmap.json",
+  "mixins": [
+    "client.MixinClientBrandRetriever",
+    "client.MixinBlockFluidRenderer"
+  ],
+  "client": []
+}
