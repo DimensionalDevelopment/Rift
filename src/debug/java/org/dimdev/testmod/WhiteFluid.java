@@ -78,12 +78,12 @@ public abstract class WhiteFluid extends FlowingFluid implements IRiftFluid {
 
     @Override
     public TextureAtlasSprite getStillTexture() {
-        return Minecraft.getMinecraft().getTextureMapBlocks().func_195424_a(new ResourceLocation("assets/testmod", "blocks/white_fluid_still"));
+        return Minecraft.getMinecraft().getTextureMapBlocks().func_195424_a(new ResourceLocation("testmod", "blocks/white_fluid_still"));
     }
 
     @Override
     public TextureAtlasSprite getFlowingTexture() {
-        return Minecraft.getMinecraft().getTextureMapBlocks().func_195424_a(new ResourceLocation("assets/testmod", "blocks/white_fluid_flow"));
+        return Minecraft.getMinecraft().getTextureMapBlocks().func_195424_a(new ResourceLocation("testmod", "blocks/white_fluid_flow"));
     }
 
     @Override

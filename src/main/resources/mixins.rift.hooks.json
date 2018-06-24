@@ -10,7 +10,14 @@
     "MixinItem",
     "MixinFluid",
     "client.MixinMinecraft",
-    "client.MixinModelBakery"
+    "client.MixinModelBakery",
+    "MixinEnumConnectionState",
+    "MixinEnumConnectionState$Handshaking",
+    "MixinEnumConnectionState$Play",
+    "MixinEnumConnectionState$Status",
+    "MixinEnumConnectionState$Login",
+    "client.MixinNetHandlerPlayClient",
+    "MixinNetHandlerPlayServer"
   ],
   "client": []
 }

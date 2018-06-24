@@ -14,14 +14,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Item.class)
 public abstract class MixinItem {
-    @Shadow protected static void registerItemBlock(Block blockIn, Item itemIn) {}
-    @Shadow private static void registerItemBlock(Block blockIn) {}
-    @Shadow private static void registerItemBlock(Block p_200879_0_, ItemGroup p_200879_1_) {}
+    @Shadow protected static void registerItemBlock(Block block, Item item) {}
+    @Shadow private static void registerItemBlock(Block block) {}
+    @Shadow private static void registerItemBlock(Block block, ItemGroup group) {}
+    @Shadow private static void registerItem(ResourceLocation resourceLocation, Item item) {}
 
     private static final ItemAdder.ItemRegistrationReceiver ITEM_REGISTRATION_RECEIVER = new ItemAdder.ItemRegistrationReceiver() {
         @Override
         public void registerItem(ResourceLocation resourceLocation, Item item) {
-            Item.REGISTRY.putObject(resourceLocation, item);
+            MixinItem.registerItem(resourceLocation, item);
         }
 
         @Override
