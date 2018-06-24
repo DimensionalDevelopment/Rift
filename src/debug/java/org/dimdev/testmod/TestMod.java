@@ -1,9 +1,11 @@
 package org.dimdev.testmod;
 
+import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlowingFluid;
 import net.minecraft.block.BlockStainedGlass;
 import net.minecraft.block.material.Material;
+import net.minecraft.command.CommandSource;
 import net.minecraft.fluid.FlowingFluid;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
@@ -15,7 +17,7 @@ import org.dimdev.rift.listener.*;
 import java.util.Arrays;
 import java.util.Collection;
 
-public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder, PacketAdder {
+public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder, PacketAdder, CommandAdder {
     public static final Block WHITE_BLOCK = new Block(Block.Builder.create(Material.ROCK));
     public static final Block TRANSLUCENT_WHITE_BLOCK = new BlockStainedGlass(EnumDyeColor.WHITE, Block.Builder.create(Material.GLASS));
     public static final FlowingFluid WHITE_FLUID = new WhiteFluid.Source();
@@ -58,11 +60,7 @@ public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder,
 
     @Override
     public void registerPlayPackets(PacketRegistrationReceiver receiver) {
-        try {
-            receiver.registerPacket(EnumPacketDirection.SERVERBOUND, CPacketTest.class);
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
+        receiver.registerPacket(EnumPacketDirection.SERVERBOUND, CPacketTest.class);
     }
 
     @Override
@@ -70,4 +68,9 @@ public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder,
 
     @Override
     public void registerLoginPackets(PacketRegistrationReceiver receiver) {}
+
+    @Override
+    public void addCommands(CommandDispatcher<CommandSource> dispatcher) {
+        ExplosionCommand.register(dispatcher);
+    }
 }
