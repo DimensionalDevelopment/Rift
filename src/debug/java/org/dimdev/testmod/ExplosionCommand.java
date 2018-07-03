@@ -13,19 +13,19 @@ public class ExplosionCommand {
     public static void register(CommandDispatcher<CommandSource> dispatcher) {
         LiteralArgumentBuilder<CommandSource> builder = literalArgument("explosion")
                 .executes(context -> {
-                    Entity entity = context.getSource().func_197022_f();
+                    Entity entity = context.getSource().getEntity();
                     entity.world.newExplosion(null, entity.posX, entity.posY, entity.posZ, 1, true, true);
                     return 0;
                 })
                 .then(requiredArgument("strength", IntegerArgumentType.integer(0))
                               .executes(context -> {
-                                  Entity entity = context.getSource().func_197022_f();
+                                  Entity entity = context.getSource().getEntity();
                                   entity.world.newExplosion(null, entity.posX, entity.posY, entity.posZ, context.getArgument("strength", Integer.class), true, true);
                                   return 0;
                               })
                               .then(requiredArgument("causesFire", BoolArgumentType.bool())
                                             .executes(context -> {
-                                                Entity entity = context.getSource().func_197022_f();
+                                                Entity entity = context.getSource().getEntity();
                                                 entity.world.newExplosion(null, entity.posX, entity.posY, entity.posZ, context.getArgument("strength", Integer.class), context.getArgument("causesFire", Boolean.class), true);
                                                 return 0;
                                             })));

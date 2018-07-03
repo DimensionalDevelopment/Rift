@@ -10,6 +10,7 @@ import net.minecraft.fluid.IFluidState;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.state.StateContainer;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
@@ -20,16 +21,6 @@ import org.dimdev.rift.IRiftFluid;
 
 public abstract class WhiteFluid extends FlowingFluid implements IRiftFluid {
     public WhiteFluid() {}
-
-    @Override
-    public IFluidState func_207207_a(int p_207207_1_, boolean p_207207_2_) {
-        return TestMod.FLOWING_WHITE_FLUID.getDefaultState().withProperty(field_207210_b, p_207207_1_).withProperty(field_207209_a, p_207207_2_);
-    }
-
-    @Override
-    public IFluidState func_207204_a(boolean p_207204_1_) {
-        return TestMod.WHITE_FLUID.getDefaultState().withProperty(field_207209_a, p_207204_1_);
-    }
 
     @Override
     public BlockRenderLayer getBlockLayer() {
@@ -48,7 +39,7 @@ public abstract class WhiteFluid extends FlowingFluid implements IRiftFluid {
 
     @Override
     protected void func_205580_a(IWorld p_205580_1_, BlockPos p_205580_2_, IBlockState p_205580_3_) {
-        p_205580_3_.spawnItem(p_205580_1_.getWorld(), p_205580_2_, 0);
+        p_205580_3_.spawnItems(p_205580_1_.getWorld(), p_205580_2_, 0);
     }
 
     @Override
@@ -77,8 +68,27 @@ public abstract class WhiteFluid extends FlowingFluid implements IRiftFluid {
     }
 
     @Override
+    protected float func_210195_d() {
+        return 100;
+    }
+
+    @Override
+    public Fluid func_210197_e() {
+        return TestMod.FLOWING_WHITE_FLUID;
+    }
+
+    @Override
+    public Fluid func_210198_f() {
+        return TestMod.WHITE_FLUID;
+    }
+
+    @Override
     public TextureAtlasSprite getStillTexture() {
         return Minecraft.getMinecraft().getTextureMapBlocks().func_195424_a(new ResourceLocation("testmod", "blocks/white_fluid_still"));
+    }
+
+    public boolean func_204635_a(Fluid p_204635_1_, EnumFacing p_204635_2_) {
+        return p_204635_2_ == EnumFacing.DOWN && !p_204635_1_.isTagged(FluidTags.WATER);
     }
 
     @Override
@@ -94,25 +104,19 @@ public abstract class WhiteFluid extends FlowingFluid implements IRiftFluid {
     public static class Flowing extends WhiteFluid {
         public Flowing() {}
 
-        @Override
         protected void buildStateContainer(StateContainer.Builder<Fluid, IFluidState> builder) {
             super.buildStateContainer(builder);
-            builder.func_206894_a(field_207210_b);
+            builder.func_206894_a(LEVEL);
         }
 
         @Override
         public int getLevel(IFluidState getLevel) {
-            return getLevel.getValue(field_207210_b);
+            return getLevel.getValue(LEVEL);
         }
 
         @Override
         public boolean isSource(IFluidState state) {
             return false;
-        }
-
-        @Override
-        public boolean func_204635_a(Fluid p_204635_1_, EnumFacing p_204635_2_) {
-            return p_204635_2_ == EnumFacing.DOWN;
         }
     }
 
@@ -127,11 +131,6 @@ public abstract class WhiteFluid extends FlowingFluid implements IRiftFluid {
         @Override
         public boolean isSource(IFluidState state) {
             return true;
-        }
-
-        @Override
-        public boolean func_204635_a(Fluid p_204635_1_, EnumFacing p_204635_2_) {
-            return p_204635_2_ == EnumFacing.DOWN && p_204635_1_ != TestMod.FLOWING_WHITE_FLUID;
         }
     }
 }

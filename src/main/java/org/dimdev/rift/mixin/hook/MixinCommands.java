@@ -16,7 +16,7 @@ public class MixinCommands {
     @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Lcom/mojang/brigadier/CommandDispatcher;findAmbiguities(Lcom/mojang/brigadier/AmbiguityConsumer;)V"))
     public void findAmbiguities(CommandDispatcher<CommandSource> dispatcher, AmbiguityConsumer<CommandSource> consumer) {
         for (CommandAdder commandAdder : SimpleLoader.instance.getListeners(CommandAdder.class)) {
-            commandAdder.addCommands(dispatcher);
+            commandAdder.registerCommands(dispatcher);
         }
         dispatcher.findAmbiguities(consumer);
     }

@@ -36,7 +36,7 @@ public abstract class MixinBlockFluidRenderer {
 
     @Overwrite // TODO: don't overwrite
     public boolean func_205346_a(IWorldReader world, BlockPos pos, BufferBuilder buffer, IFluidState state) {
-        boolean isLava = state.hasTag(FluidTags.LAVA);
+        boolean isLava = state.isTagged(FluidTags.LAVA);
         TextureAtlasSprite[] sprites;
         int colorMultiplier;
 

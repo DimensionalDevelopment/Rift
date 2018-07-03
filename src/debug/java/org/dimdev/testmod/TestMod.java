@@ -70,7 +70,7 @@ public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder,
     public void registerLoginPackets(PacketRegistrationReceiver receiver) {}
 
     @Override
-    public void addCommands(CommandDispatcher<CommandSource> dispatcher) {
+    public void registerCommands(CommandDispatcher<CommandSource> dispatcher) {
         ExplosionCommand.register(dispatcher);
     }
 }
