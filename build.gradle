@@ -1,14 +1,24 @@
 buildscript {
     repositories {
         jcenter()
+        maven {
+            url 'https://www.dimdev.org/maven/'
+        }
+        maven {
+            url 'http://repo.spongepowered.org/maven'
+        }
     }
     dependencies {
         classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.4'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath 'org.spongepowered:mixingradle:0.4-SNAPSHOT'
     }
 }
 
+apply plugin: 'net.minecraftforge.gradle.tweaker-client'
 apply plugin: 'java'
 apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'org.spongepowered.mixin'
 
 group = 'org.dimdev.rift'
 version = '1.0.0'
@@ -24,18 +34,14 @@ version '1.0.0-' + versionSuffix
 repositories {
     mavenCentral()
     ivy {
-        url "https://libraries.minecraft.net/"
-        layout "pattern", {
-            artifact "[organisation]/[module]/[revision]/[artifact]-[revision](-[classifier])(.[ext])"
+        url 'https://libraries.minecraft.net/'
+        layout 'pattern', {
+            artifact '[organisation]/[module]/[revision]/[artifact]-[revision](-[classifier])(.[ext])'
             m2compatible = true
         }
     }
-    ivy {
-        url "https://www.dimdev.org/maven/"
-        layout "pattern", {
-            artifact "[organisation]/[module]/[revision]/[artifact]-[revision](-[classifier])(.[ext])"
-            m2compatible = true
-        }
+    maven {
+        url 'https://www.dimdev.org/maven/'
     }
     maven {
         name = 'sponge'
@@ -47,7 +53,6 @@ repositories {
 }
 
 dependencies {
-    // SimpleLoader
     implementation('org.spongepowered:mixin:0.7.10-SNAPSHOT') {
         exclude module: 'asm-commons'
         exclude module: 'asm-tree'
@@ -56,76 +61,30 @@ dependencies {
         exclude module: 'log4j-core'
     }
     implementation 'com.esotericsoftware.yamlbeans:yamlbeans:1.08'
+}
 
-    // LauncherWrapper
-    implementation "net.minecraft:launchwrapper:1.12"
+minecraft {
+    version = '1.13-pre5'
+    mappings = 'snapshot_2'
+    runDir = 'run'
+    tweakClass = 'org.dimdev.simpleloader.launch.SimpleLoaderTweaker'
+    makeObfSourceJar = false
+}
 
-    // Minecraft compile only dependencies
-    compileOnly "com.google.code.findbugs:jsr305:3.0.2"
+reobf {
+    jar {
+        mappingType = 'NOTCH'
+        classpath = sourceSets.main.compileClasspath
+    }
+    shadowJar {
+        mappingType = 'NOTCH'
+        classpath = sourceSets.main.compileClasspath
+    }
+}
 
-    // 18w22c.json
-    implementation "com.mojang:patchy:1.1"
-    implementation "oshi-project:oshi-core:1.1"
-    implementation "net.java.dev.jna:jna:4.4.0"
-    implementation "net.java.dev.jna:platform:3.4.0"
-    implementation "com.ibm.icu:icu4j-core-mojang:51.2"
-    implementation "net.sf.jopt-simple:jopt-simple:5.0.3"
-    implementation "com.paulscode:codecjorbis:20101023"
-    implementation "com.paulscode:codecwav:20101023"
-    implementation "com.paulscode:libraryjavasound:20101123"
-    implementation "com.paulscode:soundsystem:20120107"
-    implementation "io.netty:netty-all:4.1.25.Final"
-    implementation "com.google.guava:guava:21.0"
-    implementation "org.apache.commons:commons-lang3:3.5"
-    implementation "org.apache.commons:commons-lang3:3.5:tests"
-    implementation "commons-io:commons-io:2.5"
-    implementation "commons-io:commons-io:2.5:tests"
-    implementation "commons-codec:commons-codec:1.10"
-    implementation "commons-codec:commons-codec:1.10:tests"
-    implementation "net.java.jinput:jinput:2.0.5"
-    implementation "net.java.jutils:jutils:1.0.0"
-    implementation "com.mojang:brigadier:0.1.27"
-    implementation "com.mojang:datafixerupper:1.0.3"
-    implementation "com.google.code.gson:gson:2.8.0"
-    implementation "com.mojang:authlib:1.5.25"
-    implementation "org.apache.commons:commons-compress:1.8.1"
-    implementation "org.apache.httpcomponents:httpclient:4.3.3"
-    implementation "commons-logging:commons-logging:1.1.3"
-    implementation "org.apache.httpcomponents:httpcore:4.3.2"
-    implementation "it.unimi.dsi:fastutil:7.1.0"
-    implementation "org.apache.logging.log4j:log4j-api:2.8.1"
-    implementation "org.apache.logging.log4j:log4j-api:2.8.1:tests"
-    implementation "org.apache.logging.log4j:log4j-core:2.8.1"
-    implementation "org.apache.logging.log4j:log4j-core:2.8.1:tests"
-    implementation "org.lwjgl:lwjgl:3.1.6"
-    implementation "org.lwjgl:lwjgl:3.1.6:natives-linux"
-    implementation "org.lwjgl:lwjgl:3.1.6:natives-macos"
-    implementation "org.lwjgl:lwjgl:3.1.6:natives-windows"
-    implementation "org.lwjgl:lwjgl-jemalloc:3.1.6"
-    implementation "org.lwjgl:lwjgl-jemalloc:3.1.6:natives-linux"
-    implementation "org.lwjgl:lwjgl-jemalloc:3.1.6:natives-macos"
-    implementation "org.lwjgl:lwjgl-jemalloc:3.1.6:natives-windows"
-    implementation "org.lwjgl:lwjgl-openal:3.1.6"
-    implementation "org.lwjgl:lwjgl-openal:3.1.6:natives-linux"
-    implementation "org.lwjgl:lwjgl-openal:3.1.6:natives-macos"
-    implementation "org.lwjgl:lwjgl-openal:3.1.6:natives-windows"
-    implementation "org.lwjgl:lwjgl-opengl:3.1.6"
-    implementation "org.lwjgl:lwjgl-opengl:3.1.6:natives-linux"
-    implementation "org.lwjgl:lwjgl-opengl:3.1.6:natives-macos"
-    implementation "org.lwjgl:lwjgl-opengl:3.1.6:natives-windows"
-    implementation "org.lwjgl:lwjgl-glfw:3.1.6"
-    implementation "org.lwjgl:lwjgl-glfw:3.1.6:natives-linux"
-    implementation "org.lwjgl:lwjgl-glfw:3.1.6:natives-macos"
-    implementation "org.lwjgl:lwjgl-glfw:3.1.6:natives-windows"
-    implementation "org.lwjgl:lwjgl-stb:3.1.6"
-    implementation "org.lwjgl:lwjgl-stb:3.1.6:natives-linux"
-    implementation "org.lwjgl:lwjgl-stb:3.1.6:natives-macos"
-    implementation "org.lwjgl:lwjgl-stb:3.1.6:natives-windows"
-    implementation "com.mojang:text2speech:1.10.3"
-    implementation "com.mojang:text2speech:1.10.3:natives-linux"
-    implementation "com.mojang:text2speech:1.10.3:natives-windows"
-    implementation "ca.weblite:java-objc-bridge:1.0.0"
-    // implementation "ca.weblite:java-objc-bridge:1.0.0:natives-osx" // TODO: this breaks gradle
+mixin {
+    defaultObfuscationEnv notch
+    add sourceSets.main, "mixins.vanillafix.refmap.json"
 }
 
 sourceSets {
@@ -136,10 +95,19 @@ sourceSets {
 }
 
 shadowJar {
-    exclude 'LICENSE.txt'
+    exclude 'LICENSE.txt', 'dummyThing'
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier "sources"
+    from sourceSets.main.allSource
 }
 
 artifacts {
     archives jar
     archives shadowJar
+    archives sourcesJar
 }
+
+// This is broken
+runClient.group "other"

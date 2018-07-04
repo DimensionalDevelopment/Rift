@@ -4,7 +4,7 @@
   "compatibilityLevel": "JAVA_8",
   "target": "@env(DEFAULT)",
   "package": "org.dimdev.rift.mixin.core",
-  "refmap": "mixins.modapi.refmap.json",
+  "refmap": "mixins.rift.refmap.json",
   "mixins": [
     "client.MixinClientBrandRetriever",
     "client.MixinBlockFluidRenderer",
