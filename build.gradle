@@ -73,9 +73,8 @@ dependencies {
     implementation "com.paulscode:codecjorbis:20101023"
     implementation "com.paulscode:codecwav:20101023"
     implementation "com.paulscode:libraryjavasound:20101123"
-    implementation "com.paulscode:librarylwjglopenal:20100824"
     implementation "com.paulscode:soundsystem:20120107"
-    implementation "io.netty:netty-all:4.1.9.Final"
+    implementation "io.netty:netty-all:4.1.25.Final"
     implementation "com.google.guava:guava:21.0"
     implementation "org.apache.commons:commons-lang3:3.5"
     implementation "org.apache.commons:commons-lang3:3.5:tests"
@@ -86,6 +85,7 @@ dependencies {
     implementation "net.java.jinput:jinput:2.0.5"
     implementation "net.java.jutils:jutils:1.0.0"
     implementation "com.mojang:brigadier:0.1.27"
+    implementation "com.mojang:datafixerupper:1.0.3"
     implementation "com.google.code.gson:gson:2.8.0"
     implementation "com.mojang:authlib:1.5.25"
     implementation "org.apache.commons:commons-compress:1.8.1"
@@ -122,8 +122,8 @@ dependencies {
     implementation "org.lwjgl:lwjgl-stb:3.1.6:natives-macos"
     implementation "org.lwjgl:lwjgl-stb:3.1.6:natives-windows"
     implementation "com.mojang:text2speech:1.10.3"
-    implementation "com.mojang:text2speech:1.10.3:natives-windows"
     implementation "com.mojang:text2speech:1.10.3:natives-linux"
+    implementation "com.mojang:text2speech:1.10.3:natives-windows"
     implementation "ca.weblite:java-objc-bridge:1.0.0"
     // implementation "ca.weblite:java-objc-bridge:1.0.0:natives-osx" // TODO: this breaks gradle
 }

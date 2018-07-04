@@ -18,7 +18,8 @@
     "MixinEnumConnectionState$Login",
     "client.MixinNetHandlerPlayClient",
     "MixinNetHandlerPlayServer",
-    "MixinCommands"
+    "MixinCommands",
+    "MixinMinecraftServer"
   ],
   "client": []
 }

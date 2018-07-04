@@ -16,13 +16,13 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 public class MixinMinecraft {
     @Shadow @Final private ResourcePackList<ResourcePackInfoClient> mcResourcePackRepository;
 
-    @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/resources/ResourcePackList;func_198982_a(Lnet/minecraft/resources/IPackFinder;)V", ordinal = 1))
-    private void onAddResourcePacks(ResourcePackList resourcePackList, IPackFinder p_198982_1_) {
-        resourcePackList.func_198982_a(p_198982_1_);
+    @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/resources/ResourcePackList;addPackFinder(Lnet/minecraft/resources/IPackFinder;)V", ordinal = 1))
+    private void onAddResourcePacks(ResourcePackList resourcePackList, IPackFinder minecraftPackFinder) {
+        resourcePackList.addPackFinder(minecraftPackFinder);
 
         for (ResourcePackFinderAdder resourcePackFinderAdder : SimpleLoader.instance.getListeners(ResourcePackFinderAdder.class)) {
             for (IPackFinder packFinder : resourcePackFinderAdder.getResourcePackFinders()) {
-                mcResourcePackRepository.func_198982_a(packFinder);
+                mcResourcePackRepository.addPackFinder(packFinder);
             }
         }
     }

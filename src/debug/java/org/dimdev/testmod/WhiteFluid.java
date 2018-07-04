@@ -8,19 +8,38 @@ import net.minecraft.fluid.FlowingFluid;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.IFluidState;
 import net.minecraft.init.Items;
+import net.minecraft.init.Particles;
 import net.minecraft.item.Item;
+import net.minecraft.particles.IParticleData;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.tags.Tag;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.IWorldReaderBase;
+import net.minecraft.world.World;
 import org.dimdev.rift.IRiftFluid;
+
+import javax.annotation.Nullable;
+import java.util.Random;
 
 public abstract class WhiteFluid extends FlowingFluid implements IRiftFluid {
     public WhiteFluid() {}
+
+    @Override
+    public Fluid getFlowingFluid() {
+        return TestMod.FLOWING_WHITE_FLUID;
+    }
+
+    @Override
+    public Fluid getStillFluid() {
+        return TestMod.WHITE_FLUID;
+    }
 
     @Override
     public BlockRenderLayer getBlockLayer() {
@@ -33,13 +52,21 @@ public abstract class WhiteFluid extends FlowingFluid implements IRiftFluid {
     }
 
     @Override
-    protected boolean func_205579_d() {
+    public void randomDisplayTick(World world, BlockPos pos, IFluidState state, Random random) {}
+
+    @Override @Nullable
+    public IParticleData getDripParticleData() {
+        return Particles.DRIPPING_WATER;
+    }
+
+    @Override
+    protected boolean canSourcesMultiply() {
         return true;
     }
 
     @Override
-    protected void func_205580_a(IWorld p_205580_1_, BlockPos p_205580_2_, IBlockState p_205580_3_) {
-        p_205580_3_.spawnItems(p_205580_1_.getWorld(), p_205580_2_, 0);
+    protected void beforeReplacingBlock(IWorld world, BlockPos pos, IBlockState state) {
+        state.spawnItems(world.getWorld(), pos, 0);
     }
 
     @Override
@@ -49,7 +76,7 @@ public abstract class WhiteFluid extends FlowingFluid implements IRiftFluid {
 
     @Override
     public IBlockState getBlockState(IFluidState state) {
-        return TestMod.BLOCK_WHITE_FLUID.getDefaultState().withProperty(BlockFlowingFluid.LEVEL, func_207205_e(state));
+        return TestMod.BLOCK_WHITE_FLUID.getDefaultState().withProperty(BlockFlowingFluid.LEVEL, getLevelFromState(state));
     }
 
     @Override
@@ -58,55 +85,53 @@ public abstract class WhiteFluid extends FlowingFluid implements IRiftFluid {
     }
 
     @Override
-    public int getViscosity(IWorldReaderBase world) {
+    public int getLevelDecreasePerBlock(IWorldReaderBase world) {
         return 1;
     }
 
     @Override
-    public int getSpread(IWorldReaderBase world) {
+    public int getTickRate(IWorldReaderBase world) {
         return 5;
     }
 
     @Override
-    protected float func_210195_d() {
-        return 100;
+    public boolean canReceiveFluid(Fluid fluid, EnumFacing direction) {
+        return false;
     }
 
     @Override
-    public Fluid func_210197_e() {
-        return TestMod.FLOWING_WHITE_FLUID;
-    }
-
-    @Override
-    public Fluid func_210198_f() {
-        return TestMod.WHITE_FLUID;
+    protected float getExplosionResistance() {
+        return 100.0F;
     }
 
     @Override
     public TextureAtlasSprite getStillTexture() {
-        return Minecraft.getMinecraft().getTextureMapBlocks().func_195424_a(new ResourceLocation("testmod", "blocks/white_fluid_still"));
-    }
-
-    public boolean func_204635_a(Fluid p_204635_1_, EnumFacing p_204635_2_) {
-        return p_204635_2_ == EnumFacing.DOWN && !p_204635_1_.isTagged(FluidTags.WATER);
+        return Minecraft.getMinecraft().getModelManager().getBlockModelShapes().getModelForState(TestMod.BLOCK_WHITE_FLUID.getDefaultState()).getParticleTexture();
     }
 
     @Override
     public TextureAtlasSprite getFlowingTexture() {
-        return Minecraft.getMinecraft().getTextureMapBlocks().func_195424_a(new ResourceLocation("testmod", "blocks/white_fluid_flow"));
+        return Minecraft.getMinecraft().getTextureMapBlocks().func_195424_a(new ResourceLocation("testmod", "block/white_fluid_flow"));
     }
 
     @Override
-    public int getColorMultiplier() {
-        return 0xFFFFFF;
+    public int getColorMultiplier(IWorldReader world, BlockPos pos) {
+        int brightness = (int) MathHelper.clamp(255 * ((pos.getY() - 50) / 20.0), 0, 255);
+        return (brightness << 16) + (brightness << 8) + brightness;
+    }
+
+    @Override
+    public boolean isTagged(Tag<Fluid> tag) {
+        return tag.isTagged(this) || tag == FluidTags.WATER;
     }
 
     public static class Flowing extends WhiteFluid {
         public Flowing() {}
 
+        @Override
         protected void buildStateContainer(StateContainer.Builder<Fluid, IFluidState> builder) {
             super.buildStateContainer(builder);
-            builder.func_206894_a(LEVEL);
+            builder.addProperties(LEVEL);
         }
 
         @Override

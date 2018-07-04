@@ -14,8 +14,8 @@ import net.minecraft.network.EnumPacketDirection;
 import net.minecraft.util.ResourceLocation;
 import org.dimdev.rift.listener.*;
 
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 
 public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder, PacketAdder, CommandAdder {
     public static final Block WHITE_BLOCK = new Block(Block.Builder.create(Material.ROCK));
@@ -24,7 +24,7 @@ public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder,
     public static final FlowingFluid FLOWING_WHITE_FLUID = new WhiteFluid.Flowing();
     public static final BlockFlowingFluid BLOCK_WHITE_FLUID = new BlockFlowingFluid(WHITE_FLUID, Block.Builder.create(Material.WATER).doesNotBlockMovement().hardnessAndResistance(100F, 100F)) {
         @Override
-        public boolean canCacheOpacity() {
+        public boolean isVariableOpacity() {
             return true;
         }
     };
@@ -52,7 +52,7 @@ public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder,
 
     @Override
     public Collection<? extends ResourceLocation> getBuiltinTextures() {
-        return Arrays.asList(new ResourceLocation("testmod", "blocks/white_fluid_still"), new ResourceLocation("testmod", "blocks/white_fluid_flow"));
+        return Collections.singletonList(new ResourceLocation("testmod", "block/white_fluid_flow"));
     }
 
     @Override

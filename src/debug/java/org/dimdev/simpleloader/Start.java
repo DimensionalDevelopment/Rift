@@ -15,7 +15,7 @@ public abstract class Start {
         File gameDir = new File(System.getProperty("user.dir"));
         File assetsDir = new File(minecraftFolder, "assets");
         addArg("--tweakClass", SimpleLoaderTweaker.class.getName());
-        addArg("--version", "1.13-pre4");
+        addArg("--version", "1.13-pre5");
         addArg("--gameDir", gameDir.getAbsolutePath());
         addArg("--assetsDir", assetsDir.getAbsolutePath());
         addArg("--assetIndex", "1.13");

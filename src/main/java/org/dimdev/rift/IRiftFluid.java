@@ -1,9 +1,11 @@
 package org.dimdev.rift;
 
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IWorldReader;
 
 public interface IRiftFluid {
     TextureAtlasSprite getStillTexture();
     TextureAtlasSprite getFlowingTexture();
-    int getColorMultiplier();
+    int getColorMultiplier(IWorldReader world, BlockPos pos);
 }

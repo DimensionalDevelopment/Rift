@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "testmod:blocks/white_block"
+    "all": "testmod:block/white_block"
   }
 }

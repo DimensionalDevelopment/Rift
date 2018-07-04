@@ -7,7 +7,9 @@
   "refmap": "mixins.modapi.refmap.json",
   "mixins": [
     "client.MixinClientBrandRetriever",
-    "client.MixinBlockFluidRenderer"
+    "client.MixinBlockFluidRenderer",
+    "client.MixinWaterFluid",
+    "client.MixinLavaFluid"
   ],
   "client": []
 }
