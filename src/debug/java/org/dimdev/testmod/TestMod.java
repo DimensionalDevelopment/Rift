@@ -12,12 +12,15 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.network.EnumPacketDirection;
 import net.minecraft.util.ResourceLocation;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.dimdev.rift.listener.*;
 
 import java.util.Collection;
 import java.util.Collections;
 
-public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder, PacketAdder, CommandAdder {
+public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder, PacketAdder, CommandAdder, ClientTickable {
+    private static final Logger LOGGER = LogManager.getLogger();
     public static final Block WHITE_BLOCK = new Block(Block.Builder.create(Material.ROCK));
     public static final Block TRANSLUCENT_WHITE_BLOCK = new BlockStainedGlass(EnumDyeColor.WHITE, Block.Builder.create(Material.GLASS));
     public static final FlowingFluid WHITE_FLUID = new WhiteFluid.Source();
@@ -29,6 +32,7 @@ public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder,
         }
     };
     public static final Item PACKET_TESTER = new ItemPacketTester(new Item.Builder());
+    private int clientTickCount = 0;
 
     @Override
     public void registerBlocks(BlockRegistrationReceiver receiver) {
@@ -72,5 +76,12 @@ public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder,
     @Override
     public void registerCommands(CommandDispatcher<CommandSource> dispatcher) {
         ExplosionCommand.register(dispatcher);
+    }
+
+    @Override
+    public void clientTick() {
+        if (clientTickCount++ == 100) {
+            LOGGER.info("100 ticks have passed");
+        }
     }
 }

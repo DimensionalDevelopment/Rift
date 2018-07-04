@@ -19,7 +19,11 @@
     "client.MixinNetHandlerPlayClient",
     "MixinNetHandlerPlayServer",
     "MixinCommands",
-    "MixinMinecraftServer"
+    "MixinMinecraftServer",
+    "MixinPotion",
+    "MixinEnchantment",
+    "MixinParticleType",
+    "MixinSoundEvent"
   ],
   "client": []
 }

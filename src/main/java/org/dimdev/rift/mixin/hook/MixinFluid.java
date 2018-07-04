@@ -15,7 +15,7 @@ public abstract class MixinFluid {
     @Shadow private static void registerFluid(ResourceLocation p_207194_0_, Fluid p_207194_1_) {}
 
     @Inject(method = "registerFluids", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/registry/RegistryNamespacedDefaultedByKey;validateKey()V"))
-    private static void onRegisterBlocks(CallbackInfo ci) {
+    private static void onRegisterFluids(CallbackInfo ci) {
         for (FluidAdder fluidAdder : SimpleLoader.instance.getListeners(FluidAdder.class)) {
             fluidAdder.registerFluids(MixinFluid::registerFluid);
         }
