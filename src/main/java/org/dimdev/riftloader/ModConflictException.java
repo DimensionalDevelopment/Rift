@@ -1,4 +1,4 @@
-package org.dimdev.simpleloader;
+package org.dimdev.riftloader;
 
 public class ModConflictException extends RuntimeException {
     public ModConflictException(String s) {

@@ -6,7 +6,7 @@ import net.minecraft.particles.ParticleType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.RegistryNamespaced;
 import org.dimdev.rift.listener.ParticleTypeAdder;
-import org.dimdev.simpleloader.SimpleLoader;
+import org.dimdev.riftloader.RiftLoader;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -55,7 +55,7 @@ public abstract class MixinParticleType {
 
     @Inject(method = "registerParticleTypes", at = @At("RETURN"))
     private static void onRegisterParticleTypes(CallbackInfo ci) {
-        for (ParticleTypeAdder particleTypeAdder : SimpleLoader.instance.getListeners(ParticleTypeAdder.class)) {
+        for (ParticleTypeAdder particleTypeAdder : RiftLoader.instance.getListeners(ParticleTypeAdder.class)) {
             particleTypeAdder.registerParticles(PARTICLE_REGISTRATION_RECEIVER);
         }
     }

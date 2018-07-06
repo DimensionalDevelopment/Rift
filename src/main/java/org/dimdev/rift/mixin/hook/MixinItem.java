@@ -5,7 +5,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.ResourceLocation;
 import org.dimdev.rift.listener.ItemAdder;
-import org.dimdev.simpleloader.SimpleLoader;
+import org.dimdev.riftloader.RiftLoader;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -43,7 +43,7 @@ public abstract class MixinItem {
 
     @Inject(method = "registerItems", at = @At("RETURN"))
     private static void onRegisterItems(CallbackInfo ci) {
-        for (ItemAdder itemAdder : SimpleLoader.instance.getListeners(ItemAdder.class)) {
+        for (ItemAdder itemAdder : RiftLoader.instance.getListeners(ItemAdder.class)) {
             itemAdder.registerItems(ITEM_REGISTRATION_RECEIVER);
         }
     }

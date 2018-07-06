@@ -7,7 +7,7 @@ import net.minecraft.resources.IPackFinder;
 import net.minecraft.resources.ResourcePackList;
 import org.dimdev.rift.listener.ClientTickable;
 import org.dimdev.rift.listener.ResourcePackFinderAdder;
-import org.dimdev.simpleloader.SimpleLoader;
+import org.dimdev.riftloader.RiftLoader;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -25,7 +25,7 @@ public class MixinMinecraft {
     private void onAddResourcePacks(ResourcePackList resourcePackList, IPackFinder minecraftPackFinder) {
         resourcePackList.addPackFinder(minecraftPackFinder);
 
-        for (ResourcePackFinderAdder resourcePackFinderAdder : SimpleLoader.instance.getListeners(ResourcePackFinderAdder.class)) {
+        for (ResourcePackFinderAdder resourcePackFinderAdder : RiftLoader.instance.getListeners(ResourcePackFinderAdder.class)) {
             for (IPackFinder packFinder : resourcePackFinderAdder.getResourcePackFinders()) {
                 mcResourcePackRepository.addPackFinder(packFinder);
             }
@@ -35,7 +35,7 @@ public class MixinMinecraft {
     @Inject(method = "runTick", at = @At("RETURN"))
     private void onTick(CallbackInfo ci) {
         mcProfiler.startSection("tickMods");
-        for (ClientTickable tickable : SimpleLoader.instance.getListeners(ClientTickable.class)) {
+        for (ClientTickable tickable : RiftLoader.instance.getListeners(ClientTickable.class)) {
             mcProfiler.startSection(() -> tickable.getClass().getCanonicalName().replace('.', '/'));
             tickable.clientTick();
             mcProfiler.endSection();

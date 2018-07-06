@@ -3,7 +3,7 @@ package org.dimdev.rift.mixin.hook;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.util.ResourceLocation;
 import org.dimdev.rift.listener.FluidAdder;
-import org.dimdev.simpleloader.SimpleLoader;
+import org.dimdev.riftloader.RiftLoader;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -16,7 +16,7 @@ public abstract class MixinFluid {
 
     @Inject(method = "registerFluids", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/registry/RegistryNamespacedDefaultedByKey;validateKey()V"))
     private static void onRegisterFluids(CallbackInfo ci) {
-        for (FluidAdder fluidAdder : SimpleLoader.instance.getListeners(FluidAdder.class)) {
+        for (FluidAdder fluidAdder : RiftLoader.instance.getListeners(FluidAdder.class)) {
             fluidAdder.registerFluids(MixinFluid::registerFluid);
         }
     }

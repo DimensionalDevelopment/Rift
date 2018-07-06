@@ -1,7 +1,6 @@
-package org.dimdev.simpleloader;
+package org.dimdev.riftloader;
 
 import net.minecraft.launchwrapper.Launch;
-import org.dimdev.simpleloader.launch.SimpleLoaderTweaker;
 
 import java.io.File;
 
@@ -14,7 +13,7 @@ public abstract class Start {
         String minecraftFolder = System.getProperty("user.home") + (System.getProperty("os.name").contains("Windows") ? "/AppData/Roaming/.minecraft" : "/.minecraft");
         File gameDir = new File(System.getProperty("user.dir"));
         File assetsDir = new File(minecraftFolder, "assets");
-        addArg("--tweakClass", SimpleLoaderTweaker.class.getName());
+        addArg("--tweakClass", "org.dimdev.riftloader.launch.RiftLoaderTweaker");
         addArg("--version", "1.13-pre5");
         addArg("--gameDir", gameDir.getAbsolutePath());
         addArg("--assetsDir", assetsDir.getAbsolutePath());

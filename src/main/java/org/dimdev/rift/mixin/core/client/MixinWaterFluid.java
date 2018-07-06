@@ -8,7 +8,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.biome.BiomeColorHelper;
-import org.dimdev.rift.IRiftFluid;
+import org.dimdev.rift.api.IRiftFluid;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(WaterFluid.class)

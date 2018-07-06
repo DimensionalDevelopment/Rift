@@ -1,4 +1,4 @@
-package org.dimdev.simpleloader.listener;
+package org.dimdev.riftloader.listener;
 
 /**
  * This listener is called during the Tweaker initialization phase, before Minecraft

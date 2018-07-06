@@ -1,11 +1,11 @@
-package org.dimdev.simpleloader;
+package org.dimdev.riftloader;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import net.minecraft.launchwrapper.Launch;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.dimdev.simpleloader.listener.InitializationListener;
+import org.dimdev.riftloader.listener.InitializationListener;
 import org.dimdev.utils.InstanceListMap;
 import org.dimdev.utils.InstanceMap;
 
@@ -21,9 +21,9 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.zip.ZipException;
 
-public class SimpleLoader {
-    public static final SimpleLoader instance = new SimpleLoader();
-    private static final Logger log = LogManager.getLogger("SimpleLoader");
+public class RiftLoader {
+    public static final RiftLoader instance = new RiftLoader();
+    private static final Logger log = LogManager.getLogger("RiftLoader");
     private static final Gson GSON = new Gson();
 
     public final File modsDir = new File(Launch.minecraftHome, "mods");
@@ -41,7 +41,7 @@ public class SimpleLoader {
     }
 
     /**
-     * Looks for riftmods (jars containing a 'riftmod.json' at their root) in
+     * Looks for Rift mods (jars containing a 'riftmod.json' at their root) in
      * the 'modsDir' directory (creating it if it doesn't exist) and loads them
      * into the 'modInfoMap'.
      **/
@@ -60,7 +60,7 @@ public class SimpleLoader {
                     log.debug("Skipping " + file + " since it does not contain riftmod.json");
                     continue;
                 }
-                parseJSON(jar.getInputStream(entry), file);
+                loadModFromJson(jar.getInputStream(entry), file);
             } catch (ZipException e) {
                 log.error("Could not read file " + file + " as a jar file", e);
             } catch (Throwable t) {
@@ -88,7 +88,7 @@ public class SimpleLoader {
                     url = new URL(spec.substring(0, separator));
                 }
 
-                parseJSON(in, new File(url.toURI()));
+                loadModFromJson(in, new File(url.toURI()));
             }
         } catch (IOException | URISyntaxException e) {
             throw new RuntimeException(e);
@@ -97,7 +97,7 @@ public class SimpleLoader {
         log.info("Loaded " + modInfoMap.size() + " mods");
     }
 
-    private void parseJSON(InputStream in, File source) {
+    private void loadModFromJson(InputStream in, File source) {
         try {
             // Parse the 'riftmod.json' and make a ModInfo
             ModInfo modInfo = GSON.fromJson(new InputStreamReader(in), ModInfo.class);
@@ -113,7 +113,7 @@ public class SimpleLoader {
 
             // Add the mod to the 'id -> mod info' map
             modInfoMap.put(modInfo.id, modInfo);
-            log.debug("Successfully loaded mod '" + modInfo.id + " from file " + modInfo.modSource);
+            log.info("Loaded mod '" + modInfo.id + "'");
         } catch (JsonParseException e) {
             throw new RuntimeException("Could not read riftmod.json in " + source, e);
         }

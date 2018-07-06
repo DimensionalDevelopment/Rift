@@ -23,7 +23,7 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.IWorldReaderBase;
 import net.minecraft.world.World;
-import org.dimdev.rift.IRiftFluid;
+import org.dimdev.rift.api.IRiftFluid;
 
 import javax.annotation.Nullable;
 import java.util.Random;

@@ -1,4 +1,4 @@
-package org.dimdev.simpleloader;
+package org.dimdev.riftloader;
 
 import java.io.File;
 import java.util.List;
@@ -9,6 +9,5 @@ public class ModInfo {
     public String id;
     public String name;
     public List<String> authors;
-    public String listenerPrefix;
     public List<String> listeners;
 }

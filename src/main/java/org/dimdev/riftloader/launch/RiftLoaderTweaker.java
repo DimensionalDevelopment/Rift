@@ -1,4 +1,4 @@
-package org.dimdev.simpleloader.launch;
+package org.dimdev.riftloader.launch;
 
 import net.minecraft.launchwrapper.ITweaker;
 import net.minecraft.launchwrapper.Launch;
@@ -8,7 +8,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimpleLoaderTweaker implements ITweaker {
+public class RiftLoaderTweaker implements ITweaker {
     public List<String> args;
 
     @Override
@@ -28,10 +28,10 @@ public class SimpleLoaderTweaker implements ITweaker {
 
     @Override
     public void injectIntoClassLoader(LaunchClassLoader classLoader) {
-        // Use the Launch classLoader to load the SimpleLoader class. Otherwise identical
+        // Use the Launch classLoader to load the RiftLoader class. Otherwise identical
         // classes may not be equal, and 'instanceof' may return false when it should be true.
         try {
-            Class<?> clazz = Launch.classLoader.findClass("org.dimdev.simpleloader.SimpleLoader");
+            Class<?> clazz = Launch.classLoader.findClass("org.dimdev.riftloader.RiftLoader");
             clazz.getMethod("load").invoke(clazz.getField("instance").get(null));
         } catch (ReflectiveOperationException e) {
             throw new RuntimeException(e);

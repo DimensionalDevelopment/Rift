@@ -4,7 +4,7 @@ import net.minecraft.network.EnumConnectionState;
 import net.minecraft.network.EnumPacketDirection;
 import net.minecraft.network.Packet;
 import org.dimdev.rift.listener.PacketAdder;
-import org.dimdev.simpleloader.SimpleLoader;
+import org.dimdev.riftloader.RiftLoader;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -19,7 +19,7 @@ public abstract class MixinEnumConnectionState {
     public static abstract class Handshaking extends MixinEnumConnectionState {
         @Inject(method = "<init>", at = @At("RETURN"))
         private void registerModPackets(CallbackInfo ci) {
-            for (PacketAdder packetAdder : SimpleLoader.instance.getListeners(PacketAdder.class)) {
+            for (PacketAdder packetAdder : RiftLoader.instance.getListeners(PacketAdder.class)) {
                 packetAdder.registerHandshakingPackets(this::registerPacket);
             }
         }
@@ -29,7 +29,7 @@ public abstract class MixinEnumConnectionState {
     public static abstract class Play extends MixinEnumConnectionState {
         @Inject(method = "<init>", at = @At("RETURN"))
         private void registerModPackets(CallbackInfo ci) {
-            for (PacketAdder packetAdder : SimpleLoader.instance.getListeners(PacketAdder.class)) {
+            for (PacketAdder packetAdder : RiftLoader.instance.getListeners(PacketAdder.class)) {
                 packetAdder.registerPlayPackets(this::registerPacket);
             }
         }
@@ -39,7 +39,7 @@ public abstract class MixinEnumConnectionState {
     public static abstract class Status extends MixinEnumConnectionState {
         @Inject(method = "<init>", at = @At("RETURN"))
         private void registerModPackets(CallbackInfo ci) {
-            for (PacketAdder packetAdder : SimpleLoader.instance.getListeners(PacketAdder.class)) {
+            for (PacketAdder packetAdder : RiftLoader.instance.getListeners(PacketAdder.class)) {
                 packetAdder.registerStatusPackets(this::registerPacket);
             }
         }
@@ -49,7 +49,7 @@ public abstract class MixinEnumConnectionState {
     public static abstract class Login extends MixinEnumConnectionState {
         @Inject(method = "<init>", at = @At("RETURN"))
         private void registerModPackets(CallbackInfo ci) {
-            for (PacketAdder packetAdder : SimpleLoader.instance.getListeners(PacketAdder.class)) {
+            for (PacketAdder packetAdder : RiftLoader.instance.getListeners(PacketAdder.class)) {
                 packetAdder.registerLoginPackets(this::registerPacket);
             }
         }

@@ -1,4 +1,4 @@
-package org.dimdev.rift;
+package org.dimdev.rift.api;
 
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;

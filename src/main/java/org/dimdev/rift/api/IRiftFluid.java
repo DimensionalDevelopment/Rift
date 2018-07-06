@@ -1,4 +1,4 @@
-package org.dimdev.rift;
+package org.dimdev.rift.api;
 
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.math.BlockPos;
