@@ -20,16 +20,15 @@ apply plugin: 'java'
 apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'org.spongepowered.mixin'
 
-group = 'org.dimdev.rift'
-version = '1.0.0'
+def travisBuildNumber = System.getenv('TRAVIS_BUILD_NUMBER')
+def versionSuffix = travisBuildNumber != null ? travisBuildNumber : 'SNAPSHOT'
+
+group 'org.dimdev.rift'
+version '1.0.0-' + versionSuffix
 archivesBaseName = 'Rift'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
-
-def travisBuildNumber = System.getenv('TRAVIS_BUILD_NUMBER')
-def versionSuffix = travisBuildNumber != null ? travisBuildNumber : 'SNAPSHOT'
-version '1.0.0-' + versionSuffix
 
 repositories {
     mavenCentral()
@@ -53,14 +52,17 @@ repositories {
 }
 
 dependencies {
-    implementation('org.spongepowered:mixin:0.7.10-SNAPSHOT') {
-        exclude module: 'asm-commons'
-        exclude module: 'asm-tree'
-        exclude module: 'launchwrapper'
-        exclude module: 'guava'
-        exclude module: 'log4j-core'
-    }
-    implementation 'com.esotericsoftware.yamlbeans:yamlbeans:1.08'
+    implementation('org.spongepowered:mixin:0.7.11-SNAPSHOT') { transitive = false }
+    implementation('net.minecraft:launchwrapper:1.11') { transitive = false }
+
+    implementation 'org.lwjgl:lwjgl:3.1.6:natives-linux'
+    implementation 'org.lwjgl:lwjgl:3.1.6:natives-macos'
+    implementation 'org.lwjgl:lwjgl:3.1.6:natives-windows'
+}
+
+configurations {
+    runtime.exclude module: 'launchwrapper'
+    runtime.exclude module: 'lwjgl'
 }
 
 minecraft {
@@ -84,7 +86,7 @@ reobf {
 
 mixin {
     defaultObfuscationEnv notch
-    add sourceSets.main, "mixins.vanillafix.refmap.json"
+    add sourceSets.main, 'mixins.rift.refmap.json'
 }
 
 sourceSets {
@@ -94,12 +96,18 @@ sourceSets {
     }
 }
 
+jar {
+    manifest.attributes(
+            'Main-Class': 'org.dimdev.rift.Installer'
+    )
+}
+
 shadowJar {
     exclude 'LICENSE.txt', 'dummyThing'
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier "sources"
+    classifier 'sources'
     from sourceSets.main.allSource
 }
 
@@ -109,5 +117,5 @@ artifacts {
     archives sourcesJar
 }
 
-// This is broken
-runClient.group "other"
+runClient.group 'other' // This is broken
+genIntellijRuns.group 'other' // Use 'Start.java' in the 'debug' module instead

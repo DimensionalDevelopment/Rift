@@ -1,0 +1,10 @@
+{
+  "id": "testmod",
+  "name": "TestMod",
+  "authors": [
+    "Runemoro"
+  ],
+  "listeners": [
+    "org.dimdev.testmod.TestMod"
+  ]
+}

@@ -1,0 +1,46 @@
+{
+    "inheritsFrom": "1.13-pre5",
+    "id": "1.13-pre5-rift-1.0.0",
+    "time": "2018-07-04T00:00:00+0000",
+    "releaseTime": "2018-07-04T00:00:00+0000",
+    "type": "snapshot",
+    "arguments": {
+        "game": [
+            "--tweakClass",
+            "org.dimdev.simpleloader.launch.SimpleLoaderTweaker"
+        ]
+    },
+    "mainClass": "net.minecraft.launchwrapper.Launch",
+    "libraries": [
+        {
+            "name": "org.dimdev.rift:Rift:1.0.0-SNAPSHOT",
+            "url": "https://www.dimdev.org/maven/"
+        },
+        {
+            "name": "org.spongepowered:mixin:0.7.11-SNAPSHOT",
+            "downloads": {
+                "artifact": {
+                    "size": 1017668,
+                    "sha1": "7a670207bdb97db418118ad1e9bb42424ff3776d",
+                    "path": "org/spongepowered/mixin/0.7.11-SNAPSHOT/mixin-0.7.11-20180703.121122-1.jar",
+                    "url": "https://repo.spongepowered.org/maven/org/spongepowered/mixin/0.7.11-SNAPSHOT/mixin-0.7.11-20180703.121122-1.jar"
+                }
+            }
+        },
+        {
+            "name": "org.ow2.asm:asm:6.2",
+            "url": "http://repo1.maven.org/maven2/"
+        },
+        {
+            "name": "org.ow2.asm:asm-commons:6.2",
+            "url": "http://repo1.maven.org/maven2/"
+        },
+        {
+            "name": "org.ow2.asm:asm-tree:6.2",
+            "url": "http://repo1.maven.org/maven2/"
+        },
+        {
+            "name": "net.minecraft:launchwrapper:1.12"
+        }
+    ]
+}

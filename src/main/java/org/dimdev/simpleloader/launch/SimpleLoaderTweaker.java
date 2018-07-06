@@ -16,7 +16,6 @@ public class SimpleLoaderTweaker implements ITweaker {
         this.args = new ArrayList<>(args);
 
         addArg("--version", profile);
-        addArg("--accessToken", "0");
         addArg("--assetsDir", assetsDir.getPath());
     }
 

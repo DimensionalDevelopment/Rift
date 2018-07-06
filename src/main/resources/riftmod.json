@@ -1,0 +1,11 @@
+{
+  "id": "rift",
+  "name": "Rift",
+  "authors": [
+    "Runemoro"
+  ],
+  "listeners": [
+    "org.dimdev.rift.Rift",
+    "org.dimdev.rift.resources.ResourceManager"
+  ]
+}

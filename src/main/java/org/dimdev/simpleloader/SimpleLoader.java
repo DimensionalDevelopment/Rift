@@ -1,7 +1,7 @@
 package org.dimdev.simpleloader;
 
-import com.esotericsoftware.yamlbeans.YamlException;
-import com.esotericsoftware.yamlbeans.YamlReader;
+import com.google.gson.Gson;
+import com.google.gson.JsonParseException;
 import net.minecraft.launchwrapper.Launch;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,6 +24,7 @@ import java.util.zip.ZipException;
 public class SimpleLoader {
     public static final SimpleLoader instance = new SimpleLoader();
     private static final Logger log = LogManager.getLogger("SimpleLoader");
+    private static final Gson GSON = new Gson();
 
     public final File modsDir = new File(Launch.minecraftHome, "mods");
     public final File configDir = new File(Launch.minecraftHome, "config");
@@ -40,7 +41,7 @@ public class SimpleLoader {
     }
 
     /**
-     * Looks for SimpleMods (jars containing a 'simplemod.yml' at their root) in
+     * Looks for riftmods (jars containing a 'riftmod.json' at their root) in
      * the 'modsDir' directory (creating it if it doesn't exist) and loads them
      * into the 'modInfoMap'.
      **/
@@ -52,14 +53,14 @@ public class SimpleLoader {
             if (!file.getName().endsWith(".jar")) continue;
 
             try (JarFile jar = new JarFile(file)) {
-                // Check if the file contains a 'simplemod.yml'
+                // Check if the file contains a 'riftmod.json'
                 if (!file.isFile()) continue; // Inside try since there may be a SecurityException
-                JarEntry entry = jar.getJarEntry("simplemod.yml");
+                JarEntry entry = jar.getJarEntry("riftmod.json");
                 if (entry == null) {
-                    log.debug("Skipping " + file + " since it does not contain simplemod.yml");
+                    log.debug("Skipping " + file + " since it does not contain riftmod.json");
                     continue;
                 }
-                parseYML(jar.getInputStream(entry), file);
+                parseJSON(jar.getInputStream(entry), file);
             } catch (ZipException e) {
                 log.error("Could not read file " + file + " as a jar file", e);
             } catch (Throwable t) {
@@ -70,11 +71,24 @@ public class SimpleLoader {
         // Load classpath mods
         log.info("Searching mods on classpath");
         try {
-            Enumeration<URL> urls = ClassLoader.getSystemResources("simplemod.yml");
+            Enumeration<URL> urls = ClassLoader.getSystemResources("riftmod.json");
             while (urls.hasMoreElements()) {
                 URL url = urls.nextElement();
                 InputStream in = url.openStream();
-                parseYML(in, new File(url.toURI()));
+
+                // Convert jar utls to file urls (from JarUrlConnection.parseSpecs)
+                if (url.getProtocol().equals("jar")) {
+                    String spec = url.getFile();
+
+                    int separator = spec.indexOf("!/");
+                    if (separator == -1) {
+                        throw new MalformedURLException("no !/ found in url spec:" + spec);
+                    }
+
+                    url = new URL(spec.substring(0, separator));
+                }
+
+                parseJSON(in, new File(url.toURI()));
             }
         } catch (IOException | URISyntaxException e) {
             throw new RuntimeException(e);
@@ -83,16 +97,15 @@ public class SimpleLoader {
         log.info("Loaded " + modInfoMap.size() + " mods");
     }
 
-    private void parseYML(InputStream in, File source) {
+    private void parseJSON(InputStream in, File source) {
         try {
-            // Parse the 'simplemod.yml' and make a ModInfo
-            YamlReader reader = new YamlReader(new InputStreamReader(in));
-            ModInfo modInfo = reader.read(ModInfo.class);
+            // Parse the 'riftmod.json' and make a ModInfo
+            ModInfo modInfo = GSON.fromJson(new InputStreamReader(in), ModInfo.class);
             modInfo.modSource = source;
 
             // Make sure the id isn't null and there aren't any duplicates
             if (modInfo.id == null) {
-                log.error("Mod file " + modInfo.modSource + "'s simplemod.yml is missing a 'id' field");
+                log.error("Mod file " + modInfo.modSource + "'s riftmod.json is missing a 'id' field");
                 return;
             } else if (modInfoMap.containsKey(modInfo.id)) {
                 throw new ModConflictException("Duplicate mod '" + modInfo.id + "': " + modInfoMap.get(modInfo.id).modSource + ", " + modInfo.id);
@@ -101,8 +114,8 @@ public class SimpleLoader {
             // Add the mod to the 'id -> mod info' map
             modInfoMap.put(modInfo.id, modInfo);
             log.debug("Successfully loaded mod '" + modInfo.id + " from file " + modInfo.modSource);
-        }  catch (YamlException e) {
-            log.error("Could not read simplemod.yml in " + source, e);
+        } catch (JsonParseException e) {
+            throw new RuntimeException("Could not read riftmod.json in " + source, e);
         }
     }
 
@@ -124,11 +137,10 @@ public class SimpleLoader {
         // Load the listener classes
         for (ModInfo modInfo : modInfoMap.values()) {
             if (modInfo.listeners != null) {
-                String prefix = modInfo.listenerPrefix != null ? modInfo.listenerPrefix : "";
                 for (String listenerClassName : modInfo.listeners) {
                     Class<?> listenerClass;
                     try {
-                        listenerClass = Launch.classLoader.findClass(prefix + listenerClassName);
+                        listenerClass = Launch.classLoader.findClass(listenerClassName);
                         listenerClasses.add(listenerClass);
                     } catch (ReflectiveOperationException e) {
                         throw new RuntimeException("Failed to find listener class " + e);

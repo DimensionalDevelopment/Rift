@@ -19,6 +19,7 @@ public abstract class Start {
         addArg("--gameDir", gameDir.getAbsolutePath());
         addArg("--assetsDir", assetsDir.getAbsolutePath());
         addArg("--assetIndex", "1.13");
+        addArg("--accessToken", "0");
 
         Launch.main(argString.split(" "));
     }
