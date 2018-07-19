@@ -42,8 +42,8 @@ public abstract class WhiteFluid extends FlowingFluid implements IRiftFluid {
     }
 
     @Override
-    public BlockRenderLayer getBlockLayer() {
-        return BlockRenderLayer.TRANSLUCENT;
+    public BlockRenderLayer getRenderLayer() {
+        return BlockRenderLayer.SOLID;
     }
 
     @Override
@@ -95,7 +95,7 @@ public abstract class WhiteFluid extends FlowingFluid implements IRiftFluid {
     }
 
     @Override
-    public boolean canReceiveFluid(Fluid fluid, EnumFacing direction) {
+    public boolean func_211757_a(IFluidState p_211757_1_, Fluid p_211757_2_, EnumFacing p_211757_3_) {
         return false;
     }
 

@@ -18,28 +18,28 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Minecraft.class)
 public class MixinMinecraft {
-    @Shadow @Final private ResourcePackList<ResourcePackInfoClient> mcResourcePackRepository;
+    @Shadow @Final private ResourcePackList<ResourcePackInfoClient> resourcePackRepository;
+    @Shadow @Final public Profiler profiler;
 
-    @Shadow @Final public Profiler mcProfiler;
     @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/resources/ResourcePackList;addPackFinder(Lnet/minecraft/resources/IPackFinder;)V", ordinal = 1))
     private void onAddResourcePacks(ResourcePackList resourcePackList, IPackFinder minecraftPackFinder) {
         resourcePackList.addPackFinder(minecraftPackFinder);
 
         for (ResourcePackFinderAdder resourcePackFinderAdder : RiftLoader.instance.getListeners(ResourcePackFinderAdder.class)) {
             for (IPackFinder packFinder : resourcePackFinderAdder.getResourcePackFinders()) {
-                mcResourcePackRepository.addPackFinder(packFinder);
+                resourcePackRepository.addPackFinder(packFinder);
             }
         }
     }
 
     @Inject(method = "runTick", at = @At("RETURN"))
     private void onTick(CallbackInfo ci) {
-        mcProfiler.startSection("tickMods");
+        profiler.startSection("mods");
         for (ClientTickable tickable : RiftLoader.instance.getListeners(ClientTickable.class)) {
-            mcProfiler.startSection(() -> tickable.getClass().getCanonicalName().replace('.', '/'));
+            profiler.startSection(() -> tickable.getClass().getCanonicalName().replace('.', '/'));
             tickable.clientTick();
-            mcProfiler.endSection();
+            profiler.endSection();
         }
-        mcProfiler.endSection();
+        profiler.endSection();
     }
 }

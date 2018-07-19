@@ -11,7 +11,7 @@ public class Installer {
     public static void main(String... args) {
         try {
             File minecraftFolder = new File(System.getProperty("user.home") + (System.getProperty("os.name").contains("Windows") ? "/AppData/Roaming/.minecraft" : "/.minecraft"));
-            File target = new File(minecraftFolder, "versions/1.13-pre5-rift-1.0.0/1.13-pre5-rift-1.0.0.json");
+            File target = new File(minecraftFolder, "versions/1.13-rift-1.0.1/1.13-rift-1.0.1.json");
             target.getParentFile().mkdirs();
             Files.copy(Installer.class.getResourceAsStream("/profile.json"), target.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
@@ -21,7 +21,7 @@ public class Installer {
                 t.printStackTrace();
             }
             JOptionPane.showMessageDialog(null,
-                    "Rift 1.0.0 for Minecraft 1.13-pre5 has been successfully installed!\n\n" +
+                    "Rift 1.0.1 for Minecraft 1.13 has been successfully installed!\n\n" +
                     "It is available in the \"Version\" dropdown menu in the \"Launch Options\"\n" +
                     "section of the launcher.", "Rift Installer", JOptionPane.INFORMATION_MESSAGE);
         } catch (Throwable t) {

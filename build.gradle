@@ -66,8 +66,8 @@ configurations {
 }
 
 minecraft {
-    version = '1.13-pre5'
-    mappings = 'snapshot_2'
+    version = '1.13'
+    mappings = 'snapshot_3'
     runDir = 'run'
     tweakClass = 'org.dimdev.riftloader.launch.RiftLoaderTweaker'
     makeObfSourceJar = false

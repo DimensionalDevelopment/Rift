@@ -1,9 +1,9 @@
 {
-    "inheritsFrom": "1.13-pre5",
-    "id": "1.13-pre5-rift-1.0.0",
-    "time": "2018-07-04T00:00:00+0000",
-    "releaseTime": "2018-07-04T00:00:00+0000",
-    "type": "snapshot",
+    "inheritsFrom": "1.13",
+    "id": "1.13-rift-1.0.1",
+    "releaseTime": "2018-07-18T15:11:46+00:00",
+    "time": "2018-07-18T15:11:46+00:00",
+    "type": "release",
     "arguments": {
         "game": [
             "--tweakClass",
@@ -13,7 +13,7 @@
     "mainClass": "net.minecraft.launchwrapper.Launch",
     "libraries": [
         {
-            "name": "org.dimdev.rift:Rift:1.0.0-SNAPSHOT",
+            "name": "org.dimdev.rift:Rift:1.0.1-SNAPSHOT",
             "url": "https://www.dimdev.org/maven/"
         },
         {
