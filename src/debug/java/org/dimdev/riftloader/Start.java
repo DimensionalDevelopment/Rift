@@ -3,14 +3,27 @@ package org.dimdev.riftloader;
 import net.minecraft.launchwrapper.Launch;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
 
 public abstract class Start {
-    private static String argString;
+    private static List<String> argList = new ArrayList<>();
 
     public static void main(String[] args) {
-        argString = String.join(" ", args);
+        Collections.addAll(argList, args);
 
-        String minecraftFolder = System.getProperty("user.home") + (System.getProperty("os.name").contains("Windows") ? "/AppData/Roaming/.minecraft" : "/.minecraft");
+        String minecraftFolder;
+        String userHome = System.getProperty("user.home");
+        String osName = System.getProperty("os.name").toLowerCase(Locale.ROOT);
+        if (osName.contains("win")) {
+            minecraftFolder = userHome + "/AppData/Roaming/.minecraft";
+        } else if (osName.contains("mac")) {
+            minecraftFolder = userHome + "/Library/Application Support/minecraft";
+        } else {
+            minecraftFolder = userHome + "/.minecraft";
+        }
         File gameDir = new File(System.getProperty("user.dir"));
         File assetsDir = new File(minecraftFolder, "assets");
         addArg("--tweakClass", "org.dimdev.riftloader.launch.RiftLoaderTweaker");
@@ -20,15 +33,15 @@ public abstract class Start {
         addArg("--assetIndex", "1.13");
         addArg("--accessToken", "0");
 
-        Launch.main(argString.split(" "));
+        Launch.main(argList.toArray(new String[0]));
     }
 
     private static void addArg(String name, String value) {
-        if (!argString.isEmpty() && !argString.endsWith(" ")) argString += " ";
         if (value == null) {
-            argString += name;
+            argList.add(name);
         } else {
-            argString += name + " " + value;
+            argList.add(name);
+            argList.add(value);
         }
     }
 }
