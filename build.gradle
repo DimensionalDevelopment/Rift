@@ -58,6 +58,21 @@ dependencies {
     implementation 'org.lwjgl:lwjgl:3.1.6:natives-linux'
     implementation 'org.lwjgl:lwjgl:3.1.6:natives-macos'
     implementation 'org.lwjgl:lwjgl:3.1.6:natives-windows'
+    implementation 'org.lwjgl:lwjgl-glfw:3.1.6:natives-linux'
+    implementation 'org.lwjgl:lwjgl-glfw:3.1.6:natives-macos'
+    implementation 'org.lwjgl:lwjgl-glfw:3.1.6:natives-windows'
+    implementation 'org.lwjgl:lwjgl-jemalloc:3.1.6:natives-linux'
+    implementation 'org.lwjgl:lwjgl-jemalloc:3.1.6:natives-macos'
+    implementation 'org.lwjgl:lwjgl-jemalloc:3.1.6:natives-windows'
+    implementation 'org.lwjgl:lwjgl-openal:3.1.6:natives-linux'
+    implementation 'org.lwjgl:lwjgl-openal:3.1.6:natives-macos'
+    implementation 'org.lwjgl:lwjgl-openal:3.1.6:natives-windows'
+    implementation 'org.lwjgl:lwjgl-opengl:3.1.6:natives-linux'
+    implementation 'org.lwjgl:lwjgl-opengl:3.1.6:natives-macos'
+    implementation 'org.lwjgl:lwjgl-opengl:3.1.6:natives-windows'
+    implementation 'org.lwjgl:lwjgl-stb:3.1.6:natives-linux'
+    implementation 'org.lwjgl:lwjgl-stb:3.1.6:natives-macos'
+    implementation 'org.lwjgl:lwjgl-stb:3.1.6:natives-windows'
 }
 
 configurations {
