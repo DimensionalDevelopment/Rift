@@ -6,11 +6,21 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Locale;
 
 public class Installer {
     public static void main(String... args) {
         try {
-            File minecraftFolder = new File(System.getProperty("user.home") + (System.getProperty("os.name").contains("Windows") ? "/AppData/Roaming/.minecraft" : "/.minecraft"));
+            File minecraftFolder;
+            String userHome = System.getProperty("user.home");
+            String osName = System.getProperty("os.name").toLowerCase(Locale.ROOT);
+            if (osName.contains("win")) {
+                minecraftFolder = new File(userHome + "/AppData/Roaming/.minecraft");
+            } else if (osName.contains("mac")) {
+                minecraftFolder = new File(userHome + "/Library/Application Support/minecraft");
+            } else {
+                minecraftFolder = new File(userHome + "/.minecraft");
+            }
             File target = new File(minecraftFolder, "versions/1.13-rift-1.0.1/1.13-rift-1.0.1.json");
             target.getParentFile().mkdirs();
             Files.copy(Installer.class.getResourceAsStream("/profile.json"), target.toPath(), StandardCopyOption.REPLACE_EXISTING);
