@@ -7,11 +7,11 @@ import net.minecraft.fluid.LavaFluid;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorldReader;
-import org.dimdev.rift.api.IRiftFluid;
+import org.dimdev.rift.injectedmethods.RiftFluid;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(LavaFluid.class)
-public class MixinLavaFluid implements IRiftFluid {
+public class MixinLavaFluid implements RiftFluid {
     @Override
     public TextureAtlasSprite getStillTexture() {
         return Minecraft.getMinecraft().getModelManager().getBlockModelShapes().getModelForState(Blocks.LAVA.getDefaultState()).getParticleTexture();

@@ -16,7 +16,7 @@ public abstract class MixinEnumConnectionState {
     @Shadow protected abstract EnumConnectionState registerPacket(EnumPacketDirection direction, Class<? extends Packet<?>> packetClass);
 
     @Mixin(targets = "net/minecraft/network/EnumConnectionState$1")
-    public static abstract class Handshaking extends MixinEnumConnectionState {
+    public abstract static class Handshaking extends MixinEnumConnectionState {
         @Inject(method = "<init>", at = @At("RETURN"))
         private void registerModPackets(CallbackInfo ci) {
             for (PacketAdder packetAdder : RiftLoader.instance.getListeners(PacketAdder.class)) {
@@ -26,7 +26,7 @@ public abstract class MixinEnumConnectionState {
     }
 
     @Mixin(targets = "net/minecraft/network/EnumConnectionState$2")
-    public static abstract class Play extends MixinEnumConnectionState {
+    public abstract static class Play extends MixinEnumConnectionState {
         @Inject(method = "<init>", at = @At("RETURN"))
         private void registerModPackets(CallbackInfo ci) {
             for (PacketAdder packetAdder : RiftLoader.instance.getListeners(PacketAdder.class)) {
@@ -36,7 +36,7 @@ public abstract class MixinEnumConnectionState {
     }
 
     @Mixin(targets = "net/minecraft/network/EnumConnectionState$3")
-    public static abstract class Status extends MixinEnumConnectionState {
+    public abstract static class Status extends MixinEnumConnectionState {
         @Inject(method = "<init>", at = @At("RETURN"))
         private void registerModPackets(CallbackInfo ci) {
             for (PacketAdder packetAdder : RiftLoader.instance.getListeners(PacketAdder.class)) {
@@ -46,7 +46,7 @@ public abstract class MixinEnumConnectionState {
     }
 
     @Mixin(targets = "net/minecraft/network/EnumConnectionState$4")
-    public static abstract class Login extends MixinEnumConnectionState {
+    public abstract static class Login extends MixinEnumConnectionState {
         @Inject(method = "<init>", at = @At("RETURN"))
         private void registerModPackets(CallbackInfo ci) {
             for (PacketAdder packetAdder : RiftLoader.instance.getListeners(PacketAdder.class)) {

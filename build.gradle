@@ -1,23 +1,17 @@
 buildscript {
     repositories {
         jcenter()
-        maven {
-            url 'https://www.dimdev.org/maven/'
-        }
-        maven {
-            url 'http://repo.spongepowered.org/maven'
-        }
+        maven { url 'https://www.dimdev.org/maven/' }
+        maven { url 'http://repo.spongepowered.org/maven' }
     }
     dependencies {
-        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.4'
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath 'org.dimdev:ForgeGradle:2.3-SNAPSHOT'
         classpath 'org.spongepowered:mixingradle:0.4-SNAPSHOT'
     }
 }
 
 apply plugin: 'net.minecraftforge.gradle.tweaker-client'
 apply plugin: 'java'
-apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'org.spongepowered.mixin'
 
 def travisBuildNumber = System.getenv('TRAVIS_BUILD_NUMBER')
@@ -32,37 +26,16 @@ targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
-    ivy {
-        url 'https://libraries.minecraft.net/'
-        layout 'pattern', {
-            artifact '[organisation]/[module]/[revision]/[artifact]-[revision](-[classifier])(.[ext])'
-            m2compatible = true
-        }
-    }
-    maven {
-        url 'https://www.dimdev.org/maven/'
-    }
-    maven {
-        name = 'sponge'
-        url = 'https://repo.spongepowered.org/maven/'
-    }
-    flatDir {
-        dirs 'libs'
-    }
+    maven { url 'https://libraries.minecraft.net/' }
+    maven { url 'https://www.dimdev.org/maven/' }
+    maven { url = 'https://repo.spongepowered.org/maven/' }
 }
 
 dependencies {
     implementation('org.spongepowered:mixin:0.7.11-SNAPSHOT') { transitive = false }
-    implementation('net.minecraft:launchwrapper:1.11') { transitive = false }
-
-    implementation 'org.lwjgl:lwjgl:3.1.6:natives-linux'
-    implementation 'org.lwjgl:lwjgl:3.1.6:natives-macos'
-    implementation 'org.lwjgl:lwjgl:3.1.6:natives-windows'
-}
-
-configurations {
-    runtime.exclude module: 'launchwrapper'
-    runtime.exclude module: 'lwjgl'
+    implementation('net.minecraft:launchwrapper:1.12') { transitive = false }
+    implementation 'org.ow2.asm:asm:6.2'
+    implementation 'org.ow2.asm:asm-commons:6.2'
 }
 
 minecraft {
@@ -71,17 +44,6 @@ minecraft {
     runDir = 'run'
     tweakClass = 'org.dimdev.riftloader.launch.RiftLoaderTweaker'
     makeObfSourceJar = false
-}
-
-reobf {
-    jar {
-        mappingType = 'NOTCH'
-        classpath = sourceSets.main.compileClasspath
-    }
-    shadowJar {
-        mappingType = 'NOTCH'
-        classpath = sourceSets.main.compileClasspath
-    }
 }
 
 mixin {
@@ -107,10 +69,6 @@ task devJar(type: Jar, dependsOn: classes) {
     from sourceSets.main.output
 }
 
-shadowJar {
-    exclude 'LICENSE.txt', 'dummyThing'
-}
-
 task sourcesJar(type: Jar, dependsOn: classes) {
     classifier 'sources'
     from sourceSets.main.allSource
@@ -119,9 +77,5 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 artifacts {
     archives jar
     archives devJar
-    archives shadowJar
     archives sourcesJar
 }
-
-runClient.group 'other' // This is broken
-genIntellijRuns.group 'other' // Use 'Start.java' in the 'debug' module instead

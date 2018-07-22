@@ -7,6 +7,7 @@ import net.minecraft.block.BlockStainedGlass;
 import net.minecraft.block.material.Material;
 import net.minecraft.command.CommandSource;
 import net.minecraft.fluid.FlowingFluid;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -25,33 +26,28 @@ public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder,
     public static final Block TRANSLUCENT_WHITE_BLOCK = new BlockStainedGlass(EnumDyeColor.WHITE, Block.Builder.create(Material.GLASS));
     public static final FlowingFluid WHITE_FLUID = new WhiteFluid.Source();
     public static final FlowingFluid FLOWING_WHITE_FLUID = new WhiteFluid.Flowing();
-    public static final BlockFlowingFluid BLOCK_WHITE_FLUID = new BlockFlowingFluid(WHITE_FLUID, Block.Builder.create(Material.WATER).doesNotBlockMovement().hardnessAndResistance(100F, 100F)) {
-        @Override
-        public boolean isVariableOpacity() {
-            return true;
-        }
-    };
+    public static final BlockFlowingFluid BLOCK_WHITE_FLUID = new BlockFlowingFluid(WHITE_FLUID, Block.Builder.create(Material.WATER).doesNotBlockMovement().hardnessAndResistance(100F, 100F).variableOpacity());
     public static final Item PACKET_TESTER = new ItemPacketTester(new Item.Builder());
     private int clientTickCount = 0;
 
     @Override
-    public void registerBlocks(BlockRegistrationReceiver receiver) {
-        receiver.registerBlock(new ResourceLocation("testmod", "white_block"), WHITE_BLOCK);
-        receiver.registerBlock(new ResourceLocation("testmod", "translucent_white_block"), TRANSLUCENT_WHITE_BLOCK);
-        receiver.registerBlock(new ResourceLocation("testmod", "white_fluid"), BLOCK_WHITE_FLUID);
+    public void registerBlocks() {
+        Block.registerBlock(new ResourceLocation("testmod", "white_block"), WHITE_BLOCK);
+        Block.registerBlock(new ResourceLocation("testmod", "translucent_white_block"), TRANSLUCENT_WHITE_BLOCK);
+        Block.registerBlock(new ResourceLocation("testmod", "white_fluid"), BLOCK_WHITE_FLUID);
     }
 
     @Override
-    public void registerItems(ItemRegistrationReceiver receiver) {
-        receiver.registerItemBlock(WHITE_BLOCK, ItemGroup.BUILDING_BLOCKS);
-        receiver.registerItemBlock(TRANSLUCENT_WHITE_BLOCK, ItemGroup.BUILDING_BLOCKS);
-        receiver.registerItem(new ResourceLocation("testmod", "packet_tester"), PACKET_TESTER);
+    public void registerItems() {
+        Item.registerItemBlock(WHITE_BLOCK, ItemGroup.BUILDING_BLOCKS);
+        Item.registerItemBlock(TRANSLUCENT_WHITE_BLOCK, ItemGroup.BUILDING_BLOCKS);
+        Item.registerItem(new ResourceLocation("testmod", "packet_tester"), PACKET_TESTER);
     }
 
     @Override
-    public void registerFluids(FluidRegistrationReceiver receiver) {
-        receiver.registerFluid(new ResourceLocation("testmod", "white_fluid"), WHITE_FLUID);
-        receiver.registerFluid(new ResourceLocation("testmod", "flowing_white_fluid"), FLOWING_WHITE_FLUID);
+    public void registerFluids() {
+        Fluid.registerFluid(new ResourceLocation("testmod", "white_fluid"), WHITE_FLUID);
+        Fluid.registerFluid(new ResourceLocation("testmod", "flowing_white_fluid"), FLOWING_WHITE_FLUID);
     }
 
     @Override

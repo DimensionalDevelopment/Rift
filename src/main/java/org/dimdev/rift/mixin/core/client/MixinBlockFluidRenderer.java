@@ -17,7 +17,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.IWorldReaderBase;
-import org.dimdev.rift.api.IRiftFluid;
+import org.dimdev.rift.injectedmethods.RiftFluid;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -38,8 +38,8 @@ public abstract class MixinBlockFluidRenderer {
         TextureAtlasSprite stillTexture = MissingTextureSprite.func_195677_a();
         TextureAtlasSprite flowingTexture = MissingTextureSprite.func_195677_a();
         int colorMultiplier = 0xFFFFFF;
-        if (state.getFluid() instanceof IRiftFluid) {
-            IRiftFluid fluid = (IRiftFluid) state.getFluid();
+        if (state.getFluid() instanceof RiftFluid) {
+            RiftFluid fluid = (RiftFluid) state.getFluid();
             stillTexture = fluid.getStillTexture();
             flowingTexture = fluid.getFlowingTexture();
             colorMultiplier = fluid.getColorMultiplier(world, pos);

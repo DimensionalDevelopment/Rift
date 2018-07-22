@@ -1,9 +1,9 @@
-package org.dimdev.rift.api;
+package org.dimdev.rift.injectedmethods;
 
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 
-public interface IRiftCPacketCustomPayload {
+public interface RiftCPacketCustomPayload {
     ResourceLocation getChannelName();
     PacketBuffer getData();
 }

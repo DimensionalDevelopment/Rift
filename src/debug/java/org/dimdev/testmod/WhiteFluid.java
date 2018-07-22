@@ -23,12 +23,12 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.IWorldReaderBase;
 import net.minecraft.world.World;
-import org.dimdev.rift.api.IRiftFluid;
+import org.dimdev.rift.injectedmethods.RiftFluid;
 
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public abstract class WhiteFluid extends FlowingFluid implements IRiftFluid {
+public abstract class WhiteFluid extends FlowingFluid implements RiftFluid {
     public WhiteFluid() {}
 
     @Override

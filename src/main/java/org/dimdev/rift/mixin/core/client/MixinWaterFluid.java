@@ -8,11 +8,11 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.biome.BiomeColorHelper;
-import org.dimdev.rift.api.IRiftFluid;
+import org.dimdev.rift.injectedmethods.RiftFluid;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(WaterFluid.class)
-public class MixinWaterFluid implements IRiftFluid {
+public class MixinWaterFluid implements RiftFluid {
     @Override
     public TextureAtlasSprite getStillTexture() {
         return Minecraft.getMinecraft().getModelManager().getBlockModelShapes().getModelForState(Blocks.WATER.getDefaultState()).getParticleTexture();

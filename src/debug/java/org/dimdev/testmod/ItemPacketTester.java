@@ -14,6 +14,7 @@ public class ItemPacketTester extends Item {
         super(builder);
     }
 
+    @Override
     public EnumActionResult func_195939_a(ItemUseContext context) {
         if (context.func_195991_k().isRemote) {
             return EnumActionResult.SUCCESS;

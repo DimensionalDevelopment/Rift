@@ -5,6 +5,8 @@ import com.google.gson.JsonParseException;
 import net.minecraft.launchwrapper.Launch;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.dimdev.accesstransform.AccessTransformationSet;
+import org.dimdev.accesstransform.AccessTransformer;
 import org.dimdev.riftloader.listener.InitializationListener;
 import org.dimdev.utils.InstanceListMap;
 import org.dimdev.utils.InstanceMap;
@@ -33,11 +35,13 @@ public class RiftLoader {
     public List<Class<?>> listenerClasses = new ArrayList<>();
     private InstanceMap listenerInstanceMap = new InstanceMap();
     public InstanceListMap listeners = new InstanceListMap();
+    public AccessTransformer accessTransformer;
 
     public void load() {
         findMods(modsDir);
         sortMods();
         initMods();
+        initAccessTransformer();
     }
 
     /**
@@ -154,6 +158,27 @@ public class RiftLoader {
         }
 
         log.info("Done initializing mods");
+    }
+
+    public void initAccessTransformer() {
+        try {
+            AccessTransformationSet transformations = new AccessTransformationSet();
+
+            Enumeration<URL> urls = ClassLoader.getSystemResources("access_transformations.at");
+            while (urls.hasMoreElements()) {
+                URL url = urls.nextElement();
+                try (Scanner scanner = new Scanner(url.openStream())) {
+                    while (scanner.hasNextLine()) {
+                        transformations.addMinimumAccessLevel(scanner.nextLine());
+                    }
+                }
+            }
+
+            accessTransformer = new AccessTransformer(transformations);
+            Launch.classLoader.registerTransformer("org.dimdev.riftloader.RiftAccessTransformer");
+        } catch (Throwable t) {
+            throw new RuntimeException("Failed to initialize access transformers", t);
+        }
     }
 
     public void addMod(ModInfo mod) {
