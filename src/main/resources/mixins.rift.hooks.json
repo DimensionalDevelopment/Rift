@@ -23,7 +23,11 @@
     "MixinPotion",
     "MixinEnchantment",
     "MixinParticleType",
-    "MixinSoundEvent"
+    "MixinSoundEvent",
+    "MixinOverworldBiomeProvider",
+    "MixinEntityType",
+    "MixinTileEntityType",
+    "MixinBootstrap"
   ],
   "client": []
 }
