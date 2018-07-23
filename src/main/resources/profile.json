@@ -13,19 +13,12 @@
     "mainClass": "net.minecraft.launchwrapper.Launch",
     "libraries": [
         {
-            "name": "org.dimdev.rift:Rift:1.0.1-SNAPSHOT",
+            "name": "org.dimdev.rift:Rift:1.0.1",
             "url": "https://www.dimdev.org/maven/"
         },
         {
-            "name": "org.spongepowered:mixin:0.7.11-SNAPSHOT",
-            "downloads": {
-                "artifact": {
-                    "size": 1017668,
-                    "sha1": "7a670207bdb97db418118ad1e9bb42424ff3776d",
-                    "path": "org/spongepowered/mixin/0.7.11-SNAPSHOT/mixin-0.7.11-20180703.121122-1.jar",
-                    "url": "https://repo.spongepowered.org/maven/org/spongepowered/mixin/0.7.11-SNAPSHOT/mixin-0.7.11-20180703.121122-1.jar"
-                }
-            }
+            "name": "org.dimdev:mixin:0.7.11-SNAPSHOT",
+            "url": "https://www.dimdev.org/maven/"
         },
         {
             "name": "org.ow2.asm:asm:6.2",
