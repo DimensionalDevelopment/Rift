@@ -31,11 +31,12 @@ public class RiftLoader {
     public final File modsDir = new File(Launch.minecraftHome, "mods");
     public final File configDir = new File(Launch.minecraftHome, "config");
 
-    public Map<String, ModInfo> modInfoMap = new HashMap<>();
-    public List<Class<?>> listenerClasses = new ArrayList<>();
-    private InstanceMap listenerInstanceMap = new InstanceMap();
-    public InstanceListMap listeners = new InstanceListMap();
     public AccessTransformer accessTransformer;
+    private Map<String, ModInfo> modInfoMap = new HashMap<>();
+    private List<Class<?>> listenerClasses = new ArrayList<>();
+    private InstanceMap listenerInstanceMap = new InstanceMap();
+    private InstanceListMap listeners = new InstanceListMap();
+    private InstanceListMap customListenerInstances = new InstanceListMap();
 
     public void load() {
         findMods(modsDir);
@@ -192,7 +193,7 @@ public class RiftLoader {
     public <T> List<T> getListeners(Class<T> listenerInterface) {
         List<T> listenerInstances = listeners.get(listenerInterface);
 
-        if (listenerInstances == null) { // TODO: Manually load them instead?
+        if (listenerInstances == null) {
             loadListeners(listenerInterface);
             listenerInstances = listeners.get(listenerInterface);
         }
@@ -219,6 +220,37 @@ public class RiftLoader {
 
                 listenerInstances.add(listenerInstance);
             }
+        }
+
+        List<T> customInstances = customListenerInstances.get(listenerInterface);
+        if (customInstances != null) {
+            listenerInstances.addAll(customInstances);
+        }
+    }
+
+    /**
+     * Register a custom instance of a class for Rift to use rather than creating
+     * one by invoking its public no-args constructor.
+     */
+    public <T> void setInstanceForListenerClass(Class<T> listenerClass, T instance) {
+        listenerInstanceMap.put(listenerClass, instance);
+    }
+
+    /**
+     * Adds a listener for a particular listener interface. This is an alternative
+     * to registering the interface class in riftmod.json.
+     */
+    public <T> void addListener(Class<T> listenerInterface, T listener) {
+        List<T> customInstances = customListenerInstances.get(listenerInterface);
+        if (customInstances == null) {
+            customInstances = new ArrayList<>();
+            customListenerInstances.put(listenerInterface, customInstances);
+        }
+        customInstances.add(listener);
+
+        List<T> loadedInstances = listeners.get(listenerInterface);
+        if (loadedInstances != null) {
+            loadedInstances.add(listener);
         }
     }
 }
