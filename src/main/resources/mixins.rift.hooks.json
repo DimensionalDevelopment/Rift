@@ -31,7 +31,8 @@
     "MixinBiome",
     "client.MixinTileEntityRendererDispatcher",
     "client.MixinRenderManager",
-    "MixinCPacketCustomPayload"
+    "MixinCPacketCustomPayload",
+    "client.MixinEntityPlayerSP"
   ],
   "client": []
 }
