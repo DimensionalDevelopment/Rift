@@ -23,7 +23,7 @@ public class MixinRenderManager {
     @Inject(method = "<init>", at = @At("RETURN"))
     private void onInit(TextureManager textureManager, ItemRenderer itemRenderer, CallbackInfo ci) {
         for (EntityRendererAdder entityRendererAdder : RiftLoader.instance.getListeners(EntityRendererAdder.class)) {
-            entityRendererAdder.addEntityRenderers(entityRenderMap);
+            entityRendererAdder.addEntityRenderers(entityRenderMap, (RenderManager) (Object) this);
         }
     }
 }

@@ -94,12 +94,6 @@ artifacts {
     archives sourcesJar
 }
 
-components.java {
-    jar
-    devJar
-    sourcesJar
-}
-
 publishing {
     repositories {
         maven { url "$buildDir/repo/" }
@@ -115,7 +109,10 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             artifactId = 'rift'
+
             from components.java
+            artifact devJar
+            artifact sourcesJar
         }
     }
 }
