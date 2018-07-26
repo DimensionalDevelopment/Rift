@@ -1,4 +1,4 @@
-package org.dimdev.rift.listener;
+package org.dimdev.rift.listener.client;
 
 import net.minecraft.util.ResourceLocation;
 

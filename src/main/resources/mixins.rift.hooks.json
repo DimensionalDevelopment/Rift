@@ -27,7 +27,11 @@
     "MixinOverworldBiomeProvider",
     "MixinEntityType",
     "MixinTileEntityType",
-    "MixinBootstrap"
+    "MixinBootstrap",
+    "MixinBiome",
+    "client.MixinTileEntityRendererDispatcher",
+    "client.MixinRenderManager",
+    "MixinCPacketCustomPayload"
   ],
   "client": []
 }

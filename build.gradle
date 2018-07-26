@@ -62,6 +62,16 @@ sourceSets {
     }
 }
 
+processResources {
+    filesMatching('profile.json') {
+        expand 'version': project.version
+    }
+
+    // Re-run this task when these change
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+}
+
 jar {
     manifest.attributes(
             'Main-Class': 'org.dimdev.rift.Installer'
@@ -84,6 +94,12 @@ artifacts {
     archives sourcesJar
 }
 
+components.java {
+    jar
+    devJar
+    sourcesJar
+}
+
 publishing {
     repositories {
         maven { url "$buildDir/repo/" }
@@ -99,10 +115,7 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             artifactId = 'rift'
-
-            artifact jar
-            artifact devJar
-            artifact sourcesJar
+            from components.java
         }
     }
 }

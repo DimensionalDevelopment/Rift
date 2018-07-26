@@ -1,9 +1,9 @@
-package org.dimdev.rift.mixin.hook;
+package org.dimdev.rift.mixin.hook.client;
 
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.tileentity.TileEntity;
-import org.dimdev.rift.listener.TileEntityRendererAdder;
+import org.dimdev.rift.listener.client.TileEntityRendererAdder;
 import org.dimdev.riftloader.RiftLoader;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -21,7 +21,7 @@ public class MixinTileEntityRendererDispatcher {
     @Inject(method = "<init>", at = @At(value = "FIELD", target = "Ljava/util/Map;values()Ljava/util/Collection;"))
     private void onRegisterTileEntityRenderDispatcher(CallbackInfo ci) {
         for (TileEntityRendererAdder tileEntityRendererAdder : RiftLoader.instance.getListeners(TileEntityRendererAdder.class)) {
-            tileEntityRendererAdder.addRenderers(renderers);
+            tileEntityRendererAdder.addTileEntityRenderers(renderers);
         }
     }
 }

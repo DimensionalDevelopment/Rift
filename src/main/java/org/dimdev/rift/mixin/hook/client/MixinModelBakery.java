@@ -2,7 +2,7 @@ package org.dimdev.rift.mixin.hook.client;
 
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.util.ResourceLocation;
-import org.dimdev.rift.listener.TextureAdder;
+import org.dimdev.rift.listener.client.TextureAdder;
 import org.dimdev.riftloader.RiftLoader;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

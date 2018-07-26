@@ -5,7 +5,7 @@ import net.minecraft.client.resources.ResourcePackInfoClient;
 import net.minecraft.profiler.Profiler;
 import net.minecraft.resources.IPackFinder;
 import net.minecraft.resources.ResourcePackList;
-import org.dimdev.rift.listener.ClientTickable;
+import org.dimdev.rift.listener.client.ClientTickable;
 import org.dimdev.rift.listener.ResourcePackFinderAdder;
 import org.dimdev.riftloader.RiftLoader;
 import org.spongepowered.asm.mixin.Final;

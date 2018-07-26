@@ -164,7 +164,7 @@ public class RiftLoader {
         try {
             AccessTransformationSet transformations = new AccessTransformationSet();
 
-            Enumeration<URL> urls = ClassLoader.getSystemResources("access_transformations.at");
+            Enumeration<URL> urls = Launch.classLoader.getResources("access_transformations.at");
             while (urls.hasMoreElements()) {
                 URL url = urls.nextElement();
                 try (Scanner scanner = new Scanner(url.openStream())) {
