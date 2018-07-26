@@ -3,22 +3,26 @@ buildscript {
         jcenter()
         maven { url 'https://www.dimdev.org/maven/' }
         maven { url 'http://repo.spongepowered.org/maven' }
+        maven { url 'https://plugins.gradle.org/m2/' }
     }
     dependencies {
         classpath 'org.dimdev:ForgeGradle:2.3-SNAPSHOT'
         classpath 'org.spongepowered:mixingradle:0.4-SNAPSHOT'
+        classpath 'gradle.plugin.com.github.breadmoirai:github-release:2.0.1'
     }
 }
 
 apply plugin: 'net.minecraftforge.gradle.tweaker-client'
 apply plugin: 'java'
 apply plugin: 'org.spongepowered.mixin'
+apply plugin: 'maven-publish'
+apply plugin: 'com.github.breadmoirai.github-release'
 
 def travisBuildNumber = System.getenv('TRAVIS_BUILD_NUMBER')
 def versionSuffix = travisBuildNumber != null ? travisBuildNumber : 'SNAPSHOT'
 
-group 'org.dimdev.rift'
-version '1.0.1-' + versionSuffix
+group 'org.dimdev'
+version '1.0.2-' + versionSuffix
 archivesBaseName = 'Rift'
 
 sourceCompatibility = 1.8
@@ -78,4 +82,37 @@ artifacts {
     archives jar
     archives devJar
     archives sourcesJar
+}
+
+publishing {
+    repositories {
+        maven { url "$buildDir/repo/" }
+        maven {
+            url 'sftp://www.dimdev.org:22/data/www/html/maven/'
+            credentials {
+                username 'www'
+                password System.getenv('dimdev_maven_password')
+            }
+        }
+    }
+
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = 'rift'
+
+            artifact jar
+            artifact devJar
+            artifact sourcesJar
+        }
+    }
+}
+
+tasks.publish.dependsOn(tasks.githubRelease)
+githubRelease {
+    token = System.getenv('dimdev_repo_token')
+    owner = 'DimensionalDevelopment'
+    repo = 'Rift'
+    targetCommitish = 'master'
+    prerelease = true
+    releaseAssets = jar.destinationDir.listFiles()
 }
