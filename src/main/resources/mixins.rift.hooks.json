@@ -32,7 +32,8 @@
     "client.MixinTileEntityRendererDispatcher",
     "client.MixinRenderManager",
     "MixinCPacketCustomPayload",
-    "client.MixinEntityPlayerSP"
+    "client.MixinEntityPlayerSP",
+    "MixinEntityType$Builder"
   ],
   "client": []
 }
