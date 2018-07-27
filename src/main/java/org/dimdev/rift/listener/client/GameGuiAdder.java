@@ -1,10 +1,10 @@
 package org.dimdev.rift.listener.client;
 
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IInteractionObject;
 
 public interface GameGuiAdder {
-    boolean displayGui(ResourceLocation id, IInteractionObject interactionObject);
-    boolean displayContainerGui(ResourceLocation id, IInventory inventory);
+    void displayGui(EntityPlayerSP player, String id, IInteractionObject interactionObject);
+    void displayContainerGui(EntityPlayerSP player, String id, IInventory inventory);
 }

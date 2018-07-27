@@ -2,7 +2,6 @@ package org.dimdev.rift.mixin.hook.client;
 
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IInteractionObject;
 import org.dimdev.rift.listener.client.GameGuiAdder;
 import org.dimdev.riftloader.RiftLoader;
@@ -15,27 +14,23 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MixinEntityPlayerSP {
     @Inject(method = "displayGui", at = @At("HEAD"), cancellable = true)
     public void onDisplayGui(IInteractionObject interactionObject, CallbackInfo ci) {
-        ResourceLocation id = new ResourceLocation(interactionObject.getGuiID());
-        if (!id.getNamespace().equals("minecraft")) {
+        String id = interactionObject.getGuiID();
+        if (!id.startsWith("minecraft:")) {
             for (GameGuiAdder gameGuiAdder : RiftLoader.instance.getListeners(GameGuiAdder.class)) {
-                if (gameGuiAdder.displayGui(id, interactionObject)) {
-                    ci.cancel();
-                    return;
-                }
+                gameGuiAdder.displayGui((EntityPlayerSP) (Object) this, id, interactionObject);
             }
+            ci.cancel();
         }
     }
 
     @Inject(method = "displayGUIChest", at = @At("HEAD"), cancellable = true)
     public void onDisplayContainerGui(IInventory inventory, CallbackInfo ci) {
-        ResourceLocation id = new ResourceLocation(inventory instanceof IInteractionObject ? ((IInteractionObject) inventory).getGuiID() : "minecraft:container");
-        if (!id.getNamespace().equals("minecraft")) {
+        String id = inventory instanceof IInteractionObject ? ((IInteractionObject) inventory).getGuiID() : "minecraft:container";
+        if (!id.startsWith("minecraft:")) {
             for (GameGuiAdder gameGuiAdder : RiftLoader.instance.getListeners(GameGuiAdder.class)) {
-                if (gameGuiAdder.displayContainerGui(id, inventory)) {
-                    ci.cancel();
-                    return;
-                }
+                gameGuiAdder.displayContainerGui((EntityPlayerSP) (Object) this, id, inventory);
             }
         }
+        ci.cancel();
     }
 }
