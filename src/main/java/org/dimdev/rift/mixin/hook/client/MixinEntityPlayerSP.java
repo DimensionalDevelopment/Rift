@@ -30,7 +30,7 @@ public class MixinEntityPlayerSP {
             for (GameGuiAdder gameGuiAdder : RiftLoader.instance.getListeners(GameGuiAdder.class)) {
                 gameGuiAdder.displayContainerGui((EntityPlayerSP) (Object) this, id, inventory);
             }
+            ci.cancel();
         }
-        ci.cancel();
     }
 }
