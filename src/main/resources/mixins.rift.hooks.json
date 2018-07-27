@@ -33,7 +33,8 @@
     "client.MixinRenderManager",
     "MixinCPacketCustomPayload",
     "client.MixinEntityPlayerSP",
-    "MixinEntityType$Builder"
+    "MixinEntityType$Builder",
+    "client.MixinGuiIngame"
   ],
   "client": []
 }
