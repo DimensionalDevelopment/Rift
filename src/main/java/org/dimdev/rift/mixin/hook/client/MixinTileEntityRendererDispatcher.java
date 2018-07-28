@@ -18,10 +18,14 @@ import java.util.Map;
 public class MixinTileEntityRendererDispatcher {
     @Shadow @Final private Map<Class<? extends TileEntity>, TileEntityRenderer<? extends TileEntity>> renderers;
 
-    @Inject(method = "<init>", at = @At(value = "FIELD", target = "Ljava/util/Map;values()Ljava/util/Collection;"))
+    @Inject(method = "<init>", at = @At(value = "RETURN"))
     private void onRegisterTileEntityRenderDispatcher(CallbackInfo ci) {
         for (TileEntityRendererAdder tileEntityRendererAdder : RiftLoader.instance.getListeners(TileEntityRendererAdder.class)) {
             tileEntityRendererAdder.addTileEntityRenderers(renderers);
+        }
+
+        for (TileEntityRenderer renderer : renderers.values()) {
+            renderer.setRendererDispatcher((TileEntityRendererDispatcher) (Object) this);
         }
     }
 }
