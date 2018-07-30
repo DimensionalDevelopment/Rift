@@ -24,3 +24,7 @@ public method awa a (Ljava/lang/String;Lawa;)V
 public method aeg a (ILjava/lang/String;Laeg;)V
 public method bfl <init> (Lbyl;Lbcj$c;)V
 public method wh a (Ljava/lang/String;)V
+public method axz <init> (ILjava/lang/String;)V #WorldType
+public method axz <init> (ILjava/lang/String;I)V #WorldType
+public method axz <init> (ILjava/lang/String;Ljava/lang/String;I)V #WorldType
+public class bmr #IChunkGeneratorFactory
