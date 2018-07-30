@@ -16,7 +16,7 @@ public class MixinFurnace {
     @Inject(method = "func_201564_p", at = @At(value = "RETURN"))
     private static void getBurnTimes(CallbackInfoReturnable<Map<Item, Integer>> cir) {
         for (BurnTimeProvider burnTimeProvider : RiftLoader.instance.getListeners(BurnTimeProvider.class)) {
-            burnTimeProvider.getBurnTimes().forEach((v,k) -> cir.getReturnValue().put(v.getItem(), k));
+            burnTimeProvider.registerBurnTimes(cir.getReturnValue());
         }
     }
 }
