@@ -48,6 +48,9 @@ minecraft {
     runDir = 'run'
     tweakClass = 'org.dimdev.riftloader.launch.RiftLoaderTweaker'
     makeObfSourceJar = false
+
+    replace "@VERSION@", project.version
+    replaceIn "org/dimdev/rift/Installer.java"
 }
 
 mixin {
