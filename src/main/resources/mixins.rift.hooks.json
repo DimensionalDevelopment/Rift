@@ -34,7 +34,8 @@
     "MixinCPacketCustomPayload",
     "client.MixinEntityPlayerSP",
     "MixinEntityType$Builder",
-    "client.MixinGuiIngame"
+    "client.MixinGuiIngame",
+    "MixinWorldServer"
   ],
   "client": []
 }
