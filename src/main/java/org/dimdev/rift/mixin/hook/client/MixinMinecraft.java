@@ -1,10 +1,13 @@
 package org.dimdev.rift.mixin.hook.client;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.MusicTicker;
 import net.minecraft.client.resources.ResourcePackInfoClient;
 import net.minecraft.profiler.Profiler;
 import net.minecraft.resources.IPackFinder;
 import net.minecraft.resources.ResourcePackList;
+import org.dimdev.rift.listener.AmbientMusicTypeProvider;
+import org.dimdev.rift.listener.BurnTimeProvider;
 import org.dimdev.rift.listener.client.ClientTickable;
 import org.dimdev.rift.listener.ResourcePackFinderAdder;
 import org.dimdev.riftloader.RiftLoader;
@@ -15,6 +18,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Minecraft.class)
 public class MixinMinecraft {
@@ -41,5 +45,18 @@ public class MixinMinecraft {
             profiler.endSection();
         }
         profiler.endSection();
+    }
+
+    @Inject(method = "getAmbientMusicType", at = @At(value = "INVOKE"), cancellable = true)
+    private void getMusicType(CallbackInfoReturnable<MusicTicker.MusicType> cir) {
+        for (AmbientMusicTypeProvider ambientMusicTypeProvider : RiftLoader.instance.getListeners(AmbientMusicTypeProvider.class)) {
+            MusicTicker.MusicType type = ambientMusicTypeProvider.getAmbientMusicType((Minecraft) (Object) this);
+
+            if(type != null) {
+                cir.setReturnValue(type);
+                cir.cancel();
+                return;
+            }
+        }
     }
 }

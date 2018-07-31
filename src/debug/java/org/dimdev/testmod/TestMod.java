@@ -5,9 +5,12 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlowingFluid;
 import net.minecraft.block.BlockStainedGlass;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.MusicTicker;
 import net.minecraft.command.CommandSource;
 import net.minecraft.fluid.FlowingFluid;
 import net.minecraft.fluid.Fluid;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -15,18 +18,17 @@ import net.minecraft.network.EnumPacketDirection;
 import net.minecraft.util.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.dimdev.rift.listener.BlockAdder;
-import org.dimdev.rift.listener.CommandAdder;
-import org.dimdev.rift.listener.FluidAdder;
-import org.dimdev.rift.listener.ItemAdder;
-import org.dimdev.rift.listener.PacketAdder;
+import org.dimdev.rift.listener.*;
 import org.dimdev.rift.listener.client.ClientTickable;
 import org.dimdev.rift.listener.client.TextureAdder;
 
 import java.util.Collection;
 import java.util.Collections;
 
-public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder, PacketAdder, CommandAdder, ClientTickable {
+import static net.minecraft.init.SoundEvents.*;
+import static org.dimdev.rift.listener.AmbientMusicTypeProvider.newMusicType;
+
+public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder, PacketAdder, CommandAdder, ClientTickable, AmbientMusicTypeProvider {
     private static final Logger LOGGER = LogManager.getLogger();
     public static final Block WHITE_BLOCK = new Block(Block.Builder.create(Material.ROCK));
     public static final Block TRANSLUCENT_WHITE_BLOCK = new BlockStainedGlass(EnumDyeColor.WHITE, Block.Builder.create(Material.GLASS));
@@ -34,6 +36,7 @@ public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder,
     public static final FlowingFluid FLOWING_WHITE_FLUID = new WhiteFluid.Flowing();
     public static final BlockFlowingFluid BLOCK_WHITE_FLUID = new BlockFlowingFluid(WHITE_FLUID, Block.Builder.create(Material.WATER).doesNotBlockMovement().hardnessAndResistance(100F, 100F).variableOpacity());
     public static final Item PACKET_TESTER = new ItemPacketTester(new Item.Builder());
+    public static final MusicTicker.MusicType TEST_MUSIC = newMusicType("test", ENTITY_EXPERIENCE_ORB_PICKUP, 0,0);
     private int clientTickCount = 0;
 
     @Override
@@ -85,5 +88,10 @@ public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder,
         if (clientTickCount++ == 100) {
             LOGGER.info("100 ticks have passed");
         }
+    }
+
+    @Override
+    public MusicTicker.MusicType getAmbientMusicType(Minecraft client) {
+        return TEST_MUSIC;
     }
 }
