@@ -1,30 +1,31 @@
-public method bcj a (Ljava/lang/String;Lbcj;)V
-public method bcj a (Lpc;Lbcj;)V
-public method bcj$c a (Lbhi;)Lbcj$c;
-public method bcj$c a (I)Lbcj$c;
-public method bcj$c b ()Lbcj$c;
-public method bcj$c c ()Lbcj$c;
-public method bcj$c d ()Lbcj$c;
-public method asw a (Larf;)V
-public method asw a (Lbcj;Laru;)V
-public method asw a (Lbcj;Lasw;)V
-public method asw a (Ljava/lang/String;Lasw;)V
-public method asw a (Lpc;Lasw;)V
-public method asw b (Lbcj;)V
-public method bym a (Ljava/lang/String;Lbym;)V
-public method bym a (Lpc;Lbym;)V
-public method ayn a (ILjava/lang/String;Layn;)V
-public class bms$a
-public method fl a (Ljava/lang/String;Z)V
-public method fl a (Ljava/lang/String;ZLfk$a;)V
-public method fl <init> (Lpc;ZLfk$a;)V
-public class fn
-public method fn <init> (Lpc;Z)V
-public method awa a (Ljava/lang/String;Lawa;)V
-public method aeg a (ILjava/lang/String;Laeg;)V
-public method bfl <init> (Lbyl;Lbcj$c;)V
-public method wh a (Ljava/lang/String;)V
-public method axz <init> (ILjava/lang/String;)V #WorldType
-public method axz <init> (ILjava/lang/String;I)V #WorldType
-public method axz <init> (ILjava/lang/String;Ljava/lang/String;I)V #WorldType
-public class bmr #IChunkGeneratorFactory
+public method bcj a (Ljava/lang/String;Lbcj;)V # net.minecraft.block.Block/registerBlock
+public method bcj a (Lpc;Lbcj;)V # net.minecraft.block.Block/registerBlock
+public method bcj$c a (Lbhi;)Lbcj$c; # net.minecraft.block.Block$Builder/soundType
+public method bcj$c a (I)Lbcj$c; # net.minecraft.block.Block$Builder/lightValue
+public method bcj$c b ()Lbcj$c; # net.minecraft.block.Block$Builder/zeroHardnessAndResistance
+public method bcj$c c ()Lbcj$c; # net.minecraft.block.Block$Builder/needsRandomTick
+public method bcj$c d ()Lbcj$c; # net.minecraft.block.Block$Builder/variableOpacity
+public method asw a (Larf;)V # net.minecraft.item.Item/registerItemBlock
+public method asw a (Lbcj;Laru;)V # net.minecraft.item.Item/registerItemBlock
+public method asw a (Lbcj;Lasw;)V # net.minecraft.item.Item/registerItemBlock
+public method asw a (Ljava/lang/String;Lasw;)V # net.minecraft.item.Item/registerItemBlock
+public method asw a (Lpc;Lasw;)V # net.minecraft.item.Item/registerItemBlock
+public method asw b (Lbcj;)V # net.minecraft.item.Item/registerItemBlock
+public method bym a (Ljava/lang/String;Lbym;)V # net.minecraft.fluid.Fluid/registerFluid
+public method bym a (Lpc;Lbym;)V # net.minecraft.fluid.Fluid/registerFluid
+public method ayn a (ILjava/lang/String;Layn;)V # net.minecraft.world.biome.Biome/registerBiome
+public method fl a (Ljava/lang/String;Z)V # net.minecraft.particles.ParticleType/registerParticleType
+public method fl a (Ljava/lang/String;ZLfk$a;)V # net.minecraft.particles.ParticleType/registerParticleType
+public method fl <init> (Lpc;ZLfk$a;)V # net.minecraft.particles.ParticleType/<init>
+public class fn # net.minecraft.particles.BasicParticleType
+public method fn <init> (Lpc;Z)V # net.minecraft.particles.BasicParticleType/<init>
+public method awa a (Ljava/lang/String;Lawa;)V # net.minecraft.enchantment.Enchantment/func_210770_a
+public method aeg a (ILjava/lang/String;Laeg;)V # net.minecraft.potion.Potion/func_210759_a
+public method bfl <init> (Lbyl;Lbcj$c;)V # net.minecraft.block.BlockFlowingFluid
+public method wh a (Ljava/lang/String;)V # net.minecraft.util.SoundEvent
+public method axz <init> (ILjava/lang/String;)V # net.minecraft.world.WorldType/<init>
+public method axz <init> (ILjava/lang/String;I)V # net.minecraft.world.WorldType/<init>
+public method axz <init> (ILjava/lang/String;Ljava/lang/String;I)V # net.minecraft.world.WorldType/<init>
+public class bmr #net.minecraft.world.gen.IChunkGeneratorFactory
+public class bms$a #net.minecraft.world.gen.ChunkGeneratorType$Settings
+public class bmu #net.minecraft.world.chunk.ChunkStatus

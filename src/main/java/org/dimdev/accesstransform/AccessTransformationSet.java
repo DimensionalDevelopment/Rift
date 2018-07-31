@@ -15,6 +15,8 @@ public class AccessTransformationSet {
     }
 
     public void addMinimumAccessLevel(String string) {
+        string = string.trim();
+        if(string.isEmpty() || string.startsWith("#")) return;
         int indexOfFirstSpace = string.indexOf(' ');
         String accessLevel = string.substring(0, indexOfFirstSpace);
         String elementReference = string.substring(indexOfFirstSpace + 1);
