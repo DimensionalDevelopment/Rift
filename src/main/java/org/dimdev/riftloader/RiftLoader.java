@@ -38,7 +38,6 @@ public class RiftLoader {
     private InstanceListMap listeners = new InstanceListMap();
     private InstanceListMap customListenerInstances = new InstanceListMap();
 
-    @SuppressWarnings("unused") //called via reflection
     public void load() {
         findMods(modsDir);
         sortMods();
