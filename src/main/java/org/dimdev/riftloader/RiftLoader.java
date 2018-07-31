@@ -38,6 +38,7 @@ public class RiftLoader {
     private InstanceListMap listeners = new InstanceListMap();
     private InstanceListMap customListenerInstances = new InstanceListMap();
 
+    @SuppressWarnings("unused") //called via reflection
     public void load() {
         findMods(modsDir);
         sortMods();
@@ -170,7 +171,10 @@ public class RiftLoader {
                 URL url = urls.nextElement();
                 try (Scanner scanner = new Scanner(url.openStream())) {
                     while (scanner.hasNextLine()) {
-                        transformations.addMinimumAccessLevel(scanner.nextLine());
+                        String line = scanner.nextLine().trim();
+                        if(!line.isEmpty() && !line.startsWith("#")) {
+                            transformations.addMinimumAccessLevel(line);
+                        }
                     }
                 }
             }

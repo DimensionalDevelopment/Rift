@@ -1,5 +1,7 @@
 package org.dimdev.accesstransform;
 
+import java.util.Locale;
+
 public class AccessLevel {
     public enum Visibility {
         PRIVATE,
@@ -30,32 +32,13 @@ public class AccessLevel {
     }
 
     public static AccessLevel fromString(String string) {
+        string = string.toUpperCase(Locale.ROOT);
         boolean isFinal = true;
-        if (string.endsWith("-f")) {
+        if (string.endsWith("-F")) {
             isFinal = false;
             string = string.substring(0, string.length() - 2);
         }
 
-        switch (string) {
-            case "private": {
-                return new AccessLevel(Visibility.PRIVATE, isFinal);
-            }
-
-            case "default": {
-                return new AccessLevel(Visibility.DEFAULT, isFinal);
-            }
-
-            case "protected": {
-                return new AccessLevel(Visibility.PROTECTED, isFinal);
-            }
-
-            case "public": {
-                return new AccessLevel(Visibility.PUBLIC, isFinal);
-            }
-
-            default: {
-                throw new RuntimeException("Unknown visibility '" + string + "'");
-            }
-        }
+        return new AccessLevel(Visibility.valueOf(string), isFinal);
     }
 }

@@ -32,7 +32,7 @@ public class RiftLoaderTweaker implements ITweaker {
         // classes may not be equal, and 'instanceof' may return false when it should be true.
         try {
             Class<?> clazz = Launch.classLoader.findClass("org.dimdev.riftloader.RiftLoader");
-            clazz.getMethod("load").invoke(clazz.getField("instance").get(null));
+            clazz.getDeclaredMethod("load").invoke(clazz.getField("instance").get(null));
         } catch (ReflectiveOperationException e) {
             throw new RuntimeException(e);
         }
