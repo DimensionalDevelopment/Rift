@@ -13,7 +13,7 @@ import java.util.Map;
 
 @Mixin(TileEntityFurnace.class)
 public class MixinFurnace {
-    @Inject(method = "func_201564_p", at = @At(value = "RETURN"))
+    @Inject(method = "getBurnTimes", at = @At(value = "RETURN"))
     private static void getBurnTimes(CallbackInfoReturnable<Map<Item, Integer>> cir) {
         for (BurnTimeProvider burnTimeProvider : RiftLoader.instance.getListeners(BurnTimeProvider.class)) {
             burnTimeProvider.registerBurnTimes(cir.getReturnValue());

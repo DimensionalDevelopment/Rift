@@ -95,7 +95,7 @@ public abstract class WhiteFluid extends FlowingFluid implements RiftFluid {
     }
 
     @Override
-    public boolean func_211757_a(IFluidState p_211757_1_, Fluid p_211757_2_, EnumFacing p_211757_3_) {
+    public boolean canOtherFlowInto(IFluidState state, Fluid fluid, EnumFacing direction) {
         return false;
     }
 
