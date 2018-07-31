@@ -14,7 +14,6 @@ public method asw b (Lbcj;)V
 public method bym a (Ljava/lang/String;Lbym;)V
 public method bym a (Lpc;Lbym;)V
 public method ayn a (ILjava/lang/String;Layn;)V
-public class bms$a
 public method fl a (Ljava/lang/String;Z)V
 public method fl a (Ljava/lang/String;ZLfk$a;)V
 public method fl <init> (Lpc;ZLfk$a;)V
@@ -28,3 +27,4 @@ public method axz <init> (ILjava/lang/String;)V #WorldType
 public method axz <init> (ILjava/lang/String;I)V #WorldType
 public method axz <init> (ILjava/lang/String;Ljava/lang/String;I)V #WorldType
 public class bmr #IChunkGeneratorFactory
+public class bms$a #ChunkGeneratorType$Settings
