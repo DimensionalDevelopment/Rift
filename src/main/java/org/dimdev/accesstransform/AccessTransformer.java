@@ -35,7 +35,7 @@ public class AccessTransformer {
             method.access = getNewAccessLevel(new ElementReference(ElementReference.Kind.METHOD, name, method.name, method.desc), method.access);
         }
 
-        ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
+        ClassWriter writer = new ClassWriter(0);
         clazz.accept(writer);
         return writer.toByteArray();
     }

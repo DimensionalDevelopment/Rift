@@ -171,10 +171,7 @@ public class RiftLoader {
                 URL url = urls.nextElement();
                 try (Scanner scanner = new Scanner(url.openStream())) {
                     while (scanner.hasNextLine()) {
-                        String line = scanner.nextLine().trim();
-                        if(!line.isEmpty() && !line.startsWith("#")) {
-                            transformations.addMinimumAccessLevel(line);
-                        }
+                        transformations.addMinimumAccessLevel(scanner.nextLine());
                     }
                 }
             }
