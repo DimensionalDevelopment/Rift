@@ -7,7 +7,7 @@ buildscript {
     }
     dependencies {
         classpath 'org.dimdev:ForgeGradle:2.3-SNAPSHOT'
-        classpath 'org.spongepowered:mixingradle:0.4-SNAPSHOT'
+        classpath 'org.spongepowered:mixingradle:0.6-SNAPSHOT'
         classpath 'gradle.plugin.com.github.breadmoirai:github-release:2.0.1'
     }
 }
