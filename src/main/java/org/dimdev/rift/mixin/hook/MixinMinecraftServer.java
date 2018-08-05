@@ -113,8 +113,8 @@ public abstract class MixinMinecraftServer {
 
         List<WorldServer> worldList = new ArrayList<>();
         worldList.add(overworld);
-        dimensionIdToWorldIndex.put(0, worldList.size());
-        dimensionTypeToWorldIndex.put(DimensionType.OVERWORLD, worldList.size());
+        dimensionIdToWorldIndex.put(0, 0);
+        dimensionTypeToWorldIndex.put(DimensionType.OVERWORLD, 0);
 
         // Create other worlds
         List<DimensionType> dimensionTypes;

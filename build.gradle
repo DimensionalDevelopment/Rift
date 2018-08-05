@@ -76,6 +76,7 @@ processResources {
 }
 
 jar {
+    finalizedBy reobfJar
     manifest.attributes(
             'Main-Class': 'org.dimdev.rift.Installer'
     )
