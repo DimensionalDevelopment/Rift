@@ -37,6 +37,9 @@
     "MixinWorldServer",
     "MixinFurnace",
     "client.MixinGuiIngame",
+    "client.MixinIntegratedServer",
+    "MixinAnvilSaveHandler",
+    "MixinDimensionType"
   ],
   "client": []
 }

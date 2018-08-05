@@ -9,7 +9,8 @@
     "client.MixinClientBrandRetriever",
     "client.MixinBlockFluidRenderer",
     "client.MixinWaterFluid",
-    "client.MixinLavaFluid"
+    "client.MixinLavaFluid",
+    "MixinMinecraftServer"
   ],
   "client": []
 }

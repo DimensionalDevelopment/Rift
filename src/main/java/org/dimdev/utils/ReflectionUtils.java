@@ -1,20 +1,15 @@
-package org.dimdev.rift.listener;
+package org.dimdev.utils;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.MusicTicker;
-import net.minecraft.util.SoundEvent;
 import sun.reflect.ConstructorAccessor;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import static net.minecraft.client.audio.MusicTicker.*;
-
-public interface AmbientMusicTypeProvider {
-    public static MusicType newMusicType(String name, SoundEvent sound, int minDelay, int maxDelay) {
+public class ReflectionUtils {
+    public static <T> T makeEnumInstance(Class<T> enumClass, Object[] constructorArgs) {
         try {
-            Constructor<MusicType> constructor = MusicType.class.getDeclaredConstructor(String.class, int.class, SoundEvent.class, int.class, int.class);
+            Constructor<?> constructor = enumClass.getDeclaredConstructors()[0];
             constructor.setAccessible(true);
 
             Field constructorAccessorField = Constructor.class.getDeclaredField("constructorAccessor");
@@ -27,11 +22,10 @@ public interface AmbientMusicTypeProvider {
                 constructorAccessor = (ConstructorAccessor) acquireConstructorAccessor.invoke(constructor);
             }
 
-            return (MusicType) constructorAccessor.newInstance(new Object[] { name, -1, sound, minDelay, maxDelay });
+            //noinspection unchecked
+            return (T) constructorAccessor.newInstance(constructorArgs);
         } catch (ReflectiveOperationException e) {
             throw new RuntimeException(e);
         }
     }
-
-    public MusicType getAmbientMusicType(Minecraft client);
 }

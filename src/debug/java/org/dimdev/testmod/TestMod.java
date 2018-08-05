@@ -10,25 +10,27 @@ import net.minecraft.client.audio.MusicTicker;
 import net.minecraft.command.CommandSource;
 import net.minecraft.fluid.FlowingFluid;
 import net.minecraft.fluid.Fluid;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.network.EnumPacketDirection;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.dimension.EndDimension;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.dimdev.rift.listener.*;
+import org.dimdev.rift.listener.client.AmbientMusicTypeProvider;
 import org.dimdev.rift.listener.client.ClientTickable;
 import org.dimdev.rift.listener.client.TextureAdder;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Set;
 
-import static net.minecraft.init.SoundEvents.*;
-import static org.dimdev.rift.listener.AmbientMusicTypeProvider.newMusicType;
+import static net.minecraft.init.SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP;
 
-public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder, PacketAdder, CommandAdder, ClientTickable, AmbientMusicTypeProvider {
+public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder, PacketAdder, CommandAdder, ClientTickable, AmbientMusicTypeProvider, DimensionTypeAdder {
     private static final Logger LOGGER = LogManager.getLogger();
     public static final Block WHITE_BLOCK = new Block(Block.Builder.create(Material.ROCK));
     public static final Block TRANSLUCENT_WHITE_BLOCK = new BlockStainedGlass(EnumDyeColor.WHITE, Block.Builder.create(Material.GLASS));
@@ -36,7 +38,7 @@ public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder,
     public static final FlowingFluid FLOWING_WHITE_FLUID = new WhiteFluid.Flowing();
     public static final BlockFlowingFluid BLOCK_WHITE_FLUID = new BlockFlowingFluid(WHITE_FLUID, Block.Builder.create(Material.WATER).doesNotBlockMovement().hardnessAndResistance(100F, 100F).variableOpacity());
     public static final Item PACKET_TESTER = new ItemPacketTester(new Item.Builder());
-    public static final MusicTicker.MusicType TEST_MUSIC = newMusicType("test", ENTITY_EXPERIENCE_ORB_PICKUP, 0,0);
+    public static final MusicTicker.MusicType TEST_MUSIC = AmbientMusicTypeProvider.newMusicType("test", ENTITY_EXPERIENCE_ORB_PICKUP, 0, 0);
     private int clientTickCount = 0;
 
     @Override
@@ -81,6 +83,7 @@ public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder,
     @Override
     public void registerCommands(CommandDispatcher<CommandSource> dispatcher) {
         ExplosionCommand.register(dispatcher);
+        ChangeDimensionCommand.register(dispatcher);
     }
 
     @Override
@@ -93,5 +96,10 @@ public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder,
     @Override
     public MusicTicker.MusicType getAmbientMusicType(Minecraft client) {
         return TEST_MUSIC;
+    }
+
+    @Override
+    public Set<? extends DimensionType> getDimensionTypes() {
+        return Collections.singleton(DimensionTypeAdder.newDimensionType(555, "test_dimension", "_test", EndDimension::new));
     }
 }
