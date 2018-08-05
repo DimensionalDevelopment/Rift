@@ -148,7 +148,7 @@ public class RiftLoader {
                         listenerClass = Launch.classLoader.findClass(listenerClassName);
                         listenerClasses.add(listenerClass);
                     } catch (ReflectiveOperationException e) {
-                        throw new RuntimeException("Failed to find listener class " + e);
+                        throw new RuntimeException("Failed to find listener class " + listenerClassName, e);
                     }
                 }
             }

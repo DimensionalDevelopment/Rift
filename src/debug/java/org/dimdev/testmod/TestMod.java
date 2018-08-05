@@ -30,7 +30,7 @@ import java.util.Set;
 
 import static net.minecraft.init.SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP;
 
-public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder, PacketAdder, CommandAdder, ClientTickable, AmbientMusicTypeProvider, DimensionTypeAdder {
+public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder, PacketAdder, CommandAdder, ClientTickable, /*AmbientMusicTypeProvider,*/ DimensionTypeAdder {
     private static final Logger LOGGER = LogManager.getLogger();
     public static final Block WHITE_BLOCK = new Block(Block.Builder.create(Material.ROCK));
     public static final Block TRANSLUCENT_WHITE_BLOCK = new BlockStainedGlass(EnumDyeColor.WHITE, Block.Builder.create(Material.GLASS));
@@ -93,7 +93,7 @@ public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder,
         }
     }
 
-    @Override
+//    @Override
     public MusicTicker.MusicType getAmbientMusicType(Minecraft client) {
         return TEST_MUSIC;
     }

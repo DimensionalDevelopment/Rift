@@ -22,7 +22,7 @@ def travisBuildNumber = System.getenv('TRAVIS_BUILD_NUMBER')
 def versionSuffix = travisBuildNumber != null ? travisBuildNumber : 'SNAPSHOT'
 
 group 'org.dimdev'
-version '1.0.2-' + versionSuffix
+version '1.0.3-' + versionSuffix
 archivesBaseName = 'Rift'
 
 sourceCompatibility = 1.8
