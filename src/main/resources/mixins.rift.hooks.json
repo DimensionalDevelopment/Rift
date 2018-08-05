@@ -39,7 +39,9 @@
     "client.MixinGuiIngame",
     "client.MixinIntegratedServer",
     "MixinAnvilSaveHandler",
-    "MixinDimensionType"
+    "MixinDimensionType",
+    "MixinStructureIO",
+    "MixinFeature"
   ],
   "client": []
 }

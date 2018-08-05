@@ -6,6 +6,7 @@ import net.minecraft.client.resources.ResourcePackInfoClient;
 import net.minecraft.profiler.Profiler;
 import net.minecraft.resources.IPackFinder;
 import net.minecraft.resources.ResourcePackList;
+import org.dimdev.rift.listener.client.KeybindHandler;
 import org.dimdev.rift.listener.client.AmbientMusicTypeProvider;
 import org.dimdev.rift.listener.client.ClientTickable;
 import org.dimdev.rift.listener.ResourcePackFinderAdder;
@@ -56,6 +57,13 @@ public class MixinMinecraft {
                 cir.cancel();
                 return;
             }
+        }
+    }
+
+    @Inject(method = "processKeyBinds", at = @At("HEAD"))
+    public void onProcessKeyBinds(CallbackInfo ci) {
+        for (KeybindHandler keybindHandler : RiftLoader.instance.getListeners(KeybindHandler.class)) {
+            keybindHandler.processKeybinds();
         }
     }
 }
