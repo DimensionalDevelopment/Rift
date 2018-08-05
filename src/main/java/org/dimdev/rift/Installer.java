@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Locale;
 
@@ -25,6 +26,15 @@ public class Installer {
             File target = new File(minecraftFolder, "versions/1.13-rift-@VERSION@/1.13-rift-@VERSION@.json");
             target.getParentFile().mkdirs();
             Files.copy(Installer.class.getResourceAsStream("/profile.json"), target.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+            try {
+                String source = Installer.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+                target = new File(minecraftFolder, "libraries/org/dimdev/rift/@VERSION@/rift-@VERSION@.jar");
+                target.getParentFile().mkdirs();
+                Files.copy(Paths.get(source), target.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            } catch (Throwable t) {
+                t.printStackTrace();
+            }
 
             try {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
