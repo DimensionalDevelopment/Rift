@@ -26,6 +26,8 @@ public method wh a (Ljava/lang/String;)V # net.minecraft.util.SoundEvent
 public method axz <init> (ILjava/lang/String;)V # net.minecraft.world.WorldType/<init>
 public method axz <init> (ILjava/lang/String;I)V # net.minecraft.world.WorldType/<init>
 public method axz <init> (ILjava/lang/String;Ljava/lang/String;I)V # net.minecraft.world.WorldType/<init>
-public class bmr #net.minecraft.world.gen.IChunkGeneratorFactory
-public class bms$a #net.minecraft.world.gen.ChunkGeneratorType$Settings
-public class bmu #net.minecraft.world.chunk.ChunkStatus
+public class bmr # net.minecraft.world.gen.IChunkGeneratorFactory
+public class bms$a # net.minecraft.world.gen.ChunkGeneratorType$Settings
+public class bmu # net.minecraft.world.chunk.ChunkStatus
+public method bwp b (Ljava/lang/Class;Ljava/lang/String;)V registerStructure # net.minecraft.world.gen.feature.structure.StructureIO/registerStructure
+public method bwp a (Ljava/lang/Class;Ljava/lang/String;)V # net.minecraft.world.gen.feature.structure.StructureIO/registerStructure
