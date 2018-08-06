@@ -41,7 +41,8 @@
     "MixinAnvilSaveHandler",
     "MixinDimensionType",
     "MixinStructureIO",
-    "MixinFeature"
+    "MixinFeature",
+    "MixinChunk"
   ],
   "client": []
 }
