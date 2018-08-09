@@ -7,7 +7,7 @@
     "arguments": {
         "game": [
             "--tweakClass",
-            "org.dimdev.riftloader.launch.RiftLoaderTweaker"
+            "org.dimdev.riftloader.launch.RiftLoaderClientTweaker"
         ]
     },
     "mainClass": "net.minecraft.launchwrapper.Launch",

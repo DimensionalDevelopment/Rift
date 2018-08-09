@@ -46,11 +46,11 @@ minecraft {
     version = '1.13'
     mappings = 'snapshot_5'
     runDir = 'run'
-    tweakClass = 'org.dimdev.riftloader.launch.RiftLoaderTweaker'
+    tweakClass = 'org.dimdev.riftloader.launch.RiftLoaderClientTweaker'
     makeObfSourceJar = false
 
     replace "@VERSION@", project.version
-    replaceIn "org/dimdev/rift/Installer.java"
+    replaceIn "org/dimdev/riftloader/Main.java"
 }
 
 mixin {
@@ -78,7 +78,7 @@ processResources {
 jar {
     finalizedBy reobfJar
     manifest.attributes(
-            'Main-Class': 'org.dimdev.rift.Installer'
+            'Main-Class': 'org.dimdev.riftloader.Main'
     )
 }
 
