@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.dimdev.accesstransform.AccessTransformationSet;
 import org.dimdev.accesstransform.AccessTransformer;
 import org.dimdev.riftloader.listener.InitializationListener;
+import org.dimdev.riftloader.listener.Instantiator;
 import org.dimdev.utils.InstanceListMap;
 import org.dimdev.utils.InstanceMap;
 
@@ -15,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Constructor;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -211,7 +213,7 @@ public class RiftLoader {
                 T listenerInstance = listenerInterface.cast(listenerInstanceMap.get(listenerClass));
                 if (listenerInstance == null) {
                     try {
-                        listenerInstance = listenerInterface.cast(listenerClass.newInstance());
+                        listenerInstance = listenerInterface.cast(createInstance(listenerClass));
                         listenerInstanceMap.castAndPut(listenerClass, listenerInstance);
                     } catch (ReflectiveOperationException e) {
                         throw new RuntimeException("Failed to create listener instance", e);
@@ -226,6 +228,24 @@ public class RiftLoader {
         if (customInstances != null) {
             listenerInstances.addAll(customInstances);
         }
+    }
+
+    public <T> T createInstance(Class<T> listenerClass) throws ReflectiveOperationException {
+        for (Constructor<?> constructor : listenerClass.getConstructors()) {
+            if (constructor.getParameterCount() == 0) {
+                return listenerClass.cast(constructor.newInstance());
+            }
+        }
+
+        // No no-args constructor found, ask mod instantiators to build an instance
+        for (Instantiator instantiator : getListeners(Instantiator.class)) {
+            T instance = instantiator.newInstance(listenerClass);
+            if (instance != null) {
+                return instance;
+            }
+        }
+
+        throw new InstantiationException("Class has no public no-args constructor, and no instantiator handled it either");
     }
 
     /**
