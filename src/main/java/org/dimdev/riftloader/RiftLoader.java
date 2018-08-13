@@ -17,9 +17,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -62,12 +64,24 @@ public class RiftLoader {
             try (JarFile jar = new JarFile(file)) {
                 // Check if the file contains a 'riftmod.json'
                 if (!file.isFile()) continue; // Inside try since there may be a SecurityException
+
                 JarEntry entry = jar.getJarEntry("riftmod.json");
-                if (entry == null) {
-                    log.debug("Skipping " + file + " since it does not contain riftmod.json");
+                if (entry != null) {
+                    loadModFromJson(jar.getInputStream(entry), file);
                     continue;
                 }
-                loadModFromJson(jar.getInputStream(entry), file);
+
+                if (jar.getJarEntry("optifine/OptiFineClassTransformer.class") != null) {
+                    ModInfo mod = new ModInfo();
+                    mod.source = file;
+                    mod.id = "optifine";
+                    mod.name = "Optifine";
+                    mod.authors.add("sp614x");
+                    mod.listeners.add("org.dimdev.riftloader.OptifineLoader");
+                    modInfoMap.put("optifine", mod);
+                }
+
+                log.debug("Skipping " + file + " since it does not contain riftmod.json");
             } catch (ZipException e) {
                 log.error("Could not read file " + file + " as a jar file", e);
             } catch (Throwable t) {
@@ -139,7 +153,7 @@ public class RiftLoader {
         // Load all the mod jars
         for (ModInfo modInfo : modInfoMap.values()) {
             try {
-                Launch.classLoader.addURL(modInfo.source.toURI().toURL());
+                addURLToClasspath(modInfo.source.toURI().toURL());
             } catch (MalformedURLException e) {
                 throw new RuntimeException(e);
             }
@@ -165,6 +179,17 @@ public class RiftLoader {
         }
 
         log.info("Done initializing mods");
+    }
+
+    private static void addURLToClasspath(URL url) {
+        try {
+            Method method = URLClassLoader.class.getDeclaredMethod("addURL", URL.class);
+            method.setAccessible(true);
+            method.invoke(ClassLoader.getSystemClassLoader(), url);
+            Launch.classLoader.addURL(url);
+        } catch (ReflectiveOperationException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void initAccessTransformer() {

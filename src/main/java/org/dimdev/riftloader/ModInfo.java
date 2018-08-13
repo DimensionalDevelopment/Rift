@@ -1,6 +1,7 @@
 package org.dimdev.riftloader;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ModInfo {
@@ -8,6 +9,6 @@ public class ModInfo {
 
     public String id;
     public String name;
-    public List<String> authors;
-    public List<String> listeners;
+    public List<String> authors = new ArrayList<>();
+    public List<String> listeners = new ArrayList<>();
 }
