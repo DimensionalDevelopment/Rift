@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.List;
 
 public class ModInfo {
-    public File modSource;
+    public File source;
 
     public String id;
     public String name;

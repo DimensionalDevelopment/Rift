@@ -6,7 +6,8 @@
   "package": "org.dimdev.rift.mixin.core",
   "refmap": "mixins.rift.refmap.json",
   "mixins": [
-    "MixinMinecraftServer"
+    "MixinMinecraftServer",
+    "MixinVanillaPack"
   ],
   "client": [
     "client.MixinClientBrandRetriever",

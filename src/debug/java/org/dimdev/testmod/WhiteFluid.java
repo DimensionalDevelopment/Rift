@@ -12,8 +12,6 @@ import net.minecraft.init.Particles;
 import net.minecraft.item.Item;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.state.StateContainer;
-import net.minecraft.tags.FluidTags;
-import net.minecraft.tags.Tag;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
@@ -118,11 +116,6 @@ public abstract class WhiteFluid extends FlowingFluid implements RiftFluid {
     public int getColorMultiplier(IWorldReader world, BlockPos pos) {
         int brightness = (int) MathHelper.clamp(255 * ((pos.getY() - 50) / 20.0), 0, 255);
         return (brightness << 16) + (brightness << 8) + brightness;
-    }
-
-    @Override
-    public boolean isTagged(Tag<Fluid> tag) {
-        return tag.isTagged(this) || tag == FluidTags.WATER;
     }
 
     public static class Flowing extends WhiteFluid {

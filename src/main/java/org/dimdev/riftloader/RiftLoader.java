@@ -93,9 +93,13 @@ public class RiftLoader {
                     }
 
                     url = new URL(spec.substring(0, separator));
-                }
 
-                loadModFromJson(in, new File(url.toURI()));
+                    loadModFromJson(in, new File(url.toURI()));
+                } else if (url.getProtocol().equals("file")) {
+                    loadModFromJson(in, new File(url.toURI()).getParentFile());
+                } else {
+                    throw new RuntimeException("Unsupported protocol: " + url);
+                }
             }
         } catch (IOException | URISyntaxException e) {
             throw new RuntimeException(e);
@@ -108,14 +112,14 @@ public class RiftLoader {
         try {
             // Parse the 'riftmod.json' and make a ModInfo
             ModInfo modInfo = GSON.fromJson(new InputStreamReader(in), ModInfo.class);
-            modInfo.modSource = source;
+            modInfo.source = source;
 
             // Make sure the id isn't null and there aren't any duplicates
             if (modInfo.id == null) {
-                log.error("Mod file " + modInfo.modSource + "'s riftmod.json is missing a 'id' field");
+                log.error("Mod file " + modInfo.source + "'s riftmod.json is missing a 'id' field");
                 return;
             } else if (modInfoMap.containsKey(modInfo.id)) {
-                throw new ModConflictException("Duplicate mod '" + modInfo.id + "': " + modInfoMap.get(modInfo.id).modSource + ", " + modInfo.id);
+                throw new ModConflictException("Duplicate mod '" + modInfo.id + "': " + modInfoMap.get(modInfo.id).source + ", " + modInfo.source);
             }
 
             // Add the mod to the 'id -> mod info' map
@@ -135,7 +139,7 @@ public class RiftLoader {
         // Load all the mod jars
         for (ModInfo modInfo : modInfoMap.values()) {
             try {
-                Launch.classLoader.addURL(modInfo.modSource.toURI().toURL());
+                Launch.classLoader.addURL(modInfo.source.toURI().toURL());
             } catch (MalformedURLException e) {
                 throw new RuntimeException(e);
             }
@@ -213,7 +217,7 @@ public class RiftLoader {
                 T listenerInstance = listenerInterface.cast(listenerInstanceMap.get(listenerClass));
                 if (listenerInstance == null) {
                     try {
-                        listenerInstance = listenerInterface.cast(createInstance(listenerClass));
+                        listenerInstance = listenerInterface.cast(newInstanceOfClass(listenerClass));
                         listenerInstanceMap.castAndPut(listenerClass, listenerInstance);
                     } catch (ReflectiveOperationException e) {
                         throw new RuntimeException("Failed to create listener instance", e);
@@ -230,7 +234,7 @@ public class RiftLoader {
         }
     }
 
-    public <T> T createInstance(Class<T> listenerClass) throws ReflectiveOperationException {
+    public <T> T newInstanceOfClass(Class<T> listenerClass) throws ReflectiveOperationException {
         for (Constructor<?> constructor : listenerClass.getConstructors()) {
             if (constructor.getParameterCount() == 0) {
                 return listenerClass.cast(constructor.newInstance());
