@@ -123,7 +123,8 @@ public class Main {
                 if (profilesJson.exists()) { // TODO: use gson instead
                     String contents = new String(Files.readAllBytes(profilesJson.toPath()));
                     if (contents.contains("\"rift\"")) {
-                        contents = contents.replaceAll("\n *\"rift\": \\{[^{]*},", "");
+                        contents = contents.replaceAll(",\n *\"rift\": \\{[^}]*},", ",");
+                        contents = contents.replaceAll(",?\n *\"rift\": \\{[^}]*},?", "");
                     }
 
                     contents = contents.replace("\n  \"profiles\": {", "\n  \"profiles\": {\n" +

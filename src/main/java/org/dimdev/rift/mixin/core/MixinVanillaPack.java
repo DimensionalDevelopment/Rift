@@ -19,7 +19,8 @@ public class MixinVanillaPack {
     @Shadow public static Path field_199754_a;
 
     /**
-     * @reason Ignore resources that are not in the minecraft jar.
+     * @reason Give priority to resources in the Minecraft jar to avoid them
+     * from being overwritten by mods.
      */
     @Overwrite
     @Nullable
@@ -42,6 +43,9 @@ public class MixinVanillaPack {
             return new URL(root + path).openStream();
         } catch (IOException ignored) {}
 
-        return null;
+        // Realms and Optifine just add resources to the classpath. If no resources were
+        // found in the Minecraft jar, fall back to looking on the classpath. Duplicates
+        // will be handled by the classpath order.
+        return VanillaPack.class.getResourceAsStream("/" + type.func_198956_a() + "/" + location.getNamespace() + "/" + location.getPath());
     }
 }

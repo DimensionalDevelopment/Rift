@@ -69,7 +69,7 @@ public class ModPack extends AbstractResourcePack {
             }
         } catch (NoSuchFileException | FileNotFoundException ignored) {
         } catch (IOException | URISyntaxException e) {
-            LOGGER.error("Couldn't get a list of all mod resources", e);
+            LOGGER.error("Couldn't get a list of all resources of '" + getName() + "'", e);
         }
 
         return resourceLocations;
@@ -95,8 +95,11 @@ public class ModPack extends AbstractResourcePack {
             URI uri = new URL(root + type.func_198956_a() + "/").toURI();
             if ("file".equals(uri.getScheme())) {
                 Set<String> namespaces = new HashSet<>();
-                for (File file : new File(uri).listFiles()) {
-                    namespaces.add(file.getName());
+                File rootFile = new File(uri);
+                if (rootFile.isDirectory()) {
+                    for (File file : rootFile.listFiles()) {
+                        namespaces.add(file.getName());
+                    }
                 }
                 return namespaces;
             } else if ("jar".equals(uri.getScheme())) {
@@ -112,12 +115,12 @@ public class ModPack extends AbstractResourcePack {
             } else {
                 LOGGER.error("Unsupported scheme " + uri + " trying to list mod resource namespaces");
             }
-        } catch (NoSuchFileException | FileNotFoundException ignored) {
+        } catch (NoSuchFileException | FileNotFoundException | NotDirectoryException ignored) {
         } catch (IOException | URISyntaxException e) {
-            LOGGER.error("Couldn't get a list of all mod resources", e);
+            LOGGER.error("Couldn't get a list of resource domains of '" + getName() + "'", e);
         }
 
-        return null;
+        return Collections.emptySet();
     }
 
     @Override

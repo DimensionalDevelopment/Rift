@@ -2,6 +2,7 @@ package org.dimdev.rift.resources;
 
 import net.minecraft.resources.IPackFinder;
 import net.minecraft.resources.ResourcePackInfo;
+import net.minecraft.resources.ResourcePackType;
 import net.minecraft.resources.data.PackMetadataSection;
 import org.dimdev.riftloader.ModInfo;
 import org.dimdev.riftloader.RiftLoader;
@@ -12,10 +13,10 @@ import java.net.URL;
 import java.util.Map;
 
 public class ModPackFinder implements IPackFinder {
-    private final boolean isResourcePack;
+    private final ResourcePackType type;
 
-    public ModPackFinder(boolean isResourcePack) {
-        this.isResourcePack = isResourcePack;
+    public ModPackFinder(ResourcePackType type) {
+        this.type = type;
     }
 
     @Override
@@ -25,8 +26,8 @@ public class ModPackFinder implements IPackFinder {
 
             try (ModPack pack = new ModPack(mod.name != null ? mod.name : mod.id, root)) {
                 PackMetadataSection meta = pack.func_195760_a(PackMetadataSection.field_198964_a);
-                if (meta != null) {
-                    nameToPackMap.put(mod.id, packInfoFactory.create(mod.id, isResourcePack, () -> pack, pack, meta, ResourcePackInfo.Priority.BOTTOM));
+                if (meta != null && !pack.getResourceDomains(type).isEmpty()) {
+                    nameToPackMap.put(mod.id, packInfoFactory.create(mod.id, type == ResourcePackType.CLIENT_RESOURCES, () -> pack, pack, meta, ResourcePackInfo.Priority.TOP));
                 }
             } catch (IOException ignored) {}
         }
