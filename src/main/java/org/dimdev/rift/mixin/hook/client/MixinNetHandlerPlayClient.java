@@ -44,7 +44,7 @@ public class MixinNetHandlerPlayClient {
     @Shadow private NBTQueryManager field_211524_l;
 
     @SuppressWarnings("deprecation")
-    @Inject(method = "handleCustomPayload", at = @At("RETURN"))
+    @Inject(method = "handleCustomPayload", at = @At("HEAD"), cancellable = true)
     private void handleModCustomPayload(SPacketCustomPayload packet, CallbackInfo ci) {
         ResourceLocation channelName = packet.getChannelName();
         PacketBuffer data = packet.getBufferData();
@@ -74,6 +74,7 @@ public class MixinNetHandlerPlayClient {
             } catch (ReflectiveOperationException e) {
                 throw new RuntimeException("Error creating " + messageClass, e);
             }
+            ci.cancel();
         }
     }
 

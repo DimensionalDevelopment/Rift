@@ -1,6 +1,5 @@
 package org.dimdev.riftloader;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import net.minecraft.launchwrapper.Launch;
 import org.apache.logging.log4j.LogManager;
@@ -30,7 +29,6 @@ import java.util.zip.ZipException;
 public class RiftLoader {
     public static final RiftLoader instance = new RiftLoader();
     private static final Logger log = LogManager.getLogger("RiftLoader");
-    private static final Gson GSON = new Gson();
 
     public final File modsDir = new File(Launch.minecraftHome, "mods");
     public final File configDir = new File(Launch.minecraftHome, "config");
@@ -80,7 +78,7 @@ public class RiftLoader {
                     mod.id = "optifine";
                     mod.name = "Optifine";
                     mod.authors.add("sp614x");
-                    mod.listeners.add("org.dimdev.riftloader.OptifineLoader");
+                    mod.listeners.add(new ModInfo.Listener("org.dimdev.riftloader.OptifineLoader"));
                     modInfoMap.put("optifine", mod);
                 }
 
@@ -128,7 +126,7 @@ public class RiftLoader {
     private void loadModFromJson(InputStream in, File source) {
         try {
             // Parse the 'riftmod.json' and make a ModInfo
-            ModInfo modInfo = GSON.fromJson(new InputStreamReader(in), ModInfo.class);
+            ModInfo modInfo = ModInfo.GSON.fromJson(new InputStreamReader(in), ModInfo.class);
             modInfo.source = source;
 
             // Make sure the id isn't null and there aren't any duplicates
@@ -165,13 +163,15 @@ public class RiftLoader {
         // Load the listener classes
         for (ModInfo modInfo : modInfoMap.values()) {
             if (modInfo.listeners != null) {
-                for (String listenerClassName : modInfo.listeners) {
-                    Class<?> listenerClass;
-                    try {
-                        listenerClass = Launch.classLoader.findClass(listenerClassName);
-                        listenerClasses.add(listenerClass);
-                    } catch (ReflectiveOperationException e) {
-                        throw new RuntimeException("Failed to find listener class " + listenerClassName, e);
+                for (ModInfo.Listener listener : modInfo.listeners) {
+                    if (listener.sides.includes(isClient ? ModInfo.Sides.CLIENT : ModInfo.Sides.SERVER)) {
+                        Class<?> listenerClass;
+                        try {
+                            listenerClass = Launch.classLoader.findClass(listener.className);
+                            listenerClasses.add(listenerClass);
+                        } catch (ReflectiveOperationException e) {
+                            throw new RuntimeException("Failed to find listener class " + listener.className, e);
+                        }
                     }
                 }
             }

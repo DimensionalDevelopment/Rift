@@ -26,7 +26,7 @@ public class MixinNetHandlerPlayServer {
     @Shadow @Final public NetworkManager netManager;
 
     @SuppressWarnings("deprecation")
-    @Inject(method = "processCustomPayload", at = @At("RETURN"))
+    @Inject(method = "processCustomPayload", at = @At("HEAD"), cancellable = true)
     private void handleModCustomPayload(CPacketCustomPayload packet, CallbackInfo ci) {
         ResourceLocation channelName = ((RiftCPacketCustomPayload) packet).getChannelName();
         PacketBuffer data = ((RiftCPacketCustomPayload) packet).getData();
@@ -46,6 +46,7 @@ public class MixinNetHandlerPlayServer {
             } catch (ReflectiveOperationException e) {
                 throw new RuntimeException("Error creating " + messageClass, e);
             }
+            ci.cancel();
         }
     }
 }
