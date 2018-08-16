@@ -12,7 +12,7 @@ public class ModInfo {
     public String id;
     public String name;
     public String version;
-    public Map<String, String> dependencies = new HashMap<>();
+    public Map<String, Map.Entry<String, String>> dependencies = new HashMap<>();
     public List<String> authors = new ArrayList<>();
     public List<String> listeners = new ArrayList<>();
 }

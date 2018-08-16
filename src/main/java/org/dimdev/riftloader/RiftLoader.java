@@ -179,19 +179,27 @@ public class RiftLoader {
         // Check dependencies
         for (ModInfo modInfo : modInfoMap.values()) {
             if (modInfo.dependencies != null) {
-                for (String name : modInfo.dependencies.values()) {
-                    if (!modInfoMap.containsKey(name)) {
-                        throw new MissingDependencyException("Mod " + modInfo.source + " is missing dependency " + name + ":" + modInfo.dependencies.get(name));
+                for (String id : modInfo.dependencies.keySet()) {
+                    if (!modInfoMap.containsKey(id)) {
+                        throw new MissingDependencyException("Mod " + modInfo.source + " is missing dependency " + id + ":" + modInfo.dependencies.get(id));
                     }
-                    ModInfo dependency = modInfoMap.get(name);
+                    ModInfo dependency = modInfoMap.get(id);
+                    Semver trueVersion = new Semver(dependency.version, Semver.SemverType.LOOSE);
+                    Map.Entry<String, String> versions = modInfo.dependencies.get(id);
                     try {
-                        Semver neededVersion = new Semver(modInfo.dependencies.get(name), Semver.SemverType.LOOSE);
-                        Semver trueVersion = new Semver(dependency.version, Semver.SemverType.LOOSE);
-                        if (trueVersion.isLowerThan(neededVersion)) {
-                            throw new MissingDependencyException("Mod " + modInfo.source + " has outdated dependency " + name + ": must be at least " + neededVersion);
+                        Semver lowestVersion = new Semver(versions.getKey(), Semver.SemverType.LOOSE);
+
+                        if (trueVersion.isLowerThan(lowestVersion)) {
+                            throw new MissingDependencyException("Mod " + modInfo.source + " has outdated dependency: " + id + " must be at least " + lowestVersion);
+                        }
+                        if (versions.getValue() != null) {
+                            Semver highestVersion = new Semver(versions.getValue(), Semver.SemverType.LOOSE);
+                            if (trueVersion.isGreaterThan(highestVersion)) {
+                                throw new MissingDependencyException("Mod " + modInfo.source + " has misdated dependency: " + id + " must be at most " + highestVersion);
+                            }
                         }
                     } catch (SemverException t) {
-                        throw new MissingDependencyException("Mod " + modInfo.source + " has malformed dependency " + name + ": SemVer error " + t.getMessage());
+                        throw new MissingDependencyException("Mod " + modInfo.source + " has malformed dependency in " + id + ": SemVer error " + t.getMessage());
                     }
 
                 }
