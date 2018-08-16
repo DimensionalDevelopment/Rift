@@ -78,7 +78,7 @@ public class RiftLoader {
                     mod.source = file;
                     mod.id = "optifine";
                     mod.name = "Optifine";
-                    mod.version = "1.13";
+                    mod.version = "1.13-alpha8";
                     mod.authors.add("sp614x");
                     mod.listeners.add("org.dimdev.riftloader.OptifineLoader");
                     modInfoMap.put("optifine", mod);
@@ -131,8 +131,6 @@ public class RiftLoader {
             ModInfo modInfo = GSON.fromJson(new InputStreamReader(in), ModInfo.class);
             modInfo.source = source;
 
-
-
             // Make sure the id isn't null and there aren't any duplicates
             if (modInfo.id == null) {
                 log.error("Mod file " + modInfo.source + "'s riftmod.json is missing a 'id' field");
@@ -143,15 +141,13 @@ public class RiftLoader {
 
             // Make sure the version is proper SemVer
             if (modInfo.version == null) {
-                log.error("Mod file " + modInfo.source + "'s riftmod.json is missing a 'version' field");
-                return;
+                log.warn("Mod file " + modInfo.source + "'s riftmod.json is missing a 'version' field. This may affect dependencies!");
             } else {
                 try {
                     Semver version = new Semver(modInfo.version, Semver.SemverType.LOOSE);
                 } catch (SemverException t) {
-                    log.error("Mod file " + modInfo.source + "'s riftmod.json has a malformed 'version' field");
-                    log.error("SemVer error: " + t.getMessage());
-                    return;
+                    log.warn("Mod file " + modInfo.source + "'s riftmod.json has a malformed 'version' field. This may affect dependencies!");
+                    log.warn("SemVer error: " + t.getMessage());
                 }
             }
 
@@ -169,35 +165,50 @@ public class RiftLoader {
 
     public void initMods() {
         log.info("Initializing mods");
+
+        // Check dependencies
+        for (ModInfo modInfo : modInfoMap.values()) {
+            if (!modInfo.dependencies.isEmpty()) {
+                log.info("Found dependency list for " + modInfo.id);
+                for (Dependency dependency : modInfo.dependencies) {
+                    log.info(dependency.id);
+                    log.info(dependency.minVersion);
+                    log.info(dependency.load);
+                    if (!modInfoMap.containsKey(dependency.id)) {
+                        if (dependency.type.equals("hard")) throw new MissingDependencyException("Mod " + modInfo.source + " is missing hard dependency " + dependency.id + ":" + dependency.minVersion);
+                        else log.error("Mod " + modInfo.source + " is missing soft dependency " + dependency.id + ":" + dependency.minVersion + ". This may impact gameplay!");
+                    }
+                    ModInfo depInfo = modInfoMap.get(dependency.id);
+                    Semver trueVersion = new Semver(depInfo.version, Semver.SemverType.LOOSE);
+                    try {
+                        Semver lowestVersion = new Semver(dependency.minVersion, Semver.SemverType.LOOSE);
+                        if (trueVersion.isLowerThan(lowestVersion)) {
+                            if (dependency.type.equals("hard")) throw new MissingDependencyException("Mod " + modInfo.source + " has outdated hard dependency: " + dependency.id + " must be at least " + lowestVersion);
+                            else log.error("Mod " + modInfo.source + " has outdated soft dependency: " + dependency.id + " must be at least " + lowestVersion);
+                        }
+
+                        if (dependency.maxVersion != null) {
+                            Semver highestVersion = new Semver(dependency.maxVersion, Semver.SemverType.LOOSE);
+                            if (trueVersion.isGreaterThan(highestVersion)) {
+                                if (dependency.type.equals("hard")) throw new MissingDependencyException("Mod " + modInfo.source + " has outdated hard dependency: " + dependency.id + " must be at most " + highestVersion);
+                                else log.error("Mod " + modInfo.source + " has outdated soft dependency: " + dependency.id + " must be at most " + highestVersion);                            }
+                        }
+                    } catch (SemverException t) {
+                        if (dependency.type.equals("hard")) throw new MissingDependencyException("Mod " + modInfo.source + " has malformed hard dependency in " + dependency.id + ": SemVer error " + t.getMessage());
+                        else log.error("Mod " + modInfo.source + " has malformed soft dependency in " + dependency.id + ": SemVer error " + t.getMessage());
+                    }
+                }
+            } else {
+                log.info("Found no dependencies for " + modInfo.id);
+            }
+        }
+
         // Load all the mod jars
         for (ModInfo modInfo : modInfoMap.values()) {
             try {
                 addURLToClasspath(modInfo.source.toURI().toURL());
             } catch (MalformedURLException e) {
                 throw new RuntimeException(e);
-            }
-        }
-
-        // Check dependencies
-        for (ModInfo modInfo : modInfoMap.values()) {
-            if (modInfo.dependencies != null) {
-                for (String id : modInfo.dependencies.keySet()) {
-                    if (!modInfoMap.containsKey(id)) {
-                        throw new MissingDependencyException("Mod " + modInfo.source + " is missing dependency " + id + ":" + modInfo.dependencies.get(id));
-                    }
-                    ModInfo dependency = modInfoMap.get(id);
-                    Semver trueVersion = new Semver(dependency.version, Semver.SemverType.LOOSE);
-                    try {
-                        Semver lowestVersion = new Semver(modInfo.dependencies.get(id), Semver.SemverType.LOOSE);
-
-                        if (trueVersion.isLowerThan(lowestVersion)) {
-                            throw new MissingDependencyException("Mod " + modInfo.source + " has outdated dependency: " + id + " must be at least " + lowestVersion);
-                        }
-                    } catch (SemverException t) {
-                        throw new MissingDependencyException("Mod " + modInfo.source + " has malformed dependency in " + id + ": SemVer error " + t.getMessage());
-                    }
-
-                }
             }
         }
 
