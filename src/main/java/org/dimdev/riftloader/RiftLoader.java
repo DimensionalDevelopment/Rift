@@ -131,6 +131,8 @@ public class RiftLoader {
             ModInfo modInfo = GSON.fromJson(new InputStreamReader(in), ModInfo.class);
             modInfo.source = source;
 
+
+
             // Make sure the id isn't null and there aren't any duplicates
             if (modInfo.id == null) {
                 log.error("Mod file " + modInfo.source + "'s riftmod.json is missing a 'id' field");
@@ -185,18 +187,11 @@ public class RiftLoader {
                     }
                     ModInfo dependency = modInfoMap.get(id);
                     Semver trueVersion = new Semver(dependency.version, Semver.SemverType.LOOSE);
-                    Map.Entry<String, String> versions = modInfo.dependencies.get(id);
                     try {
-                        Semver lowestVersion = new Semver(versions.getKey(), Semver.SemverType.LOOSE);
+                        Semver lowestVersion = new Semver(modInfo.dependencies.get(id), Semver.SemverType.LOOSE);
 
                         if (trueVersion.isLowerThan(lowestVersion)) {
                             throw new MissingDependencyException("Mod " + modInfo.source + " has outdated dependency: " + id + " must be at least " + lowestVersion);
-                        }
-                        if (versions.getValue() != null) {
-                            Semver highestVersion = new Semver(versions.getValue(), Semver.SemverType.LOOSE);
-                            if (trueVersion.isGreaterThan(highestVersion)) {
-                                throw new MissingDependencyException("Mod " + modInfo.source + " has misdated dependency: " + id + " must be at most " + highestVersion);
-                            }
                         }
                     } catch (SemverException t) {
                         throw new MissingDependencyException("Mod " + modInfo.source + " has malformed dependency in " + id + ": SemVer error " + t.getMessage());
