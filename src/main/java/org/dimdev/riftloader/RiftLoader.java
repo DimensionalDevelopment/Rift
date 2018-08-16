@@ -145,7 +145,7 @@ public class RiftLoader {
                 return;
             } else {
                 try {
-                    Semver version = new Semver(modInfo.version);
+                    Semver version = new Semver(modInfo.version, Semver.SemverType.LOOSE);
                 } catch (SemverException t) {
                     log.error("Mod file " + modInfo.source + "'s riftmod.json has a malformed 'version' field");
                     log.error("SemVer error: " + t.getMessage());
@@ -184,11 +184,16 @@ public class RiftLoader {
                         throw new MissingDependencyException("Mod " + modInfo.source + " is missing dependency " + name + ":" + modInfo.dependencies.get(name));
                     }
                     ModInfo dependency = modInfoMap.get(name);
-                    Semver neededVersion = new Semver(modInfo.dependencies.get(name));
-                    Semver trueVersion = new Semver(dependency.version);
-                    if (trueVersion.isLowerThan(neededVersion)) {
-                        throw new MissingDependencyException("Mod " + modInfo.source + " has outdated dependency " + name + ": must be at least " + neededVersion);
+                    try {
+                        Semver neededVersion = new Semver(modInfo.dependencies.get(name), Semver.SemverType.LOOSE);
+                        Semver trueVersion = new Semver(dependency.version, Semver.SemverType.LOOSE);
+                        if (trueVersion.isLowerThan(neededVersion)) {
+                            throw new MissingDependencyException("Mod " + modInfo.source + " has outdated dependency " + name + ": must be at least " + neededVersion);
+                        }
+                    } catch (SemverException t) {
+                        throw new MissingDependencyException("Mod " + modInfo.source + " has malformed dependency " + name + ": SemVer error " + t.getMessage());
                     }
+
                 }
             }
         }
