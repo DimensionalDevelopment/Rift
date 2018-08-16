@@ -15,6 +15,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.network.EnumPacketDirection;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.RegistryNamespaced;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.dimension.EndDimension;
 import org.apache.logging.log4j.LogManager;
@@ -23,6 +24,7 @@ import org.dimdev.rift.listener.*;
 import org.dimdev.rift.listener.client.AmbientMusicTypeProvider;
 import org.dimdev.rift.listener.client.ClientTickable;
 import org.dimdev.rift.listener.client.TextureAdder;
+import org.dimdev.rift.network.Message;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -30,7 +32,7 @@ import java.util.Set;
 
 import static net.minecraft.init.SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP;
 
-public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder, PacketAdder, CommandAdder, ClientTickable, /*AmbientMusicTypeProvider,*/ DimensionTypeAdder {
+public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder, PacketAdder, CommandAdder, ClientTickable, /*AmbientMusicTypeProvider,*/ DimensionTypeAdder, MessageAdder {
     private static final Logger LOGGER = LogManager.getLogger();
     public static final Block WHITE_BLOCK = new Block(Block.Builder.create(Material.ROCK));
     public static final Block TRANSLUCENT_WHITE_BLOCK = new BlockStainedGlass(EnumDyeColor.WHITE, Block.Builder.create(Material.GLASS));
@@ -101,5 +103,10 @@ public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder,
     @Override
     public Set<? extends DimensionType> getDimensionTypes() {
         return Collections.singleton(DimensionTypeAdder.newDimensionType(555, "test_dimension", "_test", EndDimension::new));
+    }
+
+    @Override
+    public void registerMessages(RegistryNamespaced<ResourceLocation, Class<? extends Message>> registry) {
+        registry.putObject(new ResourceLocation("testmod", "test_message"), TestMessage.class);
     }
 }

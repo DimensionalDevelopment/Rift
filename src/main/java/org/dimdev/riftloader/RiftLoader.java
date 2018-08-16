@@ -34,6 +34,7 @@ public class RiftLoader {
 
     public final File modsDir = new File(Launch.minecraftHome, "mods");
     public final File configDir = new File(Launch.minecraftHome, "config");
+    public boolean isClient;
 
     public AccessTransformer accessTransformer;
     private Map<String, ModInfo> modInfoMap = new HashMap<>();
@@ -42,7 +43,9 @@ public class RiftLoader {
     private InstanceListMap listeners = new InstanceListMap();
     private InstanceListMap customListenerInstances = new InstanceListMap();
 
-    public void load() {
+    public void load(boolean isClient) {
+        this.isClient = isClient;
+
         findMods(modsDir);
         sortMods();
         initMods();

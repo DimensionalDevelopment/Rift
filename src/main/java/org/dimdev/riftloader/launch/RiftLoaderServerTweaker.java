@@ -1,7 +1,5 @@
 package org.dimdev.riftloader.launch;
 
-import org.spongepowered.asm.mixin.MixinEnvironment;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +13,8 @@ public class RiftLoaderServerTweaker extends RiftLoaderTweaker {
     }
 
     @Override
-    protected MixinEnvironment.Side getMixinSide() {
-        return MixinEnvironment.Side.SERVER;
+    protected boolean isClient() {
+        return false;
     }
 
     @Override

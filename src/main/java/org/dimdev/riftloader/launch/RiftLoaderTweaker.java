@@ -23,15 +23,15 @@ public abstract class RiftLoaderTweaker implements ITweaker {
         // classes may not be equal, and 'instanceof' may return false when it should be true.
         try {
             Class<?> clazz = Launch.classLoader.findClass("org.dimdev.riftloader.RiftLoader");
-            clazz.getMethod("load").invoke(clazz.getField("instance").get(null));
+            clazz.getMethod("load", boolean.class).invoke(clazz.getField("instance").get(null), isClient());
         } catch (ReflectiveOperationException e) {
             throw new RuntimeException(e);
         }
 
-        MixinEnvironment.getDefaultEnvironment().setSide(getMixinSide());
+        MixinEnvironment.getDefaultEnvironment().setSide(isClient() ? MixinEnvironment.Side.CLIENT : MixinEnvironment.Side.SERVER);
     }
 
-    protected abstract MixinEnvironment.Side getMixinSide();
+    protected abstract boolean isClient();
 
     @Override
     public String[] getLaunchArguments() {

@@ -6,6 +6,7 @@
   ],
   "listeners": [
     "org.dimdev.rift.Rift",
-    "org.dimdev.rift.resources.ResourceManager"
+    "org.dimdev.rift.resources.ResourceManager",
+    "org.dimdev.rift.network.MessageRegistrator"
   ]
 }

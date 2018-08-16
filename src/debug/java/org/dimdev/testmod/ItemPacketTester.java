@@ -21,8 +21,10 @@ public class ItemPacketTester extends Item {
         }
 
         int data = (int) (Math.random() * 1000);
-        log.info("Sending test packet to server: " + data);
+        log.info("Sending test packet and message to server: " + data);
         Minecraft.getMinecraft().getConnection().sendPacket(new CPacketTest(data));
+
+        new TestMessage(data).sendToServer();
 
         return EnumActionResult.SUCCESS;
     }

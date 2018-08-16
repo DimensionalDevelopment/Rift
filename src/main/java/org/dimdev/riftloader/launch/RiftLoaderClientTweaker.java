@@ -21,7 +21,7 @@ public class RiftLoaderClientTweaker extends RiftLoaderTweaker {
     }
 
     @Override
-    protected MixinEnvironment.Side getMixinSide() {
-        return MixinEnvironment.Side.CLIENT;
+    protected boolean isClient() {
+        return true;
     }
 }
