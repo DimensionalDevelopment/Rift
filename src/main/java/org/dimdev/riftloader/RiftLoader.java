@@ -2,6 +2,8 @@ package org.dimdev.riftloader;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
+import com.vdurmont.semver4j.Semver;
+import com.vdurmont.semver4j.SemverException;
 import net.minecraft.launchwrapper.Launch;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -76,6 +78,7 @@ public class RiftLoader {
                     mod.source = file;
                     mod.id = "optifine";
                     mod.name = "Optifine";
+                    mod.version = "1.13";
                     mod.authors.add("sp614x");
                     mod.listeners.add("org.dimdev.riftloader.OptifineLoader");
                     modInfoMap.put("optifine", mod);
@@ -136,6 +139,20 @@ public class RiftLoader {
                 throw new ModConflictException("Duplicate mod '" + modInfo.id + "': " + modInfoMap.get(modInfo.id).source + ", " + modInfo.source);
             }
 
+            // Make sure the version is proper SemVer
+            if (modInfo.version == null) {
+                log.error("Mod file " + modInfo.source + "'s riftmod.json is missing a 'version' field");
+                return;
+            } else {
+                try {
+                    Semver version = new Semver(modInfo.version);
+                } catch (SemverException t) {
+                    log.error("Mod file " + modInfo.source + "'s riftmod.json has a malformed 'version' field");
+                    log.error("SemVer error: " + t.getMessage());
+                    return;
+                }
+            }
+
             // Add the mod to the 'id -> mod info' map
             modInfoMap.put(modInfo.id, modInfo);
             log.info("Loaded mod '" + modInfo.id + "'");
@@ -156,6 +173,23 @@ public class RiftLoader {
                 addURLToClasspath(modInfo.source.toURI().toURL());
             } catch (MalformedURLException e) {
                 throw new RuntimeException(e);
+            }
+        }
+
+        // Check dependencies
+        for (ModInfo modInfo : modInfoMap.values()) {
+            if (modInfo.dependencies != null) {
+                for (String name : modInfo.dependencies.values()) {
+                    if (!modInfoMap.containsKey(name)) {
+                        throw new MissingDependencyException("Mod " + modInfo.source + " is missing dependency " + name + ":" + modInfo.dependencies.get(name));
+                    }
+                    ModInfo dependency = modInfoMap.get(name);
+                    Semver neededVersion = new Semver(modInfo.dependencies.get(name));
+                    Semver trueVersion = new Semver(dependency.version);
+                    if (trueVersion.isLowerThan(neededVersion)) {
+                        throw new MissingDependencyException("Mod " + modInfo.source + " has outdated dependency " + name + ": must be at least " + neededVersion);
+                    }
+                }
             }
         }
 
