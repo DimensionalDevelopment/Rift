@@ -64,7 +64,7 @@ public abstract class WhiteFluid extends FlowingFluid implements RiftFluid {
 
     @Override
     protected void beforeReplacingBlock(IWorld world, BlockPos pos, IBlockState state) {
-        state.spawnItems(world.getWorld(), pos, 0);
+        state.dropBlockAsItem(world.getWorld(), pos, 0);
     }
 
     @Override
@@ -109,7 +109,7 @@ public abstract class WhiteFluid extends FlowingFluid implements RiftFluid {
 
     @Override
     public TextureAtlasSprite getFlowingTexture() {
-        return Minecraft.getMinecraft().getTextureMapBlocks().func_195424_a(new ResourceLocation("testmod", "block/white_fluid_flow"));
+        return Minecraft.getMinecraft().getTextureMapBlocks().getSprite(new ResourceLocation("testmod", "block/white_fluid_flow"));
     }
 
     @Override
@@ -124,12 +124,12 @@ public abstract class WhiteFluid extends FlowingFluid implements RiftFluid {
         @Override
         protected void buildStateContainer(StateContainer.Builder<Fluid, IFluidState> builder) {
             super.buildStateContainer(builder);
-            builder.addProperties(LEVEL);
+            builder.add(LEVEL_1_TO_8);
         }
 
         @Override
         public int getLevel(IFluidState getLevel) {
-            return getLevel.getValue(LEVEL);
+            return getLevel.getValue(LEVEL_1_TO_8);
         }
 
         @Override

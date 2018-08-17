@@ -45,9 +45,9 @@ public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder,
 
     @Override
     public void registerBlocks() {
-        Block.registerBlock(new ResourceLocation("testmod", "white_block"), WHITE_BLOCK);
-        Block.registerBlock(new ResourceLocation("testmod", "translucent_white_block"), TRANSLUCENT_WHITE_BLOCK);
-        Block.registerBlock(new ResourceLocation("testmod", "white_fluid"), BLOCK_WHITE_FLUID);
+        Block.register(new ResourceLocation("testmod", "white_block"), WHITE_BLOCK);
+        Block.register(new ResourceLocation("testmod", "translucent_white_block"), TRANSLUCENT_WHITE_BLOCK);
+        Block.register(new ResourceLocation("testmod", "white_fluid"), BLOCK_WHITE_FLUID);
     }
 
     @Override
@@ -59,8 +59,8 @@ public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder,
 
     @Override
     public void registerFluids() {
-        Fluid.registerFluid(new ResourceLocation("testmod", "white_fluid"), WHITE_FLUID);
-        Fluid.registerFluid(new ResourceLocation("testmod", "flowing_white_fluid"), FLOWING_WHITE_FLUID);
+        Fluid.register(new ResourceLocation("testmod", "white_fluid"), WHITE_FLUID);
+        Fluid.register(new ResourceLocation("testmod", "flowing_white_fluid"), FLOWING_WHITE_FLUID);
     }
 
     @Override

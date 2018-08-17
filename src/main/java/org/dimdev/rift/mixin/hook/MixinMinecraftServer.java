@@ -147,8 +147,8 @@ public abstract class MixinMinecraftServer {
         timeOfLastDimensionTick = new long[worlds.length][100];
 
         getPlayerList().setPlayerManager(worlds);
-        if (worldInfo.func_201357_P() != null) {
-            getCustomBossEvents().func_201381_a(worldInfo.func_201357_P());
+        if (worldInfo.getCustomBossEvents() != null) {
+            getCustomBossEvents().read(worldInfo.getCustomBossEvents());
         }
 
         if (overworld.getWorldInfo().getDifficulty() == null) {

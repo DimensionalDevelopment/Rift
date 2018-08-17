@@ -20,7 +20,7 @@ public class MixinWaterFluid implements RiftFluid {
 
     @Override
     public TextureAtlasSprite getFlowingTexture() {
-        return Minecraft.getMinecraft().getTextureMapBlocks().func_195424_a(ModelBakery.field_207768_f);
+        return Minecraft.getMinecraft().getTextureMapBlocks().getSprite(ModelBakery.LOCATION_WATER_FLOW);
     }
 
     @Override

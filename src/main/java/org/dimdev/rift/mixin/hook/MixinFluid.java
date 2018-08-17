@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Fluid.class)
 public abstract class MixinFluid {
-    @Inject(method = "registerFluids", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/registry/RegistryNamespacedDefaultedByKey;validateKey()V"))
+    @Inject(method = "registerAll", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/registry/RegistryNamespacedDefaultedByKey;validateKey()V"))
     private static void onRegisterFluids(CallbackInfo ci) {
         for (FluidAdder fluidAdder : RiftLoader.instance.getListeners(FluidAdder.class)) {
             fluidAdder.registerFluids();

@@ -22,7 +22,7 @@ def travisBuildNumber = System.getenv('TRAVIS_BUILD_NUMBER')
 def versionSuffix = travisBuildNumber != null ? travisBuildNumber : 'SNAPSHOT'
 
 group 'org.dimdev'
-version '1.0.3-' + versionSuffix
+version '1.0.4-' + versionSuffix
 archivesBaseName = 'Rift'
 
 sourceCompatibility = 1.8
@@ -44,7 +44,7 @@ dependencies {
 
 minecraft {
     version = '1.13'
-    mappings = 'snapshot_5'
+    mappings = 'snapshot_20180817'
     runDir = 'run'
     tweakClass = 'org.dimdev.riftloader.launch.RiftLoaderClientTweaker'
     makeObfSourceJar = false

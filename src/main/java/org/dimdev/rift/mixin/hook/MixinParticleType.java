@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ParticleType.class)
 public abstract class MixinParticleType {
-    @Inject(method = "registerParticleTypes", at = @At("RETURN"))
+    @Inject(method = "registerAll", at = @At("RETURN"))
     private static void onRegisterParticleTypes(CallbackInfo ci) {
         for (ParticleTypeAdder particleTypeAdder : RiftLoader.instance.getListeners(ParticleTypeAdder.class)) {
             particleTypeAdder.registerParticles();

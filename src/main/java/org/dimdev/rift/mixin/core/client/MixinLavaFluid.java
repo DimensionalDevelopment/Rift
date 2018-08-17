@@ -19,7 +19,7 @@ public class MixinLavaFluid implements RiftFluid {
 
     @Override
     public TextureAtlasSprite getFlowingTexture() {
-        return Minecraft.getMinecraft().getTextureMapBlocks().func_195424_a(ModelBakery.field_207766_d);
+        return Minecraft.getMinecraft().getTextureMapBlocks().getSprite(ModelBakery.LOCATION_LAVA_FLOW);
     }
 
     @Override

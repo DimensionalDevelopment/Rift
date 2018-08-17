@@ -35,8 +35,8 @@ public abstract class MixinBlockFluidRenderer {
         boolean isLava = state.isTagged(FluidTags.LAVA);
 
         // Get textures and color multiplier
-        TextureAtlasSprite stillTexture = MissingTextureSprite.func_195677_a();
-        TextureAtlasSprite flowingTexture = MissingTextureSprite.func_195677_a();
+        TextureAtlasSprite stillTexture = MissingTextureSprite.getSprite();
+        TextureAtlasSprite flowingTexture = MissingTextureSprite.getSprite();
         int colorMultiplier = 0xFFFFFF;
         if (state.getFluid() instanceof RiftFluid) {
             RiftFluid fluid = (RiftFluid) state.getFluid();
@@ -83,7 +83,7 @@ public abstract class MixinBlockFluidRenderer {
             var18 -= 0.001F;
             var19 -= 0.001F;
             var20 -= 0.001F;
-            Vec3d var25 = state.func_206887_a(world, pos);
+            Vec3d var25 = state.getFlow(world, pos);
             float var28;
             float var30;
             float var32;
@@ -122,7 +122,7 @@ public abstract class MixinBlockFluidRenderer {
             buffer.pos(x, y + var18, z + 1).color(redMultiplier, greenMultiplier, blueMultiplier, 1).tex(maxU, var30).lightmap(skyLight, blockLight).endVertex();
             buffer.pos(x + 1, y + var19, z + 1).color(redMultiplier, greenMultiplier, blueMultiplier, 1).tex(minV, var32).lightmap(skyLight, blockLight).endVertex();
             buffer.pos(x + 1, y + var20, z).color(redMultiplier, greenMultiplier, blueMultiplier, 1).tex(maxV, var34).lightmap(skyLight, blockLight).endVertex();
-            if (state.func_205586_a(world, pos.up())) {
+            if (state.shouldRenderSides(world, pos.up())) {
                 buffer.pos(x, y + var17, z).color(redMultiplier, greenMultiplier, blueMultiplier, 1).tex(minU, var28).lightmap(skyLight, blockLight).endVertex();
                 buffer.pos(x + 1, y + var20, z).color(redMultiplier, greenMultiplier, blueMultiplier, 1).tex(maxV, var34).lightmap(skyLight, blockLight).endVertex();
                 buffer.pos(x + 1, y + var19, z + 1).color(redMultiplier, greenMultiplier, blueMultiplier, 1).tex(minV, var32).lightmap(skyLight, blockLight).endVertex();

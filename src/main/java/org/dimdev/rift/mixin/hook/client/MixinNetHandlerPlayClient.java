@@ -85,7 +85,7 @@ public class MixinNetHandlerPlayClient {
             return;
         }
 
-        ResourceLocation tileEntityId = TileEntityType.getId(tileEntity.getTileEntityType());
+        ResourceLocation tileEntityId = TileEntityType.getId(tileEntity.getType());
         ResourceLocation packetId = new ResourceLocation(packet.getNbtCompound().getString("id"));
         if (packetId != null && !packetId.getNamespace().equals("minecraft") && packetId.equals(tileEntityId)) {
             tileEntity.readFromNBT(packet.getNbtCompound());

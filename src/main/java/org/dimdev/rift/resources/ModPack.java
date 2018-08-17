@@ -46,7 +46,7 @@ public class ModPack extends AbstractResourcePack {
     @Override
     public Collection<ResourceLocation> getAllResourceLocations(ResourcePackType type, String path, int maxDepth, Predicate<String> filter) {
         Set<ResourceLocation> resourceLocations = new HashSet<>();
-        for (String namespace : getResourceDomains(type)) {
+        for (String namespace : getResourceNamespaces(type)) {
             resourceLocations.addAll(getAllResourceLocations(type, new ResourceLocation(namespace, path), maxDepth, filter));
         }
         return resourceLocations;
@@ -90,7 +90,7 @@ public class ModPack extends AbstractResourcePack {
     }
 
     @Override
-    public Set<String> getResourceDomains(ResourcePackType type) {
+    public Set<String> getResourceNamespaces(ResourcePackType type) {
         try {
             URI uri = new URL(root + type.func_198956_a() + "/").toURI();
             if ("file".equals(uri.getScheme())) {
@@ -117,7 +117,7 @@ public class ModPack extends AbstractResourcePack {
             }
         } catch (NoSuchFileException | FileNotFoundException | NotDirectoryException ignored) {
         } catch (IOException | URISyntaxException e) {
-            LOGGER.error("Couldn't get a list of resource domains of '" + getName() + "'", e);
+            LOGGER.error("Couldn't get a list of resource namespaces of '" + getName() + "'", e);
         }
 
         return Collections.emptySet();
