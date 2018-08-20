@@ -7,6 +7,7 @@ import org.dimdev.utils.ReflectionUtils;
 import java.util.Set;
 import java.util.function.Supplier;
 
+@ListenerInterface
 public interface DimensionTypeAdder {
     static DimensionType newDimensionType(int id, String name, String suffix, Supplier<? extends Dimension> dimensionSupplier) {
         return ReflectionUtils.makeEnumInstance(DimensionType.class, name.toUpperCase(), -1, id, name, suffix, dimensionSupplier);

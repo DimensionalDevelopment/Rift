@@ -4,6 +4,7 @@ import net.minecraft.network.EnumConnectionState;
 import net.minecraft.network.EnumPacketDirection;
 import net.minecraft.network.Packet;
 
+@ListenerInterface
 public interface PacketAdder {
     interface PacketRegistrationReceiver {
         EnumConnectionState registerPacket(EnumPacketDirection direction, Class<? extends Packet<?>> packetClass);

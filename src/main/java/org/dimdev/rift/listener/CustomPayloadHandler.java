@@ -8,6 +8,7 @@ import net.minecraft.util.ResourceLocation;
  */
 @Deprecated
 @SuppressWarnings("DeprecatedIsStillUsed")
+@ListenerInterface
 public interface CustomPayloadHandler {
     boolean clientHandlesChannel(ResourceLocation channelName);
     void clientHandleCustomPayload(ResourceLocation channelName, PacketBuffer bufferData);

@@ -4,6 +4,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.RegistryNamespaced;
 import org.dimdev.rift.network.Message;
 
+@ListenerInterface
 public interface MessageAdder {
     void registerMessages(RegistryNamespaced<ResourceLocation, Class<? extends Message>> registry);
 }

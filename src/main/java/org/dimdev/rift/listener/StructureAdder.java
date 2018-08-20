@@ -4,6 +4,7 @@ import net.minecraft.world.gen.feature.structure.Structure;
 
 import java.util.Map;
 
+@ListenerInterface
 public interface StructureAdder {
     /** Register structure and structure and peice names in {@link net.minecraft.world.gen.feature.structure.StructureIO}.*/
     void registerStructureNames();

@@ -17,6 +17,7 @@ import java.util.function.Supplier;
  *  custom {@link ChunkGeneratorType}s are registered via {@link ChunkGeneratorType#registerChunkGeneratorType(String, IChunkGeneratorFactory, ChunkGeneratorType.Settings, boolean)}<br/>
  *  custom {@link ChunkGeneratorType.Settings} are registered via {@link ChunkGeneratorType.Settings#registerChunkGeneratorSettings(String, Supplier)}
  */
+@ListenerInterface
 public interface ChunkGeneratorReplacer {
 
     /**
