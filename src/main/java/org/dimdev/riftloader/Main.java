@@ -1,12 +1,11 @@
 package org.dimdev.riftloader;
 
 import net.minecraft.launchwrapper.Launch;
+import org.dimdev.utils.ReflectionUtils;
 
 import javax.swing.*;
 import java.io.*;
-import java.lang.reflect.Method;
 import java.net.URL;
-import java.net.URLClassLoader;
 import java.nio.channels.Channels;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -51,10 +50,10 @@ public class Main {
                 new FileOutputStream(serverJar).getChannel().transferFrom(Channels.newChannel(url.openStream()), 0, Long.MAX_VALUE);
             }
 
-            addURLToClasspath(serverJar.toURI().toURL());
+            ReflectionUtils.addURLToClasspath(serverJar.toURI().toURL());
 
             for (String url : LIBRARIES) {
-                addURLToClasspath(getOrDownload(new File("libs"), new URL(url)).toURI().toURL());
+                ReflectionUtils.addURLToClasspath(getOrDownload(new File("libs"), new URL(url)).toURI().toURL());
             }
 
             List<String> argsList = new ArrayList<>(Arrays.asList(args).subList(1, args.length));
@@ -78,12 +77,6 @@ public class Main {
         new FileOutputStream(target).getChannel().transferFrom(Channels.newChannel(url.openStream()), 0, Long.MAX_VALUE);
 
         return target;
-    }
-
-    private static void addURLToClasspath(URL url) throws Exception {
-        Method method = URLClassLoader.class.getDeclaredMethod("addURL", URL.class);
-        method.setAccessible(true);
-        method.invoke(ClassLoader.getSystemClassLoader(), url);
     }
 
     public static void runClientInstaller() {

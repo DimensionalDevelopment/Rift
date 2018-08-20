@@ -13,10 +13,10 @@ public interface Instantiator {
      * Creates an instance of a certain class, or null if the instantiator
      * can't handle it.
      *
-     * @param listenerClass class to instantiate
+     * @param clazz class to instantiate
      * @return an instance of listenerClass, or null to skip this instantiator
      * @throws ReflectiveOperationException if the instantiator can handle this type of class,
      *                                      but an error occured during instantiation
      */
-    <T> T newInstance(Class<T> listenerClass) throws ReflectiveOperationException;
+    <T> T newInstance(Class<T> clazz) throws ReflectiveOperationException;
 }

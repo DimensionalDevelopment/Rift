@@ -9,7 +9,7 @@ import java.util.function.Supplier;
 
 public interface DimensionTypeAdder {
     static DimensionType newDimensionType(int id, String name, String suffix, Supplier<? extends Dimension> dimensionSupplier) {
-        return ReflectionUtils.makeEnumInstance(DimensionType.class, new Object[]{name.toUpperCase(), -1, id, name, suffix, dimensionSupplier});
+        return ReflectionUtils.makeEnumInstance(DimensionType.class, name.toUpperCase(), -1, id, name, suffix, dimensionSupplier);
     }
 
     Set<? extends DimensionType> getDimensionTypes();

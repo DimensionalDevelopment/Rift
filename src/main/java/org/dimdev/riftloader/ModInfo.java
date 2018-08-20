@@ -10,7 +10,7 @@ import java.util.List;
 public class ModInfo {
     public static Gson GSON = new GsonBuilder()
             .registerTypeAdapter(Listener.class, (JsonSerializer<Listener>) (listener, type, context) -> {
-                if (listener.priority == 0 && listener.sides == Sides.BOTH) {
+                if (listener.priority == 0 && listener.side == Side.BOTH) {
                     return new JsonPrimitive(listener.className);
                 }
 
@@ -25,20 +25,10 @@ public class ModInfo {
             })
             .create();
 
-    public enum Sides {
-        @SerializedName("client") CLIENT,
-        @SerializedName("server") SERVER,
-        @SerializedName("both") BOTH;
-
-        public boolean includes(Sides sides) {
-            return this == BOTH || this == sides;
-        }
-    }
-
     public static class Listener {
         @SerializedName("class") public String className;
         public int priority = 0;
-        @SerializedName("side") public Sides sides = Sides.BOTH;
+        public Side side = Side.BOTH;
 
         public Listener(String className) {
             this.className = className;

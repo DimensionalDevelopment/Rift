@@ -10,17 +10,16 @@ import org.dimdev.riftloader.listener.InitializationListener;
 import org.dimdev.riftloader.listener.Instantiator;
 import org.dimdev.utils.InstanceListMap;
 import org.dimdev.utils.InstanceMap;
+import org.dimdev.utils.ReflectionUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -32,17 +31,23 @@ public class RiftLoader {
 
     public final File modsDir = new File(Launch.minecraftHome, "mods");
     public final File configDir = new File(Launch.minecraftHome, "config");
-    public boolean isClient;
+    private Side side;
+    private boolean loaded;
 
     public AccessTransformer accessTransformer;
-    private Map<String, ModInfo> modInfoMap = new HashMap<>();
+    private Map<String, ModInfo> modInfoMap = new LinkedHashMap<>();
     private List<Class<?>> listenerClasses = new ArrayList<>();
     private InstanceMap listenerInstanceMap = new InstanceMap();
     private InstanceListMap listeners = new InstanceListMap();
     private InstanceListMap customListenerInstances = new InstanceListMap();
 
     public void load(boolean isClient) {
-        this.isClient = isClient;
+        if (loaded) {
+            throw new IllegalStateException("Already loaded");
+        }
+        loaded = true;
+
+        side = isClient ? Side.CLIENT : Side.SERVER;
 
         findMods(modsDir);
         sortMods();
@@ -55,7 +60,40 @@ public class RiftLoader {
      * the 'modsDir' directory (creating it if it doesn't exist) and loads them
      * into the 'modInfoMap'.
      **/
-    public void findMods(File modsDir) {
+    private void findMods(File modsDir) {
+        // Load classpath mods
+        log.info("Searching mods on classpath");
+        try {
+            Enumeration<URL> urls = ClassLoader.getSystemResources("riftmod.json");
+            while (urls.hasMoreElements()) {
+                URL url = urls.nextElement();
+                InputStream in = url.openStream();
+
+                // Convert jar utls to file urls (from JarUrlConnection.parseSpecs)
+                switch (url.getProtocol()) {
+                    case "jar":
+                        String spec = url.getFile();
+
+                        int separator = spec.indexOf("!/");
+                        if (separator == -1) {
+                            throw new MalformedURLException("no !/ found in url spec:" + spec);
+                        }
+
+                        url = new URL(spec.substring(0, separator));
+
+                        loadModFromJson(in, new File(url.toURI()));
+                        break;
+                    case "file":
+                        loadModFromJson(in, new File(url.toURI()).getParentFile());
+                        break;
+                    default:
+                        throw new RuntimeException("Unsupported protocol: " + url);
+                }
+            }
+        } catch (IOException | URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+
         // Load jar mods
         log.info("Searching for mods in " + modsDir);
         modsDir.mkdirs();
@@ -90,36 +128,6 @@ public class RiftLoader {
             }
         }
 
-        // Load classpath mods
-        log.info("Searching mods on classpath");
-        try {
-            Enumeration<URL> urls = ClassLoader.getSystemResources("riftmod.json");
-            while (urls.hasMoreElements()) {
-                URL url = urls.nextElement();
-                InputStream in = url.openStream();
-
-                // Convert jar utls to file urls (from JarUrlConnection.parseSpecs)
-                if (url.getProtocol().equals("jar")) {
-                    String spec = url.getFile();
-
-                    int separator = spec.indexOf("!/");
-                    if (separator == -1) {
-                        throw new MalformedURLException("no !/ found in url spec:" + spec);
-                    }
-
-                    url = new URL(spec.substring(0, separator));
-
-                    loadModFromJson(in, new File(url.toURI()));
-                } else if (url.getProtocol().equals("file")) {
-                    loadModFromJson(in, new File(url.toURI()).getParentFile());
-                } else {
-                    throw new RuntimeException("Unsupported protocol: " + url);
-                }
-            }
-        } catch (IOException | URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
-
         log.info("Loaded " + modInfoMap.size() + " mods");
     }
 
@@ -134,7 +142,7 @@ public class RiftLoader {
                 log.error("Mod file " + modInfo.source + "'s riftmod.json is missing a 'id' field");
                 return;
             } else if (modInfoMap.containsKey(modInfo.id)) {
-                throw new ModConflictException("Duplicate mod '" + modInfo.id + "': " + modInfoMap.get(modInfo.id).source + ", " + modInfo.source);
+                throw new DuplicateModException(modInfo, modInfoMap.get(modInfo.id));
             }
 
             // Add the mod to the 'id -> mod info' map
@@ -145,11 +153,11 @@ public class RiftLoader {
         }
     }
 
-    public void sortMods() {
-        log.debug("Sorting mods"); // TODO
+    private void sortMods() {
+        log.debug("Sorting mods");
     }
 
-    public void initMods() {
+    private void initMods() {
         log.info("Initializing mods");
         // Load all the mod jars
         for (ModInfo modInfo : modInfoMap.values()) {
@@ -164,7 +172,7 @@ public class RiftLoader {
         for (ModInfo modInfo : modInfoMap.values()) {
             if (modInfo.listeners != null) {
                 for (ModInfo.Listener listener : modInfo.listeners) {
-                    if (listener.sides.includes(isClient ? ModInfo.Sides.CLIENT : ModInfo.Sides.SERVER)) {
+                    if (listener.side.includes(side)) {
                         Class<?> listenerClass;
                         try {
                             listenerClass = Launch.classLoader.findClass(listener.className);
@@ -185,17 +193,11 @@ public class RiftLoader {
     }
 
     private static void addURLToClasspath(URL url) {
-        try {
-            Method method = URLClassLoader.class.getDeclaredMethod("addURL", URL.class);
-            method.setAccessible(true);
-            method.invoke(ClassLoader.getSystemClassLoader(), url);
-            Launch.classLoader.addURL(url);
-        } catch (ReflectiveOperationException e) {
-            throw new RuntimeException(e);
-        }
+        ReflectionUtils.addURLToClasspath(url);
+        Launch.classLoader.addURL(url);
     }
 
-    public void initAccessTransformer() {
+    private void initAccessTransformer() {
         try {
             AccessTransformationSet transformations = new AccessTransformationSet();
 
@@ -216,12 +218,12 @@ public class RiftLoader {
         }
     }
 
-    public void addMod(ModInfo mod) {
-        modInfoMap.put(mod.id, mod);
-    }
-
     public Collection<ModInfo> getMods() {
         return modInfoMap.values();
+    }
+
+    public Side getSide() {
+        return side;
     }
 
     public <T> List<T> getListeners(Class<T> listenerInterface) {
@@ -245,7 +247,7 @@ public class RiftLoader {
                 T listenerInstance = listenerInterface.cast(listenerInstanceMap.get(listenerClass));
                 if (listenerInstance == null) {
                     try {
-                        listenerInstance = listenerInterface.cast(newInstanceOfClass(listenerClass));
+                        listenerInstance = listenerInterface.cast(newInstance(listenerClass));
                         listenerInstanceMap.castAndPut(listenerClass, listenerInstance);
                     } catch (ReflectiveOperationException e) {
                         throw new RuntimeException("Failed to create listener instance", e);
@@ -262,16 +264,16 @@ public class RiftLoader {
         }
     }
 
-    public <T> T newInstanceOfClass(Class<T> listenerClass) throws ReflectiveOperationException {
-        for (Constructor<?> constructor : listenerClass.getConstructors()) {
+    public <T> T newInstance(Class<T> clazz) throws ReflectiveOperationException {
+        for (Constructor<?> constructor : clazz.getConstructors()) {
             if (constructor.getParameterCount() == 0) {
-                return listenerClass.cast(constructor.newInstance());
+                return clazz.cast(constructor.newInstance());
             }
         }
 
         // No no-args constructor found, ask mod instantiators to build an instance
         for (Instantiator instantiator : getListeners(Instantiator.class)) {
-            T instance = instantiator.newInstance(listenerClass);
+            T instance = instantiator.newInstance(clazz);
             if (instance != null) {
                 return instance;
             }

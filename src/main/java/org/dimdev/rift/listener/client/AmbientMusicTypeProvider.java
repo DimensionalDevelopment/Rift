@@ -8,7 +8,7 @@ import static net.minecraft.client.audio.MusicTicker.MusicType;
 
 public interface AmbientMusicTypeProvider {
     static MusicType newMusicType(String name, SoundEvent sound, int minDelay, int maxDelay) {
-        return ReflectionUtils.makeEnumInstance(MusicType.class, new Object[] {name, -1, sound, minDelay, maxDelay });
+        return ReflectionUtils.makeEnumInstance(MusicType.class, name, -1, sound, minDelay, maxDelay);
     }
 
     MusicType getAmbientMusicType(Minecraft client);
