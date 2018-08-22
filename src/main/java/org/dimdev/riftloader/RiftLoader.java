@@ -11,6 +11,7 @@ import org.dimdev.riftloader.listener.Instantiator;
 import org.dimdev.utils.InstanceListMap;
 import org.dimdev.utils.InstanceMap;
 import org.dimdev.utils.ReflectionUtils;
+import org.spongepowered.asm.launch.MixinBootstrap;
 
 import java.io.File;
 import java.io.IOException;
@@ -184,6 +185,8 @@ public class RiftLoader {
                 }
             }
         }
+
+        MixinBootstrap.init();
 
         for (InitializationListener listener : getListeners(InitializationListener.class)) {
             listener.onInitialization();
