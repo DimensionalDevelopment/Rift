@@ -12,6 +12,7 @@ public interface NBTSerializer<T> {
     /**
      * Writes an object {@code T} to the given compound
      * @param compound The tag compound to be written to
+     * @param instance The instance to be serialized
      * @return The written tag compound
      */
     @Nonnull
@@ -20,10 +21,11 @@ public interface NBTSerializer<T> {
     /**
      * Reads an object {@code T} from the given compound
      * @param compound The tag compound to be read from
+     * @param instance The instance to be de-serialized
      * @return An instance of {@code T}
      */
     @Nonnull
-    T deserialize(@Nonnull NBTTagCompound compound);
+    T deserialize(@Nonnull NBTTagCompound compound, @Nonnull T instance);
 
     /**
      * Writes an object {@code T} to a new tag compound
