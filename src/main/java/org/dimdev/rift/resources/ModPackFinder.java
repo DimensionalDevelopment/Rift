@@ -25,7 +25,7 @@ public class ModPackFinder implements IPackFinder {
             URL root = getRootUrl(mod);
 
             try (ModPack pack = new ModPack(mod.name != null ? mod.name : mod.id, root)) {
-                PackMetadataSection meta = pack.func_195760_a(PackMetadataSection.field_198964_a);
+                PackMetadataSection meta = pack.getMetadata(PackMetadataSection.field_198964_a);
                 if (meta != null && !pack.getResourceNamespaces(type).isEmpty()) {
                     nameToPackMap.put(mod.id, packInfoFactory.create(mod.id, type == ResourcePackType.CLIENT_RESOURCES, () -> pack, pack, meta, ResourcePackInfo.Priority.TOP));
                 }

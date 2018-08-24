@@ -87,7 +87,7 @@ public abstract class MixinMinecraftServer {
 
         func_200245_b(new TextComponentTranslation("menu.loadingLevel"));
 
-        ISaveHandler saveHandler = getActiveAnvilConverter().func_197715_a(saveName, (MinecraftServer) (Object) this);
+        ISaveHandler saveHandler = getActiveAnvilConverter().getSaveLoader(saveName, (MinecraftServer) (Object) this);
         setResourcePackFromWorld(getFolderName(), saveHandler);
         WorldInfo worldInfo = saveHandler.loadWorldInfo();
         WorldSettings worldSettings = getWorldSettings(worldInfo, seed, type, generatorOptions);

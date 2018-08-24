@@ -16,14 +16,14 @@ public class MixinWorldServer {
 
     @SuppressWarnings("ConstantConditions")
     @Redirect(method = "createChunkProvider", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/dimension/Dimension;createChunkGenerator()Lnet/minecraft/world/gen/IChunkGenerator;"))
-    protected <T extends IChunkGenSettings> IChunkGenerator onCreateChunkGenerator(Dimension provider) {
+    protected <T extends IChunkGenSettings> IChunkGenerator onCreateChunkGenerator(Dimension dimension) {
         WorldServer world = (WorldServer) (Object) this;
         WorldType type = world.getWorldInfo().getTerrainType();
         IChunkGenerator<T> generator = null;
         for(ChunkGeneratorReplacer adder : RiftLoader.instance.getListeners(ChunkGeneratorReplacer.class)) {
-            IChunkGenerator<T> value = adder.createChunkGenerator(world, type, provider.getDimensionType().getId());
+            IChunkGenerator<T> value = adder.createChunkGenerator(world, type, dimension.getType().getId());
             if(value != null) generator = value;
         }
-        return generator != null ? generator : provider.createChunkGenerator();
+        return generator != null ? generator : dimension.createChunkGenerator();
     }
 }

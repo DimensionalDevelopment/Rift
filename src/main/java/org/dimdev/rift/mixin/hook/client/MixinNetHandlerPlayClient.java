@@ -55,7 +55,7 @@ public class MixinNetHandlerPlayClient {
             }
         }
 
-        Class<? extends Message> messageClass = Message.REGISTRY.getObject(channelName);
+        Class<? extends Message> messageClass = Message.REGISTRY.get(channelName);
         if (messageClass != null) {
             try {
                 Message message = RiftLoader.instance.newInstance(messageClass);
