@@ -44,7 +44,7 @@ public abstract class MixinMinecraftServer {
     @Shadow public abstract ISaveFormat getActiveAnvilConverter();
     @Shadow public abstract void setResourcePackFromWorld(String p_setResourcePackFromWorld_1_, ISaveHandler p_setResourcePackFromWorld_2_);
     @Shadow public abstract String getFolderName();
-    @Shadow protected abstract void func_200245_b(ITextComponent p_200245_1_);
+    @Shadow protected abstract void setUserMessage(ITextComponent p_200245_1_);
     @Shadow public abstract GameType getGameType();
     @Shadow public abstract boolean canStructuresSpawn();
     @Shadow public abstract boolean isHardcore();
@@ -85,7 +85,7 @@ public abstract class MixinMinecraftServer {
     public void loadAllWorlds(String saveName, String worldName, long seed, WorldType type, JsonElement generatorOptions) {
         convertMapIfNeeded(saveName);
 
-        func_200245_b(new TextComponentTranslation("menu.loadingLevel"));
+        setUserMessage(new TextComponentTranslation("menu.loadingLevel"));
 
         ISaveHandler saveHandler = getActiveAnvilConverter().getSaveLoader(saveName, (MinecraftServer) (Object) this);
         setResourcePackFromWorld(getFolderName(), saveHandler);

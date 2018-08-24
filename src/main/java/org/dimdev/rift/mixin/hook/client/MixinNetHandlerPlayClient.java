@@ -38,10 +38,10 @@ public class MixinNetHandlerPlayClient {
     @Shadow @Final private RecipeManager recipeManager;
     @Shadow @Final private ClientAdvancementManager advancementManager;
     @Shadow @Final private NetworkManager netManager;
-    @Shadow private CommandDispatcher<ISuggestionProvider> field_195517_n;
-    @Shadow @Final private ClientSuggestionProvider field_195516_l;
-    @Shadow private NetworkTagManager field_199725_m;
-    @Shadow private NBTQueryManager field_211524_l;
+    @Shadow private CommandDispatcher<ISuggestionProvider> commandDispatcher;
+    @Shadow @Final private ClientSuggestionProvider clientSuggestionProvider;
+    @Shadow private NetworkTagManager networkTagManager;
+    @Shadow private NBTQueryManager nbtQueryManager;
 
     @SuppressWarnings("deprecation")
     @Inject(method = "handleCustomPayload", at = @At("HEAD"), cancellable = true)
@@ -66,10 +66,10 @@ public class MixinNetHandlerPlayClient {
                         netManager,
                         recipeManager,
                         advancementManager,
-                        field_195517_n, // commandDispatcher
-                        field_195516_l, // clientSuggestionProvider
-                        field_199725_m, // networkTagManager
-                        field_211524_l // nbtQueryManager
+                        commandDispatcher,
+                        clientSuggestionProvider,
+                        networkTagManager,
+                        nbtQueryManager
                 ));
             } catch (ReflectiveOperationException e) {
                 throw new RuntimeException("Error creating " + messageClass, e);

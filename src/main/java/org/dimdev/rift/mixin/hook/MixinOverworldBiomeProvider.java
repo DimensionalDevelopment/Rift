@@ -18,15 +18,15 @@ import java.util.List;
 
 @Mixin(OverworldBiomeProvider.class)
 public abstract class MixinOverworldBiomeProvider {
-    @Shadow @Final @Mutable private Biome[] field_205007_e;
+    @Shadow @Final @Mutable private Biome[] biomes;
 
     @Inject(method = "<init>", at = @At("RETURN"))
     private void onInit(CallbackInfo ci) {
-        List<Biome> biomes = new ArrayList<>(Arrays.asList(field_205007_e));
+        List<Biome> biomes = new ArrayList<>(Arrays.asList(this.biomes));
         for (BiomeAdder biomeAdder : RiftLoader.instance.getListeners(BiomeAdder.class)) {
             biomes.addAll(biomeAdder.getOverworldBiomes());
         }
 
-        field_205007_e = biomes.toArray(new Biome[0]);
+        this.biomes = biomes.toArray(new Biome[0]);
     }
 }
