@@ -34,7 +34,7 @@ public abstract class Message {
     }
 
     public final Packet<? extends INetHandler> toPacket(EnumPacketDirection direction) {
-        ResourceLocation id = Message.REGISTRY.getNameForObject(getClass());
+        ResourceLocation id = Message.REGISTRY.getKey(getClass());
         if (id == null) {
             throw new IllegalArgumentException("Message was not registered: " + this);
         }

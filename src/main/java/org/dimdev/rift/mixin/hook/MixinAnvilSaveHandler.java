@@ -21,9 +21,9 @@ public class MixinAnvilSaveHandler extends SaveHandler {
 
     @Overwrite
     @Override
-    public IChunkLoader getChunkLoader(Dimension provider) {
+    public IChunkLoader getChunkLoader(Dimension dimension) {
         File worldDirectory = getWorldDirectory();
-        int dimensionId = provider.getDimensionType().getId();
+        int dimensionId = dimension.getType().getId();
         if (dimensionId == 0) {
             return new AnvilChunkLoader(worldDirectory, dataFixer);
         } else {

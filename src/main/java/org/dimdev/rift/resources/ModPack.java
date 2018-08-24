@@ -30,13 +30,13 @@ public class ModPack extends AbstractResourcePack {
     }
 
     @Override
-    protected InputStream func_195766_a(String path) throws IOException {
+    protected InputStream getInputStream(String path) throws IOException {
         return new URL(root + path).openStream();
     }
 
     @Override
-    protected boolean func_195768_c(String path) {
-        try (InputStream ignored = func_195766_a(path)) {
+    protected boolean resourceExists(String path) {
+        try (InputStream ignored = getInputStream(path)) {
             return true;
         } catch (IOException e) {
             return false;
@@ -56,7 +56,7 @@ public class ModPack extends AbstractResourcePack {
         Set<ResourceLocation> resourceLocations = new HashSet<>();
 
         try {
-            String path = String.format("%s/%s/%s", type.func_198956_a(), location.getNamespace(), location.getPath());
+            String path = String.format("%s/%s/%s", type.getDirectoryName(), location.getNamespace(), location.getPath());
             URI url = new URL(root + path).toURI();
             if ("file".equals(url.getScheme())) {
                 resourceLocations.addAll(getAllResourceLocations(maxDepth, location, Paths.get(url), filter));
@@ -92,7 +92,7 @@ public class ModPack extends AbstractResourcePack {
     @Override
     public Set<String> getResourceNamespaces(ResourcePackType type) {
         try {
-            URI uri = new URL(root + type.func_198956_a() + "/").toURI();
+            URI uri = new URL(root + type.getDirectoryName() + "/").toURI();
             if ("file".equals(uri.getScheme())) {
                 Set<String> namespaces = new HashSet<>();
                 File rootFile = new File(uri);
@@ -104,7 +104,7 @@ public class ModPack extends AbstractResourcePack {
                 return namespaces;
             } else if ("jar".equals(uri.getScheme())) {
                 try (FileSystem fileSystem = FileSystems.newFileSystem(uri, Collections.emptyMap());
-                     DirectoryStream<Path> directoryStream = fileSystem.provider().newDirectoryStream(fileSystem.getPath(type.func_198956_a()), x -> true)) {
+                     DirectoryStream<Path> directoryStream = fileSystem.provider().newDirectoryStream(fileSystem.getPath(type.getDirectoryName()), x -> true)) {
                     Set<String> namespaces = new HashSet<>();
                     for (Path p : directoryStream) {
                         String fileName = p.getFileName().toString();

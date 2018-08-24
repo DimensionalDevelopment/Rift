@@ -35,7 +35,7 @@ public abstract class MixinTileEntityType {
         }
 
         TileEntityType<T> tileEntityType = builder.build(dataFixerType);
-        REGISTRY.putObject(new ResourceLocation(id), tileEntityType);
+        REGISTRY.put(new ResourceLocation(id), tileEntityType);
         return tileEntityType;
     }
 

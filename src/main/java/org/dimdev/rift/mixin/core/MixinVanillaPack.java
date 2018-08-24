@@ -25,7 +25,7 @@ public class MixinVanillaPack {
     @Overwrite
     @Nullable
     protected InputStream func_195782_c(ResourcePackType type, ResourceLocation location) {
-        String pathString = type.func_198956_a() + "/" + location.getNamespace() + "/" + location.getPath();
+        String pathString = type.getDirectoryName() + "/" + location.getNamespace() + "/" + location.getPath();
 
         if (field_199754_a != null) {
             Path path = field_199754_a.resolve(pathString);
@@ -37,7 +37,7 @@ public class MixinVanillaPack {
         }
 
         try {
-            URL rootMarker = VanillaPack.class.getResource("/" + type.func_198956_a() + "/.mcassetsroot");
+            URL rootMarker = VanillaPack.class.getResource("/" + type.getDirectoryName() + "/.mcassetsroot");
             String root = rootMarker.toString().substring(0, rootMarker.toString().length() - ".mcassetsroot".length());
             String path = location.getNamespace() + "/" + location.getPath();
             return new URL(root + path).openStream();
@@ -46,6 +46,6 @@ public class MixinVanillaPack {
         // Realms and Optifine just add resources to the classpath. If no resources were
         // found in the Minecraft jar, fall back to looking on the classpath. Duplicates
         // will be handled by the classpath order.
-        return VanillaPack.class.getResourceAsStream("/" + type.func_198956_a() + "/" + location.getNamespace() + "/" + location.getPath());
+        return VanillaPack.class.getResourceAsStream("/" + type.getDirectoryName() + "/" + location.getNamespace() + "/" + location.getPath());
     }
 }
