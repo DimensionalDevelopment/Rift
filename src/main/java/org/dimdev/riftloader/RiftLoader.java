@@ -243,6 +243,13 @@ public class RiftLoader {
 
         for (Class<?> listenerClass : listenerClasses) {
             if (listenerInterface.isAssignableFrom(listenerClass)) {
+                // Initialize the class first, in case it wants to add itself to the listenerInstanceMap
+                try {
+                    Class.forName(listenerClass.getName(), true, listenerClass.getClassLoader());
+                } catch (ClassNotFoundException e) {
+                    throw new IllegalStateException(e);
+                }
+
                 // Get the instance of that class, or create a new one if it wasn't instantiated yet
                 T listenerInstance = listenerInterface.cast(listenerInstanceMap.get(listenerClass));
                 if (listenerInstance == null) {

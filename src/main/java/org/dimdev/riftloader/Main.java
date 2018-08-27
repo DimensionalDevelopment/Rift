@@ -138,7 +138,7 @@ public class Main {
             // Copy rift jar to libraries
             try {
                 String source = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-                if (source.startsWith("/")) {
+                if (source.startsWith("/") && osName.contains("win")) {
                     source = source.substring(1);
                 }
                 File riftJar = new File(minecraftFolder, "libraries/org/dimdev/rift/@VERSION@/rift-@VERSION@.jar");
