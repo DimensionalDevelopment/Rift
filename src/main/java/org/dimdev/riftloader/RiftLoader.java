@@ -42,6 +42,8 @@ public class RiftLoader {
     private InstanceListMap customListenerInstances = new InstanceListMap();
 
     public void load(boolean isClient) {
+        if (RiftLoader.instance.getSide() == Side.SERVER)
+
         if (loaded) {
             throw new IllegalStateException("Already loaded");
         }

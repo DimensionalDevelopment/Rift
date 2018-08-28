@@ -34,7 +34,10 @@
     "MixinDimensionType",
     "MixinStructureIO",
     "MixinFeature",
-    "MixinChunk"
+    "MixinChunk",
+    "MixinRecipeManager",
+    "MixinRecipeSerializers",
+    "MixinArgumentTypes"
   ],
   "client": [
     "client.MixinMinecraft",
