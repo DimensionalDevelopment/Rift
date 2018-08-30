@@ -68,9 +68,9 @@ mixin {
 }
 
 sourceSets {
-    main
     debug {
-        compileClasspath += main.compileClasspath
+        compileClasspath += main.compileClasspath + main.output
+        runtimeClasspath += main.runtimeClasspath
     }
 }
 
