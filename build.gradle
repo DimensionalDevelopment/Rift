@@ -30,9 +30,18 @@ targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
-    maven { url 'https://libraries.minecraft.net/' }
-    maven { url 'https://www.dimdev.org/maven/' }
-    maven { url = 'https://repo.spongepowered.org/maven/' }
+    maven {
+        name = "Minecraft"
+        url = "https://libraries.minecraft.net/"
+    }
+    maven {
+        name = "Dimensional Development"
+        url = "https://www.dimdev.org/maven/"
+    }
+    maven {
+        name = "Sponge"
+        url = "https://repo.spongepowered.org/maven/"
+    }
 }
 
 dependencies {
