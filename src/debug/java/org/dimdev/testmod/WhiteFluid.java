@@ -109,7 +109,7 @@ public abstract class WhiteFluid extends FlowingFluid implements RiftFluid {
 
     @Override
     public TextureAtlasSprite getFlowingTexture() {
-        return Minecraft.getMinecraft().getTextureMapBlocks().getSprite(new ResourceLocation("testmod", "block/white_fluid_flow"));
+        return Minecraft.getMinecraft().getTextureMapBlocks().getSprite(new ResourceLocation(TestMod.MODID, "block/white_fluid_flow"));
     }
 
     @Override
@@ -122,8 +122,12 @@ public abstract class WhiteFluid extends FlowingFluid implements RiftFluid {
         public Flowing() {}
 
         @Override
-        protected void buildStateContainer(StateContainer.Builder<Fluid, IFluidState> builder) {
-            super.buildStateContainer(builder);
+        public StateContainer<Fluid, IFluidState> getStateContainer() {
+            return super.getStateContainer();
+        }
+
+        @Override
+        protected void fillStateContainer(StateContainer.Builder<Fluid, IFluidState> builder) {
             builder.add(LEVEL_1_TO_8);
         }
 
