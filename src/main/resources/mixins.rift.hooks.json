@@ -37,7 +37,8 @@
     "MixinChunk",
     "MixinRecipeManager",
     "MixinRecipeSerializers",
-    "MixinArgumentTypes"
+    "MixinArgumentTypes",
+    "MixinItemTool"
   ],
   "client": [
     "client.MixinMinecraft",
