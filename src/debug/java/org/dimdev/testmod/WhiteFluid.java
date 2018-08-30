@@ -122,11 +122,6 @@ public abstract class WhiteFluid extends FlowingFluid implements RiftFluid {
         public Flowing() {}
 
         @Override
-        public StateContainer<Fluid, IFluidState> getStateContainer() {
-            return super.getStateContainer();
-        }
-
-        @Override
         protected void fillStateContainer(StateContainer.Builder<Fluid, IFluidState> builder) {
             builder.add(LEVEL_1_TO_8);
         }
