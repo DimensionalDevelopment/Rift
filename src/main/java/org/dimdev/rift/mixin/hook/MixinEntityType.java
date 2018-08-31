@@ -9,6 +9,7 @@ import net.minecraft.util.datafix.TypeReferences;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.dimdev.rift.entity.EntityTrackerRegistry;
 import org.dimdev.rift.listener.EntityTypeAdder;
 import org.dimdev.riftloader.RiftLoader;
 import org.spongepowered.asm.mixin.Final;
@@ -24,6 +25,7 @@ public abstract class MixinEntityType {
         for (EntityTypeAdder entityTypeAdder : RiftLoader.instance.getListeners(EntityTypeAdder.class)) {
             entityTypeAdder.registerEntityTypes();
         }
+        EntityTrackerRegistry.buildTrackerInfo();
     }
 
     @Mixin(EntityType.Builder.class)

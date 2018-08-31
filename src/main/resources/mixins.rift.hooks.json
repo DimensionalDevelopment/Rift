@@ -16,6 +16,8 @@
     "MixinCPacketCustomPayload",
     "MixinDimensionType",
     "MixinEnchantment",
+    "MixinEntityTracker",
+    "MixinEntityTrackerEntry",
     "MixinEntityType",
     "MixinEntityType$Builder",
     "MixinEnumConnectionState",

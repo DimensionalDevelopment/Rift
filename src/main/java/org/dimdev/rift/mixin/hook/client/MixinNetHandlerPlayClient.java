@@ -31,17 +31,32 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(NetHandlerPlayClient.class)
 public class MixinNetHandlerPlayClient {
-    @Shadow private WorldClient world;
 
-    @Shadow @Final private GameProfile profile;
-    @Shadow private Minecraft client;
-    @Shadow @Final private RecipeManager recipeManager;
-    @Shadow @Final private ClientAdvancementManager advancementManager;
-    @Shadow @Final private NetworkManager netManager;
-    @Shadow private CommandDispatcher<ISuggestionProvider> commandDispatcher;
-    @Shadow @Final private ClientSuggestionProvider clientSuggestionProvider;
-    @Shadow private NetworkTagManager networkTagManager;
-    @Shadow private NBTQueryManager nbtQueryManager;
+    @Shadow
+    private WorldClient world;
+    @Shadow
+    @Final
+    private GameProfile profile;
+    @Shadow
+    private Minecraft client;
+    @Shadow
+    @Final
+    private RecipeManager recipeManager;
+    @Shadow
+    @Final
+    private ClientAdvancementManager advancementManager;
+    @Shadow
+    @Final
+    private NetworkManager netManager;
+    @Shadow
+    private CommandDispatcher<ISuggestionProvider> commandDispatcher;
+    @Shadow
+    @Final
+    private ClientSuggestionProvider clientSuggestionProvider;
+    @Shadow
+    private NetworkTagManager networkTagManager;
+    @Shadow
+    private NBTQueryManager nbtQueryManager;
 
     @SuppressWarnings("deprecation")
     @Inject(method = "handleCustomPayload", at = @At("HEAD"), cancellable = true)
@@ -49,14 +64,14 @@ public class MixinNetHandlerPlayClient {
         ResourceLocation channelName = packet.getChannelName();
         PacketBuffer data = packet.getBufferData();
 
-        for (CustomPayloadHandler customPayloadHandler : RiftLoader.instance.getListeners(CustomPayloadHandler.class)) {
-            if (customPayloadHandler.clientHandlesChannel(channelName)) {
+        for(CustomPayloadHandler customPayloadHandler : RiftLoader.instance.getListeners(CustomPayloadHandler.class)) {
+            if(customPayloadHandler.clientHandlesChannel(channelName)) {
                 customPayloadHandler.clientHandleCustomPayload(channelName, data);
             }
         }
 
         Class<? extends Message> messageClass = Message.REGISTRY.get(channelName);
-        if (messageClass != null) {
+        if(messageClass != null) {
             try {
                 Message message = RiftLoader.instance.newInstance(messageClass);
                 message.read(data);
@@ -71,7 +86,7 @@ public class MixinNetHandlerPlayClient {
                         networkTagManager,
                         nbtQueryManager
                 ));
-            } catch (ReflectiveOperationException e) {
+            } catch(ReflectiveOperationException e) {
                 throw new RuntimeException("Error creating " + messageClass, e);
             }
             ci.cancel();
@@ -81,13 +96,13 @@ public class MixinNetHandlerPlayClient {
     @Inject(method = "handleUpdateTileEntity", at = @At("RETURN"))
     private void handleUpdateModTileEntity(SPacketUpdateTileEntity packet, CallbackInfo ci) {
         TileEntity tileEntity = world.getTileEntity(packet.getPos());
-        if (tileEntity == null || packet.getNbtCompound() == null || !packet.getNbtCompound().hasKey("id", 8)) {
+        if(tileEntity == null || packet.getNbtCompound() == null || !packet.getNbtCompound().hasKey("id", 8)) {
             return;
         }
 
         ResourceLocation tileEntityId = TileEntityType.getId(tileEntity.getType());
         ResourceLocation packetId = new ResourceLocation(packet.getNbtCompound().getString("id"));
-        if (packetId != null && !packetId.getNamespace().equals("minecraft") && packetId.equals(tileEntityId)) {
+        if(!packetId.getNamespace().equals("minecraft") && packetId.equals(tileEntityId)) {
             tileEntity.readFromNBT(packet.getNbtCompound());
         }
     }
