@@ -27,6 +27,11 @@ import java.util.zip.ZipException;
 
 public class RiftLoader {
     public static final RiftLoader instance = new RiftLoader();
+
+    public static Logger getLogger() {
+        return log;
+    }
+
     private static final Logger log = LogManager.getLogger("RiftLoader");
 
     public final File modsDir = new File(Launch.minecraftHome, "mods");
