@@ -36,6 +36,7 @@ import org.dimdev.testmod.item.ItemGrenade;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Map;
 import java.util.Set;
 
 import static net.minecraft.init.SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP;
@@ -133,5 +134,6 @@ public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder,
     @Override
     public void addEntityTrackerInfo(Map<EntityType, EntityTrackerInfo> entityTrackers) {
         entityTrackers.put(ENTITY_TYPE_GRENADE, new EntityTrackerInfo(64, 20, true));
+        entityTrackers.put(EntityType.ARROW, new EntityTrackerInfo(128, 20, false)); //test substitution of vanilla trackers
     }
 }
