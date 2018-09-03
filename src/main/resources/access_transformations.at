@@ -31,3 +31,4 @@ public class bms$a # net.minecraft.world.gen.ChunkGeneratorType$Settings
 public class bmu # net.minecraft.world.chunk.ChunkStatus
 public method bwp b (Ljava/lang/Class;Ljava/lang/String;)V registerStructure # net.minecraft.world.gen.feature.structure.StructureIO/registerStructure
 public method bwp a (Ljava/lang/Class;Ljava/lang/String;)V # net.minecraft.world.gen.feature.structure.StructureIO/registerStructure
+public field aqz g [I # net.minecraft.item.ArmorMaterial/MAX_DAMAGE_ARRAY

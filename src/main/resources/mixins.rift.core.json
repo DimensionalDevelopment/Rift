@@ -11,6 +11,7 @@
   ],
   "client": [
     "client.MixinClientBrandRetriever",
+    "client.MixinLayerArmorBase",
     "client.MixinBlockFluidRenderer",
     "client.MixinWaterFluid",
     "client.MixinLavaFluid"
