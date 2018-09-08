@@ -49,7 +49,7 @@ public class ItemTierImpl implements IItemTier {
     }
 
     @Override
-    public Ingredient func_200924_f() {
+    public Ingredient getRepairMaterial() {
         return ingredient.getValue();
     }
 }

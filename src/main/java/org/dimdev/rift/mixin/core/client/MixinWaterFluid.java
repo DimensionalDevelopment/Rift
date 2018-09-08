@@ -15,16 +15,16 @@ import org.spongepowered.asm.mixin.Mixin;
 public class MixinWaterFluid implements RiftFluid {
     @Override
     public TextureAtlasSprite getStillTexture() {
-        return Minecraft.getMinecraft().getModelManager().getBlockModelShapes().getModelForState(Blocks.WATER.getDefaultState()).getParticleTexture();
+        return Minecraft.getInstance().getModelManager().getBlockModelShapes().getModel(Blocks.WATER.getDefaultState()).getParticleTexture();
     }
 
     @Override
     public TextureAtlasSprite getFlowingTexture() {
-        return Minecraft.getMinecraft().getTextureMapBlocks().getSprite(ModelBakery.LOCATION_WATER_FLOW);
+        return Minecraft.getInstance().getTextureMap().getSprite(ModelBakery.LOCATION_WATER_FLOW);
     }
 
     @Override
     public int getColorMultiplier(IWorldReader world, BlockPos pos) {
-        return BiomeColorHelper.getWaterColorAtPos(world, pos);
+        return BiomeColorHelper.getWaterColor(world, pos);
     }
 }
