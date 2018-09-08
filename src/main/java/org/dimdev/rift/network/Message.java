@@ -88,6 +88,6 @@ public abstract class Message {
     }
 
     public void sendToServer() {
-        Minecraft.getMinecraft().player.connection.sendPacket(toPacket(EnumPacketDirection.SERVERBOUND));
+        Minecraft.getInstance().player.connection.sendPacket(toPacket(EnumPacketDirection.SERVERBOUND));
     }
 }

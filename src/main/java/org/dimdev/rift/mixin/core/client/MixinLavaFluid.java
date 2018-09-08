@@ -14,12 +14,12 @@ import org.spongepowered.asm.mixin.Mixin;
 public class MixinLavaFluid implements RiftFluid {
     @Override
     public TextureAtlasSprite getStillTexture() {
-        return Minecraft.getMinecraft().getModelManager().getBlockModelShapes().getModelForState(Blocks.LAVA.getDefaultState()).getParticleTexture();
+        return Minecraft.getInstance().getModelManager().getBlockModelShapes().getModel(Blocks.LAVA.getDefaultState()).getParticleTexture();
     }
 
     @Override
     public TextureAtlasSprite getFlowingTexture() {
-        return Minecraft.getMinecraft().getTextureMapBlocks().getSprite(ModelBakery.LOCATION_LAVA_FLOW);
+        return Minecraft.getInstance().getTextureMap().getSprite(ModelBakery.LOCATION_LAVA_FLOW);
     }
 
     @Override

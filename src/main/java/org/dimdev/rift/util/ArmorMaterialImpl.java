@@ -29,13 +29,13 @@ public class ArmorMaterialImpl implements IArmorMaterial {
     }
 
     @Override
-    public int func_200896_a(EntityEquipmentSlot slot) {
+    public int getDurability(EntityEquipmentSlot slot) {
         return ArmorMaterial.MAX_DAMAGE_ARRAY[slot.getIndex()] * maxDamageFactor;
     }
 
     @Override
-    public int func_200902_b(EntityEquipmentSlot p_200902_1_) {
-        return damageReductionAmountArray[p_200902_1_.getIndex()];
+    public int getDamageReductionAmount(EntityEquipmentSlot slot) {
+        return damageReductionAmountArray[slot.getIndex()];
     }
 
     @Override
@@ -49,7 +49,7 @@ public class ArmorMaterialImpl implements IArmorMaterial {
     }
 
     @Override
-    public Ingredient func_200898_c() {
+    public Ingredient getRepairMaterial() {
         return ingredient.getValue();
     }
 
