@@ -49,18 +49,16 @@ public class RiftLoader {
 
         side = isClient ? Side.CLIENT : Side.SERVER;
 
-        findMods(modsDir);
+        findMods();
         sortMods();
         initMods();
         initAccessTransformer();
     }
 
     /**
-     * Looks for Rift mods (jars containing a 'riftmod.json' at their root) in
-     * the 'modsDir' directory (creating it if it doesn't exist) and loads them
-     * into the 'modInfoMap'.
+     * Looks for Rift mods on the classpath and loads them into the 'modInfoMap'.
      **/
-    private void findMods(File modsDir) {
+    private void findModsOnClasspath() {
         // Load classpath mods
         log.info("Searching mods on classpath");
         try {
@@ -93,7 +91,14 @@ public class RiftLoader {
         } catch (IOException | URISyntaxException e) {
             throw new RuntimeException(e);
         }
+    }
 
+    /**
+     * Looks for Rift mods (jars containing a 'riftmod.json' at their root) in
+     * the 'modsDir' directory (creating it if it doesn't exist) and loads them
+     * into the 'modInfoMap'.
+     **/
+    private void findModsInDir(File modsDir) {
         // Load jar mods
         log.info("Searching for mods in " + modsDir);
         modsDir.mkdirs();
@@ -127,7 +132,12 @@ public class RiftLoader {
                 log.error("Exception while checking if file " + file + " is a mod", t);
             }
         }
+    }
 
+    private void findMods() {
+        findModsOnClasspath();
+        findModsInDir(modsDir);
+        findModsInDir(new File(modsDir, "1.13"));
         log.info("Loaded " + modInfoMap.size() + " mods");
     }
 
