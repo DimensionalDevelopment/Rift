@@ -37,6 +37,10 @@ public class MixinNetHandlerPlayServer {
             }
         }
 
+        if(Message.REGISTRY.isEmpty()){
+            return;
+        }
+
         Class<? extends Message> messageClass = Message.REGISTRY.get(channelName);
         if (messageClass != null) {
             try {

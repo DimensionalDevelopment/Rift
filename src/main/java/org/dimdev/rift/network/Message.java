@@ -13,13 +13,14 @@ import net.minecraft.network.play.client.CPacketCustomPayload;
 import net.minecraft.network.play.server.SPacketCustomPayload;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.IRegistry;
 import net.minecraft.util.registry.RegistryNamespaced;
 import net.minecraft.world.WorldServer;
 
 import java.util.function.Predicate;
 
 public abstract class Message {
-    public static final RegistryNamespaced<Class<? extends Message>> REGISTRY = new RegistryNamespaced<>();
+    public static final IRegistry<Class<? extends Message>> REGISTRY = IRegistry.func_212610_a("message", new RegistryNamespaced());
 
     public abstract void write(PacketBuffer buffer);
 

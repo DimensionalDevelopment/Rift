@@ -1,9 +1,8 @@
 package org.dimdev.rift.listener;
 
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.RegistryNamespaced;
+import net.minecraft.util.registry.IRegistry;
 import org.dimdev.rift.network.Message;
 
 public interface MessageAdder {
-    void registerMessages(RegistryNamespaced<Class<? extends Message>> registry);
+    void registerMessages(IRegistry<Class<? extends Message>> registry);
 }
