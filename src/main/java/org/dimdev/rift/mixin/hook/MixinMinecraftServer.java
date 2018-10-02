@@ -15,6 +15,7 @@ import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.WorldInfo;
+import net.minecraft.world.storage.WorldSavedDataStorage;
 import org.dimdev.rift.listener.DataPackFinderAdder;
 import org.dimdev.rift.listener.ServerTickable;
 import org.dimdev.riftloader.RiftLoader;
@@ -33,14 +34,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 @Mixin(MinecraftServer.class)
 public abstract class MixinMinecraftServer {
     @Shadow @Final private ResourcePackList<ResourcePackInfo> resourcePacks;
     @Shadow @Final public Profiler profiler;
     @Shadow public abstract void convertMapIfNeeded(String p_convertMapIfNeeded_1_);
-    @Shadow public WorldServer[] worlds;
-    @Shadow public long[][] timeOfLastDimensionTick;
+    @Shadow public Map<DimensionType, WorldServer> worlds;
+    @Shadow public Map<DimensionType, long[]>  timeOfLastDimensionTick;
     @Shadow public abstract ISaveFormat getActiveAnvilConverter();
     @Shadow public abstract void setResourcePackFromWorld(String p_setResourcePackFromWorld_1_, ISaveHandler p_setResourcePackFromWorld_2_);
     @Shadow public abstract String getFolderName();
@@ -49,7 +51,6 @@ public abstract class MixinMinecraftServer {
     @Shadow public abstract boolean canStructuresSpawn();
     @Shadow public abstract boolean isHardcore();
     @Shadow public abstract void func_195560_a(File p_195560_1_, WorldInfo p_195560_2_);
-    @Shadow public abstract void initialWorldChunkLoad();
     @Shadow public abstract void setDifficultyForAllWorlds(EnumDifficulty p_setDifficultyForAllWorlds_1_);
     @Shadow public abstract CustomBossEvents getCustomBossEvents();
     @Shadow public abstract PlayerList getPlayerList();
@@ -101,9 +102,9 @@ public abstract class MixinMinecraftServer {
         func_195560_a(saveHandler.getWorldDirectory(), worldInfo);
 
         // Create overworld
-        WorldServer overworld = isDemo() ? new WorldServerDemo((MinecraftServer) (Object) this, saveHandler, worldInfo, 0, profiler)
-                                         : new WorldServer((MinecraftServer) (Object) this, saveHandler, worldInfo, 0, profiler);
-        overworld.init();
+        WorldServer overworld = isDemo() ? new WorldServerDemo((MinecraftServer) (Object) this, saveHandler, new WorldSavedDataStorage(saveHandler), worldInfo, DimensionType.OVERWORLD, profiler)
+                                         : new WorldServer((MinecraftServer) (Object) this, saveHandler, new WorldSavedDataStorage(saveHandler),  worldInfo, DimensionType.OVERWORLD, profiler);
+        overworld.func_212251_i__();
 
         overworld.initialize(worldSettings);
         overworld.addEventListener(new ServerWorldEventHandler((MinecraftServer) (Object) this, overworld));
@@ -132,8 +133,8 @@ public abstract class MixinMinecraftServer {
         for (DimensionType dimensionType : dimensionTypes) {
             dimensionIdToWorldIndex.put(dimensionType.getId(), worldList.size());
             dimensionTypeToWorldIndex.put(dimensionType, worldList.size());
-            WorldServerMulti world = new WorldServerMulti((MinecraftServer) (Object) this, saveHandler, dimensionType.getId(), overworld, profiler);
-            world.init();
+            WorldServerMulti world = new WorldServerMulti((MinecraftServer) (Object) this, saveHandler, dimensionType, overworld, profiler);
+            world.func_212251_i__();
             world.addEventListener(new ServerWorldEventHandler((MinecraftServer) (Object) this, world));
             if (!isSinglePlayer()) {
                 world.getWorldInfo().setGameType(getGameType());
@@ -143,10 +144,13 @@ public abstract class MixinMinecraftServer {
         }
 
         // Initialize other things
-        worlds = worldList.toArray(new WorldServer[0]);
-        timeOfLastDimensionTick = new long[worlds.length][100];
+        worlds = new HashMap<>();
+        worldList.forEach(worldServer -> worlds.put(worldServer.dimension.getType(), worldServer));
 
-        getPlayerList().setPlayerManager(worlds);
+        timeOfLastDimensionTick = new HashMap<>();
+        worldList.forEach(worldServer -> timeOfLastDimensionTick.put(worldServer.dimension.getType(), new long[100]));
+
+        getPlayerList().func_212504_a(worlds.get(DimensionType.OVERWORLD));
         if (worldInfo.getCustomBossEvents() != null) {
             getCustomBossEvents().read(worldInfo.getCustomBossEvents());
         }
@@ -154,8 +158,6 @@ public abstract class MixinMinecraftServer {
         if (overworld.getWorldInfo().getDifficulty() == null) {
             setDifficultyForAllWorlds(getInitialDifficulty());
         }
-
-        // initialWorldChunkLoad();
     }
 
     protected WorldSettings getWorldSettings(@Nullable WorldInfo worldInfo, long seed, WorldType worldType, JsonElement generatorOptions) {
@@ -177,15 +179,5 @@ public abstract class MixinMinecraftServer {
 
     protected EnumDifficulty getInitialDifficulty() {
         return getDifficulty();
-    }
-
-    @Overwrite
-    public WorldServer getWorld(DimensionType dimensionType) {
-        return worlds[dimensionTypeToWorldIndex.get(dimensionType)];
-    }
-
-    @Overwrite
-    public WorldServer getWorld(int dimensionId) {
-        return worlds[dimensionIdToWorldIndex.get(dimensionId)];
     }
 }

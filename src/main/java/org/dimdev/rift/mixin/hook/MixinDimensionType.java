@@ -14,7 +14,7 @@ public class MixinDimensionType {
     private static HashMap<Integer, DimensionType> dimensionTypes = new HashMap<>();
 
     static {
-        for (DimensionType dimensionType : DimensionType.values()) {
+        for (DimensionType dimensionType : DimensionType.func_212681_b()) {
             dimensionTypes.put(dimensionType.getId(), dimensionType);
         }
 

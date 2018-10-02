@@ -30,7 +30,9 @@ public class ArmorMaterialImpl implements IArmorMaterial {
 
     @Override
     public int getDurability(EntityEquipmentSlot slot) {
-        return ArmorMaterial.MAX_DAMAGE_ARRAY[slot.getIndex()] * maxDamageFactor;
+        return 0;
+        //TODO at
+       // return ArmorMaterial.MAX_DAMAGE_ARRAY[slot.getIndex()] * maxDamageFactor;
     }
 
     @Override

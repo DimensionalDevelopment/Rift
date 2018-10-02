@@ -5,5 +5,5 @@ import net.minecraft.util.registry.RegistryNamespaced;
 import org.dimdev.rift.network.Message;
 
 public interface MessageAdder {
-    void registerMessages(RegistryNamespaced<ResourceLocation, Class<? extends Message>> registry);
+    void registerMessages(RegistryNamespaced<Class<? extends Message>> registry);
 }

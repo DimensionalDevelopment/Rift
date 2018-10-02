@@ -19,7 +19,7 @@ import net.minecraft.world.WorldServer;
 import java.util.function.Predicate;
 
 public abstract class Message {
-    public static final RegistryNamespaced<ResourceLocation, Class<? extends Message>> REGISTRY = new RegistryNamespaced<>();
+    public static final RegistryNamespaced<Class<? extends Message>> REGISTRY = new RegistryNamespaced<>();
 
     public abstract void write(PacketBuffer buffer);
 
