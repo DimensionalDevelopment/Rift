@@ -16,11 +16,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.IRegistry;
 import net.minecraft.util.registry.RegistryNamespaced;
 import net.minecraft.world.WorldServer;
+import org.dimdev.rift.util.RegistryUtil;
 
 import java.util.function.Predicate;
 
 public abstract class Message {
-    public static final IRegistry<Class<? extends Message>> REGISTRY = IRegistry.func_212610_a("message", new RegistryNamespaced());
+    public static final IRegistry<Class<? extends Message>> REGISTRY = RegistryUtil.createRegistry(new ResourceLocation("rift", "message"), new RegistryNamespaced());
 
     public abstract void write(PacketBuffer buffer);
 
