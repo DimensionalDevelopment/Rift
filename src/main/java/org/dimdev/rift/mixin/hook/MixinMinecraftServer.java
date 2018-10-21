@@ -48,7 +48,7 @@ public abstract class MixinMinecraftServer {
     @Shadow public abstract GameType getGameType();
     @Shadow public abstract boolean canStructuresSpawn();
     @Shadow public abstract boolean isHardcore();
-    @Shadow public abstract void func_195560_a(File p_195560_1_, WorldInfo p_195560_2_);
+    @Shadow public abstract void loadDataPacks(File p_195560_1_, WorldInfo p_195560_2_);
     @Shadow public abstract void initialWorldChunkLoad();
     @Shadow public abstract void setDifficultyForAllWorlds(EnumDifficulty p_setDifficultyForAllWorlds_1_);
     @Shadow public abstract CustomBossEvents getCustomBossEvents();
@@ -61,7 +61,7 @@ public abstract class MixinMinecraftServer {
     private Map<DimensionType, Integer> dimensionTypeToWorldIndex = new HashMap<>();
     private Map<Integer, Integer> dimensionIdToWorldIndex = new HashMap<>();
 
-    @Inject(method = "func_195560_a", at = @At(value = "INVOKE", target = "Lnet/minecraft/resources/ResourcePackList;addPackFinder(Lnet/minecraft/resources/IPackFinder;)V", shift = At.Shift.AFTER))
+    @Inject(method = "loadDataPacks", at = @At(value = "INVOKE", target = "Lnet/minecraft/resources/ResourcePackList;addPackFinder(Lnet/minecraft/resources/IPackFinder;)V", shift = At.Shift.AFTER))
     private void afterAddVanillaPackFinder(File serverDirectory, WorldInfo worldInfo, CallbackInfo ci) {
         for (DataPackFinderAdder resourcePackFinderAdder : RiftLoader.instance.getListeners(DataPackFinderAdder.class)) {
             for (IPackFinder packFinder : resourcePackFinderAdder.getDataPackFinders()) {
@@ -98,7 +98,7 @@ public abstract class MixinMinecraftServer {
             worldInfo.setWorldName(worldName);
         }
 
-        func_195560_a(saveHandler.getWorldDirectory(), worldInfo);
+        loadDataPacks(saveHandler.getWorldDirectory(), worldInfo);
 
         // Create overworld
         WorldServer overworld = isDemo() ? new WorldServerDemo((MinecraftServer) (Object) this, saveHandler, worldInfo, 0, profiler)
@@ -164,7 +164,7 @@ public abstract class MixinMinecraftServer {
                 return WorldServerDemo.DEMO_WORLD_SETTINGS;
             } else {
                 WorldSettings worldSettings = new WorldSettings(seed, getGameType(), canStructuresSpawn(), isHardcore(), worldType);
-                worldSettings.func_205390_a(generatorOptions);
+                worldSettings.setGeneratorOptions(generatorOptions);
                 if (enableBonusChest) {
                     worldSettings.enableBonusChest();
                 }

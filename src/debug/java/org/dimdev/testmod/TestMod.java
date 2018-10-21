@@ -52,9 +52,9 @@ public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder,
 
     @Override
     public void registerItems() {
-        Item.registerItemBlock(WHITE_BLOCK, ItemGroup.BUILDING_BLOCKS);
-        Item.registerItemBlock(TRANSLUCENT_WHITE_BLOCK, ItemGroup.BUILDING_BLOCKS);
-        Item.registerItem(new ResourceLocation("testmod", "packet_tester"), PACKET_TESTER);
+        Item.register(WHITE_BLOCK, ItemGroup.BUILDING_BLOCKS);
+        Item.register(TRANSLUCENT_WHITE_BLOCK, ItemGroup.BUILDING_BLOCKS);
+        Item.register(new ResourceLocation("testmod", "packet_tester"), PACKET_TESTER);
     }
 
     @Override
@@ -107,6 +107,6 @@ public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder,
 
     @Override
     public void registerMessages(RegistryNamespaced<ResourceLocation, Class<? extends Message>> registry) {
-        registry.putObject(new ResourceLocation("testmod", "test_message"), TestMessage.class);
+        registry.put(new ResourceLocation("testmod", "test_message"), TestMessage.class);
     }
 }

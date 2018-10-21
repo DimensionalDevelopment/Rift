@@ -25,7 +25,7 @@ public abstract class MixinTileEntityType {
     @Shadow @Final public static RegistryNamespaced<ResourceLocation, TileEntityType<?>> REGISTRY;
 
     @Overwrite
-    public static <T extends TileEntity> TileEntityType<T> registerTileEntityType(String id, TileEntityType.Builder<T> builder) {
+    public static <T extends TileEntity> TileEntityType<T> register(String id, TileEntityType.Builder<T> builder) {
         Type dataFixerType = null;
 
         try {

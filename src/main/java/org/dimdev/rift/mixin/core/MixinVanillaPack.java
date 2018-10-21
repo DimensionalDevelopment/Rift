@@ -16,7 +16,7 @@ import java.nio.file.Path;
 
 @Mixin(VanillaPack.class)
 public class MixinVanillaPack {
-    @Shadow public static Path field_199754_a;
+    @Shadow public static Path basePath;
 
     /**
      * @reason Give priority to resources in the Minecraft jar to avoid them
@@ -24,11 +24,11 @@ public class MixinVanillaPack {
      */
     @Overwrite
     @Nullable
-    protected InputStream func_195782_c(ResourcePackType type, ResourceLocation location) {
+    protected InputStream getInputStreamVanilla(ResourcePackType type, ResourceLocation location) {
         String pathString = type.getDirectoryName() + "/" + location.getNamespace() + "/" + location.getPath();
 
-        if (field_199754_a != null) {
-            Path path = field_199754_a.resolve(pathString);
+        if (basePath != null) {
+            Path path = basePath.resolve(pathString);
             if (Files.exists(path)) {
                 try {
                     return Files.newInputStream(path);
