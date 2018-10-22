@@ -1,6 +1,7 @@
 {
   "id": "rift",
   "name": "Rift",
+  "version": "1.0.3-SNAPSHOT",
   "authors": [
     "Runemoro"
   ],

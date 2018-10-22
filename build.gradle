@@ -40,6 +40,7 @@ dependencies {
     implementation('net.minecraft:launchwrapper:1.12') { transitive = false }
     implementation 'org.ow2.asm:asm:6.2'
     implementation 'org.ow2.asm:asm-commons:6.2'
+    compile 'com.vdurmont:semver4j:2.2.0'
 }
 
 minecraft {
