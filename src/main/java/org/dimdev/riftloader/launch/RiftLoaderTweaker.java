@@ -3,6 +3,7 @@ package org.dimdev.riftloader.launch;
 import net.minecraft.launchwrapper.ITweaker;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.launchwrapper.LaunchClassLoader;
+import org.spongepowered.asm.launch.MixinBootstrap;
 import org.spongepowered.asm.mixin.MixinEnvironment;
 
 import java.util.List;
@@ -28,6 +29,7 @@ public abstract class RiftLoaderTweaker implements ITweaker {
             throw new RuntimeException(e);
         }
 
+        MixinBootstrap.init();
         MixinEnvironment.getDefaultEnvironment().setSide(isClient() ? MixinEnvironment.Side.CLIENT : MixinEnvironment.Side.SERVER);
     }
 

@@ -2,5 +2,6 @@
   "block.testmod.white_block": "White Block",
   "block.testmod.translucent_white_block": "Translucent White Block",
   "item.testmod.white_block": "White Block",
-  "item.testmod.translucent_white_block": "Translucent White Block"
+  "item.testmod.translucent_white_block": "Translucent White Block",
+  "item.testmod.grenade": "Grenade"
 }

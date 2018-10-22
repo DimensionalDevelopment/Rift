@@ -7,7 +7,12 @@ import net.minecraft.block.BlockStainedGlass;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MusicTicker;
+import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.RenderSprite;
 import net.minecraft.command.CommandSource;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.fluid.FlowingFluid;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.EnumDyeColor;
@@ -23,23 +28,29 @@ import org.apache.logging.log4j.Logger;
 import org.dimdev.rift.listener.*;
 import org.dimdev.rift.listener.client.AmbientMusicTypeProvider;
 import org.dimdev.rift.listener.client.ClientTickable;
+import org.dimdev.rift.listener.client.EntityRendererAdder;
 import org.dimdev.rift.listener.client.TextureAdder;
 import org.dimdev.rift.network.Message;
+import org.dimdev.testmod.entity.EntityGrenade;
+import org.dimdev.testmod.item.ItemGrenade;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Map;
 import java.util.Set;
 
 import static net.minecraft.init.SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP;
 
-public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder, PacketAdder, CommandAdder, ClientTickable, /*AmbientMusicTypeProvider,*/ DimensionTypeAdder, MessageAdder {
+public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder, PacketAdder, CommandAdder, ClientTickable, /*AmbientMusicTypeProvider,*/ DimensionTypeAdder, MessageAdder, EntityTypeAdder, EntityRendererAdder, EntityTrackerAdder {
+    public static EntityType<EntityGrenade> ENTITY_TYPE_GRENADE;
     private static final Logger LOGGER = LogManager.getLogger();
     public static final Block WHITE_BLOCK = new Block(Block.Builder.create(Material.ROCK));
     public static final Block TRANSLUCENT_WHITE_BLOCK = new BlockStainedGlass(EnumDyeColor.WHITE, Block.Builder.create(Material.GLASS));
     public static final FlowingFluid WHITE_FLUID = new WhiteFluid.Source();
     public static final FlowingFluid FLOWING_WHITE_FLUID = new WhiteFluid.Flowing();
     public static final BlockFlowingFluid BLOCK_WHITE_FLUID = new BlockFlowingFluid(WHITE_FLUID, Block.Builder.create(Material.WATER).doesNotBlockMovement().hardnessAndResistance(100F, 100F).variableOpacity());
-    public static final Item PACKET_TESTER = new ItemPacketTester(new Item.Builder());
+    public static final Item PACKET_TESTER = new ItemPacketTester(new Item.Builder().group(ItemGroup.TOOLS));
+    public static final Item GRENADE = new ItemGrenade(new Item.Builder().group(ItemGroup.COMBAT).maxStackSize(8));
     public static final MusicTicker.MusicType TEST_MUSIC = AmbientMusicTypeProvider.newMusicType("test", ENTITY_EXPERIENCE_ORB_PICKUP, 0, 0);
     private int clientTickCount = 0;
 
@@ -55,6 +66,7 @@ public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder,
         Item.registerItemBlock(WHITE_BLOCK, ItemGroup.BUILDING_BLOCKS);
         Item.registerItemBlock(TRANSLUCENT_WHITE_BLOCK, ItemGroup.BUILDING_BLOCKS);
         Item.registerItem(new ResourceLocation("testmod", "packet_tester"), PACKET_TESTER);
+        Item.register(new ResourceLocation("testmod", "grenade"), GRENADE);
     }
 
     @Override
@@ -108,5 +120,20 @@ public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder,
     @Override
     public void registerMessages(RegistryNamespaced<ResourceLocation, Class<? extends Message>> registry) {
         registry.putObject(new ResourceLocation("testmod", "test_message"), TestMessage.class);
+
+    @Override
+    public void registerEntityTypes() {
+        ENTITY_TYPE_GRENADE = EntityType.register("testmod:grenade", EntityType.Builder.create(EntityGrenade.class, EntityGrenade::new));
+    }
+
+    @Override
+    public void addEntityRenderers(Map<Class<? extends Entity>, Render<? extends Entity>> entityRenderMap, RenderManager renderManager) {
+        entityRenderMap.put(EntityGrenade.class, new RenderSprite<>(renderManager, GRENADE, Minecraft.getMinecraft().getRenderItem()));
+    }
+
+    @Override
+    public void addEntityTrackerInfo(Map<EntityType, EntityTrackerInfo> entityTrackers) {
+        entityTrackers.put(ENTITY_TYPE_GRENADE, new EntityTrackerInfo(64, 20, true));
+        entityTrackers.put(EntityType.ARROW, new EntityTrackerInfo(128, 20, false)); //test substitution of vanilla trackers
     }
 }
