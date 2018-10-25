@@ -33,7 +33,7 @@ import java.util.Set;
 import static net.minecraft.init.SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP;
 
 public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder, PacketAdder, CommandAdder, ClientTickable, /*AmbientMusicTypeProvider,*/ DimensionTypeAdder, MessageAdder {
-    private static final Logger LOGGER = LogManager.getLogger();
+
     public static final Block WHITE_BLOCK = new Block(Block.Builder.create(Material.ROCK));
     public static final Block TRANSLUCENT_WHITE_BLOCK = new BlockStainedGlass(EnumDyeColor.WHITE, Block.Builder.create(Material.GLASS));
     public static final FlowingFluid WHITE_FLUID = new WhiteFluid.Source();
@@ -41,31 +41,34 @@ public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder,
     public static final BlockFlowingFluid BLOCK_WHITE_FLUID = new BlockFlowingFluid(WHITE_FLUID, Block.Builder.create(Material.WATER).doesNotBlockMovement().hardnessAndResistance(100F, 100F).variableOpacity());
     public static final Item PACKET_TESTER = new ItemPacketTester(new Item.Builder());
     public static final MusicTicker.MusicType TEST_MUSIC = AmbientMusicTypeProvider.newMusicType("test", ENTITY_EXPERIENCE_ORB_PICKUP, 0, 0);
+    public static final String MODID = "testmod";
+
+    private static final Logger LOGGER = LogManager.getLogger();
     private int clientTickCount = 0;
 
     @Override
     public void registerBlocks() {
-        Block.register(new ResourceLocation("testmod", "white_block"), WHITE_BLOCK);
-        Block.register(new ResourceLocation("testmod", "translucent_white_block"), TRANSLUCENT_WHITE_BLOCK);
-        Block.register(new ResourceLocation("testmod", "white_fluid"), BLOCK_WHITE_FLUID);
+        Block.register(new ResourceLocation(MODID, "white_block"), WHITE_BLOCK);
+        Block.register(new ResourceLocation(MODID, "translucent_white_block"), TRANSLUCENT_WHITE_BLOCK);
+        Block.register(new ResourceLocation(MODID, "white_fluid"), BLOCK_WHITE_FLUID);
     }
 
     @Override
     public void registerItems() {
-        Item.registerItemBlock(WHITE_BLOCK, ItemGroup.BUILDING_BLOCKS);
-        Item.registerItemBlock(TRANSLUCENT_WHITE_BLOCK, ItemGroup.BUILDING_BLOCKS);
-        Item.registerItem(new ResourceLocation("testmod", "packet_tester"), PACKET_TESTER);
+        Item.register(WHITE_BLOCK, ItemGroup.BUILDING_BLOCKS);
+        Item.register(TRANSLUCENT_WHITE_BLOCK, ItemGroup.BUILDING_BLOCKS);
+        Item.register(new ResourceLocation(MODID, "packet_tester"), PACKET_TESTER);
     }
 
     @Override
     public void registerFluids() {
-        Fluid.register(new ResourceLocation("testmod", "white_fluid"), WHITE_FLUID);
-        Fluid.register(new ResourceLocation("testmod", "flowing_white_fluid"), FLOWING_WHITE_FLUID);
+        Fluid.register(new ResourceLocation(MODID, "white_fluid"), WHITE_FLUID);
+        Fluid.register(new ResourceLocation(MODID, "flowing_white_fluid"), FLOWING_WHITE_FLUID);
     }
 
     @Override
     public Collection<? extends ResourceLocation> getBuiltinTextures() {
-        return Collections.singletonList(new ResourceLocation("testmod", "block/white_fluid_flow"));
+        return Collections.singletonList(new ResourceLocation(MODID, "block/white_fluid_flow"));
     }
 
     @Override
@@ -107,6 +110,6 @@ public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder,
 
     @Override
     public void registerMessages(RegistryNamespaced<ResourceLocation, Class<? extends Message>> registry) {
-        registry.putObject(new ResourceLocation("testmod", "test_message"), TestMessage.class);
+        registry.put(new ResourceLocation(MODID, "test_message"), TestMessage.class);
     }
 }
