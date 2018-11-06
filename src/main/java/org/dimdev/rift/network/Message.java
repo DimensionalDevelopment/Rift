@@ -21,7 +21,7 @@ import org.dimdev.rift.util.RegistryUtil;
 import java.util.function.Predicate;
 
 public abstract class Message {
-    public static final IRegistry<Class<? extends Message>> REGISTRY = RegistryUtil.createRegistry(new ResourceLocation("rift", "message"), new RegistryNamespaced());
+    public static final IRegistry<Class<? extends Message>> REGISTRY = RegistryUtil.createRegistry(new ResourceLocation("rift", "message"), new RegistryNamespaced<>());
 
     public abstract void write(PacketBuffer buffer);
 

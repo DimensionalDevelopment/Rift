@@ -1,7 +1,7 @@
 package org.dimdev.rift.mixin.core.client;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.block.model.ModelBakery;
+import net.minecraft.client.renderer.model.ModelBakery;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.fluid.LavaFluid;
 import net.minecraft.init.Blocks;

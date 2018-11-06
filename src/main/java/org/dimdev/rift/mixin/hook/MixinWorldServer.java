@@ -16,9 +16,9 @@ public class MixinWorldServer {
 
     @SuppressWarnings("ConstantConditions")
     @Redirect(method = "createChunkProvider", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/dimension/Dimension;createChunkGenerator()Lnet/minecraft/world/gen/IChunkGenerator;"))
-    protected <T extends IChunkGenSettings> IChunkGenerator onCreateChunkGenerator(Dimension dimension) {
+    protected <T extends IChunkGenSettings> IChunkGenerator<?> onCreateChunkGenerator(Dimension dimension) {
         WorldServer world = (WorldServer) (Object) this;
-        WorldType type = world.getWorldInfo().getTerrainType();
+        WorldType type = world.getWorldInfo().getGenerator();
         IChunkGenerator<T> generator = null;
         for(ChunkGeneratorReplacer adder : RiftLoader.instance.getListeners(ChunkGeneratorReplacer.class)) {
             IChunkGenerator<T> value = adder.createChunkGenerator(world, type, dimension.getType().getId());

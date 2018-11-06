@@ -34,7 +34,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 
 @Mixin(MinecraftServer.class)
 public abstract class MixinMinecraftServer {
@@ -166,7 +165,7 @@ public abstract class MixinMinecraftServer {
                 return WorldServerDemo.DEMO_WORLD_SETTINGS;
             } else {
                 WorldSettings worldSettings = new WorldSettings(seed, getGameType(), canStructuresSpawn(), isHardcore(), worldType);
-                worldSettings.func_205390_a(generatorOptions);
+                worldSettings.setGeneratorOptions(generatorOptions);
                 if (enableBonusChest) {
                     worldSettings.enableBonusChest();
                 }

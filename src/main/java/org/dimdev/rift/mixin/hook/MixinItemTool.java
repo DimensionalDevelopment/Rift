@@ -22,7 +22,7 @@ public class MixinItemTool {
     @Shadow @Mutable @Final private Set<Block> effectiveBlocks;
 
     @Inject(method = "<init>", at = @At("RETURN"))
-    private void onInit(float attackDamage, float attackSpeed, IItemTier tier, Set<Block> effectiveBlocks, Item.Builder builder, CallbackInfo ci) {
+    private void onInit(float attackDamage, float attackSpeed, IItemTier tier, Set<Block> effectiveBlocks, Item.Properties builder, CallbackInfo ci) {
         this.effectiveBlocks = new HashSet<>(effectiveBlocks);
 
         for (ToolEfficiencyProvider toolEfficiencyProvider : RiftLoader.instance.getListeners(ToolEfficiencyProvider.class)) {

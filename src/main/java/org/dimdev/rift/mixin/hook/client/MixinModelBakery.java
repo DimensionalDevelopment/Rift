@@ -1,6 +1,6 @@
 package org.dimdev.rift.mixin.hook.client;
 
-import net.minecraft.client.renderer.block.model.ModelBakery;
+import net.minecraft.client.renderer.model.ModelBakery;
 import net.minecraft.util.ResourceLocation;
 import org.dimdev.rift.listener.client.TextureAdder;
 import org.dimdev.riftloader.RiftLoader;

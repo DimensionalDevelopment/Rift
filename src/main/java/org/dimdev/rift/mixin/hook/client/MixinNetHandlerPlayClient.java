@@ -85,14 +85,14 @@ public class MixinNetHandlerPlayClient {
     @Inject(method = "handleUpdateTileEntity", at = @At("RETURN"))
     private void handleUpdateModTileEntity(SPacketUpdateTileEntity packet, CallbackInfo ci) {
         TileEntity tileEntity = world.getTileEntity(packet.getPos());
-        if (tileEntity == null || packet.getNbtCompound() == null || !packet.getNbtCompound().hasKey("id", 8)) {
+        if (tileEntity == null || packet.getNbtCompound() == null || !packet.getNbtCompound().contains("id", 8)) {
             return;
         }
 
         ResourceLocation tileEntityId = TileEntityType.getId(tileEntity.getType());
         ResourceLocation packetId = new ResourceLocation(packet.getNbtCompound().getString("id"));
         if (packetId != null && !packetId.getNamespace().equals("minecraft") && packetId.equals(tileEntityId)) {
-            tileEntity.readFromNBT(packet.getNbtCompound());
+            tileEntity.read(packet.getNbtCompound());
         }
     }
 }
