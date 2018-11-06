@@ -50,7 +50,8 @@ public abstract class WhiteFluid extends FlowingFluid implements RiftFluid {
     }
 
     @Override
-    public void randomDisplayTick(World world, BlockPos pos, IFluidState state, Random random) {}
+    protected void randomTick(World world, BlockPos pos, IFluidState state, Random random) {
+    }
 
     @Override @Nullable
     public IParticleData getDripParticleData() {
@@ -74,12 +75,12 @@ public abstract class WhiteFluid extends FlowingFluid implements RiftFluid {
 
     @Override
     public IBlockState getBlockState(IFluidState state) {
-        return TestMod.BLOCK_WHITE_FLUID.getDefaultState().withProperty(BlockFlowingFluid.LEVEL, getLevelFromState(state));
+        return TestMod.BLOCK_WHITE_FLUID.getDefaultState().with(BlockFlowingFluid.LEVEL, getLevelFromState(state));
     }
 
     @Override
-    public boolean isSameAs(Fluid fluid) {
-        return fluid == TestMod.WHITE_FLUID || fluid == TestMod.FLOWING_WHITE_FLUID;
+    public boolean isEquivalentTo(Fluid fluid) {
+    	return fluid == TestMod.WHITE_FLUID || fluid == TestMod.FLOWING_WHITE_FLUID;
     }
 
     @Override
@@ -104,12 +105,12 @@ public abstract class WhiteFluid extends FlowingFluid implements RiftFluid {
 
     @Override
     public TextureAtlasSprite getStillTexture() {
-        return Minecraft.getMinecraft().getModelManager().getBlockModelShapes().getModelForState(TestMod.BLOCK_WHITE_FLUID.getDefaultState()).getParticleTexture();
+        return Minecraft.getInstance().getModelManager().getBlockModelShapes().getModel(TestMod.BLOCK_WHITE_FLUID.getDefaultState()).getParticleTexture();
     }
 
     @Override
     public TextureAtlasSprite getFlowingTexture() {
-        return Minecraft.getMinecraft().getTextureMapBlocks().getSprite(new ResourceLocation("testmod", "block/white_fluid_flow"));
+        return Minecraft.getInstance().getTextureMap().getSprite(new ResourceLocation("testmod", "block/white_fluid_flow"));
     }
 
     @Override
@@ -122,14 +123,14 @@ public abstract class WhiteFluid extends FlowingFluid implements RiftFluid {
         public Flowing() {}
 
         @Override
-        protected void buildStateContainer(StateContainer.Builder<Fluid, IFluidState> builder) {
-            super.buildStateContainer(builder);
-            builder.add(LEVEL_1_TO_8);
+        protected void fillStateContainer(StateContainer.Builder<Fluid, IFluidState> builder) {
+            super.fillStateContainer(builder);
+            builder.add(LEVEL_1_8);
         }
 
         @Override
         public int getLevel(IFluidState getLevel) {
-            return getLevel.getValue(LEVEL_1_TO_8);
+            return getLevel.get(LEVEL_1_8);
         }
 
         @Override
