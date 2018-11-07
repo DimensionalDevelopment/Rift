@@ -16,11 +16,11 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.network.EnumPacketDirection;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.IRegistry;
-import net.minecraft.util.registry.RegistryNamespaced;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.dimension.EndDimension;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import org.dimdev.rift.listener.*;
 import org.dimdev.rift.listener.client.AmbientMusicTypeProvider;
 import org.dimdev.rift.listener.client.ClientTickable;
