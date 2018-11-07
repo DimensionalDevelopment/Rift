@@ -1,34 +1,39 @@
-public method bcj a (Ljava/lang/String;Lbcj;)V # net.minecraft.block.Block/registerBlock
-public method bcj a (Lpc;Lbcj;)V # net.minecraft.block.Block/registerBlock
-public method bcj$c a (Lbhi;)Lbcj$c; # net.minecraft.block.Block$Builder/soundType
-public method bcj$c a (I)Lbcj$c; # net.minecraft.block.Block$Builder/lightValue
-public method bcj$c b ()Lbcj$c; # net.minecraft.block.Block$Builder/zeroHardnessAndResistance
-public method bcj$c c ()Lbcj$c; # net.minecraft.block.Block$Builder/needsRandomTick
-public method bcj$c d ()Lbcj$c; # net.minecraft.block.Block$Builder/variableOpacity
-public method asw a (Larf;)V # net.minecraft.item.Item/registerItemBlock
-public method asw a (Lbcj;Laru;)V # net.minecraft.item.Item/registerItemBlock
-public method asw a (Lbcj;Lasw;)V # net.minecraft.item.Item/registerItemBlock
-public method asw a (Ljava/lang/String;Lasw;)V # net.minecraft.item.Item/registerItemBlock
-public method asw a (Lpc;Lasw;)V # net.minecraft.item.Item/registerItemBlock
-public method asw b (Lbcj;)V # net.minecraft.item.Item/registerItemBlock
-public method bym a (Ljava/lang/String;Lbym;)V # net.minecraft.fluid.Fluid/registerFluid
-public method bym a (Lpc;Lbym;)V # net.minecraft.fluid.Fluid/registerFluid
-public method ayn a (ILjava/lang/String;Layn;)V # net.minecraft.world.biome.Biome/registerBiome
-public method fl a (Ljava/lang/String;Z)V # net.minecraft.particles.ParticleType/registerParticleType
-public method fl a (Ljava/lang/String;ZLfk$a;)V # net.minecraft.particles.ParticleType/registerParticleType
+public method bcr a (Ljava/lang/String;Lbcr;)V # net.minecraft.block.Block/register
+public method bcr a (Lpc;Lbcr;)V # net.minecraft.block.Block/register
+public method bcr$c a (Lbhq;)Lbcr$c; # net.minecraft.block.Block$Properties/sound
+public method bcr$c a (I)Lbcr$c; # net.minecraft.block.Block$Properties/lightValue
+public method bcr$c b ()Lbcr$c; # net.minecraft.block.Block$Properties/zeroHardnessAndResistance
+public method bcr$c c ()Lbcr$c; # net.minecraft.block.Block$Properties/needsRandomTick
+public method bcr$c d ()Lbcr$c; # net.minecraft.block.Block$Properties/variableOpacity
+
+public method asz a (Lari;)V # net.minecraft.item.Item/register
+public method asz a (Lbcr;Larx;)V # net.minecraft.item.Item/register
+public method asz a (Lbcr;Lasz;)V # net.minecraft.item.Item/register
+public method asz a (Ljava/lang/String;Lasz;)V # net.minecraft.item.Item/register
+public method asz a (Lpc;Lasz;)V # net.minecraft.item.Item/register
+public method asz b (Lbcr;)V # net.minecraft.item.Item/register
+
+public method byu a (Ljava/lang/String;Lbyu;)V # net.minecraft.fluid.Fluid/register
+public method byu a (Lpc;Lbyu;)V # net.minecraft.fluid.Fluid/register
+public method bft <init> (Lbyt;Lbcr$c;)V # net.minecraft.block.BlockFlowingFluid/<init>
+
+public method ayt a (ILjava/lang/String;Layt;)V # net.minecraft.world.biome.Biome/register
+
 public method fl <init> (Lpc;ZLfk$a;)V # net.minecraft.particles.ParticleType/<init>
-public class fn # net.minecraft.particles.BasicParticleType
+public method fl a (Ljava/lang/String;Z)V # net.minecraft.particles.ParticleType/register
+public method fl a (Ljava/lang/String;ZLfk$a;)V # net.minecraft.particles.ParticleType/register
 public method fn <init> (Lpc;Z)V # net.minecraft.particles.BasicParticleType/<init>
-public method awa a (Ljava/lang/String;Lawa;)V # net.minecraft.enchantment.Enchantment/func_210770_a
-public method aeg a (ILjava/lang/String;Laeg;)V # net.minecraft.potion.Potion/func_210759_a
-public method bfl <init> (Lbyl;Lbcj$c;)V # net.minecraft.block.BlockFlowingFluid
-public method wh a (Ljava/lang/String;)V # net.minecraft.util.SoundEvent
-public method axz <init> (ILjava/lang/String;)V # net.minecraft.world.WorldType/<init>
-public method axz <init> (ILjava/lang/String;I)V # net.minecraft.world.WorldType/<init>
-public method axz <init> (ILjava/lang/String;Ljava/lang/String;I)V # net.minecraft.world.WorldType/<init>
-public class bmr # net.minecraft.world.gen.IChunkGeneratorFactory
-public class bms$a # net.minecraft.world.gen.ChunkGeneratorType$Settings
-public class bmu # net.minecraft.world.chunk.ChunkStatus
-public method bwp b (Ljava/lang/Class;Ljava/lang/String;)V registerStructure # net.minecraft.world.gen.feature.structure.StructureIO/registerStructure
-public method bwp a (Ljava/lang/Class;Ljava/lang/String;)V # net.minecraft.world.gen.feature.structure.StructureIO/registerStructure
+
+public method awd a (Ljava/lang/String;Lawd;)V # net.minecraft.enchantment.Enchantment/func_210770_a
+public method aej a (ILjava/lang/String;Laej;)V # net.minecraft.potion.Potion/func_210759_a
+
+public method wi a (Ljava/lang/String;)V # net.minecraft.util.SoundEvent/register
+
+public method ayf <init> (ILjava/lang/String;)V # net.minecraft.world.WorldType/<init>
+public method ayf <init> (ILjava/lang/String;I)V # net.minecraft.world.WorldType/<init>
+public method ayf <init> (ILjava/lang/String;Ljava/lang/String;I)V # net.minecraft.world.WorldType/<init>
+public class bmz # net.minecraft.world.gen.IChunkGeneratorFactory
+public class bnc # net.minecraft.world.chunk.ChunkStatus
+public method bwx b (Ljava/lang/Class;Ljava/lang/String;)V # net.minecraft.world.gen.feature.structure.StructureIO/registerStructure
+
 public field arc g [I # net.minecraft.item.ArmorMaterial/MAX_DAMAGE_ARRAY
