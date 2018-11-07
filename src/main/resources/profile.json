@@ -1,6 +1,6 @@
 {
-    "inheritsFrom": "1.13",
-    "id": "1.13-rift-${version}",
+    "inheritsFrom": "1.13.1",
+    "id": "1.13.1-rift-${version}",
     "releaseTime": "2018-07-18T15:11:46+00:00",
     "time": "2018-07-18T15:11:46+00:00",
     "type": "release",
