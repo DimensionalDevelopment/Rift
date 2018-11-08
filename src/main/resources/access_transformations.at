@@ -1,4 +1,3 @@
-public method bcr a (Ljava/lang/String;Lbcr;)V # net.minecraft.block.Block/register
 public method bcr a (Lpc;Lbcr;)V # net.minecraft.block.Block/register
 public method bcr$c a (Lbhq;)Lbcr$c; # net.minecraft.block.Block$Properties/sound
 public method bcr$c a (I)Lbcr$c; # net.minecraft.block.Block$Properties/lightValue
@@ -9,13 +8,14 @@ public method bcr$c d ()Lbcr$c; # net.minecraft.block.Block$Properties/variableO
 public method asz a (Lari;)V # net.minecraft.item.Item/register
 public method asz a (Lbcr;Larx;)V # net.minecraft.item.Item/register
 public method asz a (Lbcr;Lasz;)V # net.minecraft.item.Item/register
-public method asz a (Ljava/lang/String;Lasz;)V # net.minecraft.item.Item/register
 public method asz a (Lpc;Lasz;)V # net.minecraft.item.Item/register
 public method asz b (Lbcr;)V # net.minecraft.item.Item/register
 
-public method byu a (Ljava/lang/String;Lbyu;)V # net.minecraft.fluid.Fluid/register
 public method byu a (Lpc;Lbyu;)V # net.minecraft.fluid.Fluid/register
 public method bft <init> (Lbyt;Lbcr$c;)V # net.minecraft.block.BlockFlowingFluid/<init>
+
+public method boc <init> (ILjava/lang/String;Ljava/lang/String;Ljava/util/function/Supplier;)V # net.minecraft.world.dimension.DimensionType/<init>
+public method boc a (Ljava/lang/String;Lboc;)Lboc; # net.minecraft.world.dimension.DimensionType/register
 
 public method ayt a (ILjava/lang/String;Layt;)V # net.minecraft.world.biome.Biome/register
 

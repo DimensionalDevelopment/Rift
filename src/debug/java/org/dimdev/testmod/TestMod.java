@@ -1,6 +1,7 @@
 package org.dimdev.testmod;
 
 import com.mojang.brigadier.CommandDispatcher;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlowingFluid;
 import net.minecraft.block.BlockStainedGlass;
@@ -16,8 +17,8 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.network.EnumPacketDirection;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.IRegistry;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.dimension.EndDimension;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -29,7 +30,6 @@ import org.dimdev.rift.network.Message;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Set;
 
 import static net.minecraft.init.SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP;
 
@@ -102,8 +102,8 @@ public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder,
     }
 
     @Override
-    public Set<? extends DimensionType> getDimensionTypes() {
-        return Collections.singleton(DimensionTypeAdder.newDimensionType(555, "test_dimension", "_test", EndDimension::new));
+    public void registerDimensionTypes() {
+    	DimensionTypeAdder.addDimensionType(555, new ResourceLocation("testmod", "test_dimension"), "_test", EndDimension::new);
     }
 
     @Override

@@ -180,7 +180,7 @@ public class AccessTransformerUpdater {
 
 			String name = line.substring(line.lastIndexOf(' ') + 1);
 			int split = name.lastIndexOf('/');
-			if (split <= 0) {
+			if (split < 0) {
 				transforms.add("#??? " + line);
 				System.err.println("Bad line: " + line);
 				continue;
