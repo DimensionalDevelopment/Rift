@@ -29,7 +29,7 @@ public abstract class MixinTileEntityType {
 
         try {
         	//Schema#getChoiceType can throw an IAE that vanilla won't catch, so we catch that too
-            dataFixerType = DataFixesManager.getDataFixer().getSchema(DataFixUtils.makeKey(1519)).getChoiceType(TypeReferences.BLOCK_ENTITY, id);
+            dataFixerType = DataFixesManager.getDataFixer().getSchema(DataFixUtils.makeKey(1628)).getChoiceType(TypeReferences.BLOCK_ENTITY, id);
         } catch (IllegalStateException | IllegalArgumentException e) {
             LOGGER.debug("No data fixer registered for block entity {}", id);
         }

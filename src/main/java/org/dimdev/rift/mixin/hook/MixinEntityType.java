@@ -41,7 +41,7 @@ public abstract class MixinEntityType {
 
             if (serializable) {
                 try {
-                    dataFixerType = DataFixesManager.getDataFixer().getSchema(DataFixUtils.makeKey(1519)).getChoiceType(TypeReferences.ENTITY_TYPE, id);
+                    dataFixerType = DataFixesManager.getDataFixer().getSchema(DataFixUtils.makeKey(1628)).getChoiceType(TypeReferences.ENTITY_TYPE, id);
                 } catch (IllegalStateException | IllegalArgumentException ignored) {
                     LOGGER.debug("No data fixer registered for entity {}", id);
                 }
