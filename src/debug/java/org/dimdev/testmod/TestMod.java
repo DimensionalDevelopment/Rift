@@ -17,7 +17,6 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.network.EnumPacketDirection;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.IRegistry;
-import net.minecraft.world.dimension.EndDimension;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -103,7 +102,7 @@ public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder,
 
     @Override
     public void registerDimensionTypes() {
-    	DimensionTypeAdder.addDimensionType(555, new ResourceLocation("testmod", "test_dimension"), "_test", EndDimension::new);
+    	TestDimension.giveType(DimensionTypeAdder.addDimensionType(555, new ResourceLocation("testmod", "test_dimension"), "_test", TestDimension::new));
     }
 
     @Override
