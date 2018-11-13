@@ -26,7 +26,7 @@ public class MixinMinecraft {
     @Shadow @Final public Profiler profiler;
 
     @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/resources/ResourcePackList;addPackFinder(Lnet/minecraft/resources/IPackFinder;)V", ordinal = 1))
-    private void onAddResourcePacks(ResourcePackList resourcePackList, IPackFinder minecraftPackFinder) {
+    private void onAddResourcePacks(ResourcePackList<?> resourcePackList, IPackFinder minecraftPackFinder) {
         resourcePackList.addPackFinder(minecraftPackFinder);
 
         for (ResourcePackFinderAdder resourcePackFinderAdder : RiftLoader.instance.getListeners(ResourcePackFinderAdder.class)) {
@@ -41,7 +41,7 @@ public class MixinMinecraft {
         profiler.startSection("mods");
         for (ClientTickable tickable : RiftLoader.instance.getListeners(ClientTickable.class)) {
             profiler.startSection(() -> tickable.getClass().getCanonicalName().replace('.', '/'));
-            tickable.clientTick();
+            tickable.clientTick((Minecraft) (Object) this);
             profiler.endSection();
         }
         profiler.endSection();

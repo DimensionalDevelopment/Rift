@@ -89,7 +89,7 @@ public class TestMod implements BlockAdder, ItemAdder, FluidAdder, TextureAdder,
     }
 
     @Override
-    public void clientTick() {
+    public void clientTick(Minecraft client) {
         if (clientTickCount++ == 100) {
             LOGGER.info("100 ticks have passed");
         }
