@@ -29,7 +29,8 @@ public class RiftLoader {
     public static final RiftLoader instance = new RiftLoader();
     private static final Logger log = LogManager.getLogger("RiftLoader");
 
-    public final File modsDir = new File(Launch.minecraftHome, "mods");
+    public File modsDir = new File(Launch.minecraftHome, "mods");
+    public final File modsVersionSpecifiedDir = new File(Launch.minecraftHome, "mods/1.13-Rift");
     public final File configDir = new File(Launch.minecraftHome, "config");
     private Side side;
     private boolean loaded;
@@ -48,6 +49,17 @@ public class RiftLoader {
         loaded = true;
 
         side = isClient ? Side.CLIENT : Side.SERVER;
+
+        // test if mods/"version"-Rift contains any .jar files
+        modsVersionSpecifiedDir.mkdir();
+        for (File tempFile : modsVersionSpecifiedDir.listFiles()) {
+            // test if dir contains any .jar files
+            if (tempFile.getName().toLowerCase().endsWith((".jar"))) {
+                // load mods from mods/"version"-Rift folder
+                modsDir = modsVersionSpecifiedDir;
+                break;
+            }
+        }
 
         findMods(modsDir);
         sortMods();
