@@ -30,7 +30,7 @@ public class RiftLoader {
     private static final Logger log = LogManager.getLogger("RiftLoader");
 
     public File modsDir = new File(Launch.minecraftHome, "mods");
-    public final File modsVersionSpecifiedDir = new File(Launch.minecraftHome, "mods/1.13-Rift");
+    public final File modsVersionSpecifiedDir = new File(Launch.minecraftHome, "mods/@MCVERSION@-Rift");
     public final File configDir = new File(Launch.minecraftHome, "config");
     private Side side;
     private boolean loaded;
