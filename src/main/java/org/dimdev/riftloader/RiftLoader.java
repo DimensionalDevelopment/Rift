@@ -51,13 +51,14 @@ public class RiftLoader {
         side = isClient ? Side.CLIENT : Side.SERVER;
 
         // test if mods/"version"-Rift contains any .jar files
-        modsVersionSpecifiedDir.mkdir();
-        for (File tempFile : modsVersionSpecifiedDir.listFiles()) {
-            // test if dir contains any .jar files
-            if (tempFile.getName().toLowerCase().endsWith((".jar"))) {
-                // load mods from mods/"version"-Rift folder
-                modsDir = modsVersionSpecifiedDir;
-                break;
+        if (modsVersionSpecifiedDir.exists() && modsVersionSpecifiedDir.isDirectory()) {
+            for (File tempFile : modsVersionSpecifiedDir.listFiles()) {
+                // test if dir contains any .jar files
+                if (tempFile.getName().toLowerCase().endsWith((".jar"))) {
+                    // load mods from mods/"version"-Rift folder
+                    modsDir = modsVersionSpecifiedDir;
+                    break;
+                }
             }
         }
 
