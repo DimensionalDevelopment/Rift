@@ -126,7 +126,7 @@ public class RiftLoader {
         log.info("Searching for mods in " + modsDir);
         if (createDir) modsDir.mkdirs();
         for (File file : modsDir.listFiles()) {
-            if (!file.getName().endsWith(".jar")) continue;
+             if (!file.getName().toLowerCase().endsWith(".jar")) continue;
 
             try (JarFile jar = new JarFile(file)) {
                 // Check if the file contains a 'riftmod.json'
