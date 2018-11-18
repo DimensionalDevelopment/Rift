@@ -29,9 +29,9 @@ public class RiftLoader {
     public static final RiftLoader instance = new RiftLoader();
     private static final Logger log = LogManager.getLogger("RiftLoader");
 
-    public File modsDir = new File(Launch.minecraftHome, "mods");
-    public final File modsVersionSpecifiedDir = new File(Launch.minecraftHome, "mods/rift/@MCVERSION@");
-    public final File modsRiftDir = new File(Launch.minecraftHome, "mods/rift");
+    public final File modsDir = new File(Launch.minecraftHome, "mods");
+    public final File modsRiftDir = new File(modsDir, "rift");
+    public final File modsVersionSpecifiedDir = new File(modsRiftDir, "@MCVERSION@");
     public final File configDir = new File(Launch.minecraftHome, "config");
     private Side side;
     private boolean loaded;
@@ -53,16 +53,8 @@ public class RiftLoader {
 
         // load mods from classpath
         findClasspathMods();
-        // test if mods/rift/"version"/ contains any .jar files, then load from it
-        if (modsVersionSpecifiedDir.exists() && modsVersionSpecifiedDir.isDirectory()) {
-            // search and load mods from mods/rift/"version"/ if there are mods inside
-            for (File tempFile : modsVersionSpecifiedDir.listFiles()) {
-                if (tempFile.getName().toLowerCase().endsWith((".jar"))) {
-                    findJarMods(modsVersionSpecifiedDir);
-                    break;
-                }
-            }
-        }
+        // load mods from mods/rift/"version"/
+        findJarMods(modsVersionSpecifiedDir);
         // load mods from folder mods/rift/, create the folder if not exists
         findJarMods(modsRiftDir, true);
         // load mods from mods/, create the folder if not exists
@@ -123,11 +115,17 @@ public class RiftLoader {
     }
 
     private void findJarMods(File modsDir, boolean createDir) {
+        if (createDir) {
+            // create dir if needed
+            modsDir.mkdirs();
+        } else if (!modsVersionSpecifiedDir.isDirectory()) {
+            // skip loading if folder not exists
+            return;
+        }
         int modCount = modInfoMap.size();
         log.info("Searching for mods in " + modsDir);
-        if (createDir) modsDir.mkdirs();
         for (File file : modsDir.listFiles()) {
-             if (!file.getName().toLowerCase().endsWith(".jar")) continue;
+            if (!file.getName().toLowerCase().endsWith(".jar")) continue;
 
             try (JarFile jar = new JarFile(file)) {
                 // Check if the file contains a 'riftmod.json'
