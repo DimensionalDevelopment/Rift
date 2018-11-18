@@ -51,6 +51,9 @@ minecraft {
 
     replace "@VERSION@", project.version
     replaceIn "org/dimdev/riftloader/Main.java"
+
+    replace "@MCVERSION@", project.minecraft.version
+    replaceIn "org/dimdev/riftloader/RiftLoader.java"
 }
 
 mixin {

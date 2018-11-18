@@ -30,6 +30,8 @@ public class RiftLoader {
     private static final Logger log = LogManager.getLogger("RiftLoader");
 
     public final File modsDir = new File(Launch.minecraftHome, "mods");
+    public final File modsRiftDir = new File(modsDir, "rift");
+    public final File modsVersionSpecifiedDir = new File(modsRiftDir, "@MCVERSION@");
     public final File configDir = new File(Launch.minecraftHome, "config");
     private Side side;
     private boolean loaded;
@@ -49,19 +51,24 @@ public class RiftLoader {
 
         side = isClient ? Side.CLIENT : Side.SERVER;
 
-        findMods(modsDir);
+        // load mods from classpath
+        findClasspathMods();
+        // load mods from mods/rift/"version"/
+        findJarMods(modsVersionSpecifiedDir);
+        // load mods from folder mods/rift/, create the folder if not exists
+        findJarMods(modsRiftDir, true);
+        // load mods from mods/, create the folder if not exists
+        findJarMods(modsDir, true);
         sortMods();
         initMods();
         initAccessTransformer();
     }
 
     /**
-     * Looks for Rift mods (jars containing a 'riftmod.json' at their root) in
-     * the 'modsDir' directory (creating it if it doesn't exist) and loads them
-     * into the 'modInfoMap'.
-     **/
-    private void findMods(File modsDir) {
-        // Load classpath mods
+     * Load mods from classpath
+     */
+    private void findClasspathMods() {
+        int modCount = modInfoMap.size();
         log.info("Searching mods on classpath");
         try {
             Enumeration<URL> urls = ClassLoader.getSystemResources("riftmod.json");
@@ -94,11 +101,31 @@ public class RiftLoader {
             throw new RuntimeException(e);
         }
 
-        // Load jar mods
+        modCount = modInfoMap.size() - modCount;
+        log.info("Loaded " + modCount + " mods");
+    }
+
+    /**
+     * Looks for Rift mods (jars containing a 'riftmod.json' at their root) in
+     * the 'modsDir' directory (creating it if it doesn't exist) and loads them
+     * into the 'modInfoMap'.
+     **/
+    private void findJarMods(File modsDir) {
+        this.findJarMods(modsDir, false);
+    }
+
+    private void findJarMods(File modsDir, boolean createDir) {
+        if (createDir) {
+            // create dir if needed
+            modsDir.mkdirs();
+        } else if (!modsVersionSpecifiedDir.isDirectory()) {
+            // skip loading if folder not exists
+            return;
+        }
+        int modCount = modInfoMap.size();
         log.info("Searching for mods in " + modsDir);
-        modsDir.mkdirs();
         for (File file : modsDir.listFiles()) {
-            if (!file.getName().endsWith(".jar")) continue;
+            if (!file.getName().toLowerCase().endsWith(".jar")) continue;
 
             try (JarFile jar = new JarFile(file)) {
                 // Check if the file contains a 'riftmod.json'
@@ -128,7 +155,8 @@ public class RiftLoader {
             }
         }
 
-        log.info("Loaded " + modInfoMap.size() + " mods");
+        modCount = modInfoMap.size() - modCount;
+        log.info("Loaded " + modCount + " mods");
     }
 
     private void loadModFromJson(InputStream in, File source) {
