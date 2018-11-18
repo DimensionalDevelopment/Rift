@@ -64,9 +64,9 @@ public class RiftLoader {
             }
         }
         // load mods from folder mods/rift/, create the folder if not exists
-        findJarMods(modsRiftDir,true);
+        findJarMods(modsRiftDir, true);
         // load mods from mods/, create the folder if not exists
-        findJarMods(modsDir,true);
+        findJarMods(modsDir, true);
         sortMods();
         initMods();
         initAccessTransformer();
@@ -121,7 +121,8 @@ public class RiftLoader {
     private void findJarMods(File modsDir) {
         this.findJarMods(modsDir, false);
     }
-    private void findJarMods(File modsDir, Boolean createDir) {
+
+    private void findJarMods(File modsDir, boolean createDir) {
         int modCount = modInfoMap.size();
         log.info("Searching for mods in " + modsDir);
         if (createDir) modsDir.mkdirs();
