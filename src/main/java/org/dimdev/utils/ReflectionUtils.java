@@ -6,6 +6,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Arrays;
 
 public class ReflectionUtils {
     private static final MethodHandle addURLHandle;
@@ -30,6 +31,17 @@ public class ReflectionUtils {
         } catch (Throwable t) {
             throw t instanceof RuntimeException ? (RuntimeException) t : new RuntimeException(t);
         }
+    }
+
+    public static Method findMethod(Class<?> target, Class<?> returnType, Class<?>... params) throws NoSuchMethodException {
+    	for (Method method : target.getDeclaredMethods()) {
+    		if (method.getReturnType() == returnType && Arrays.equals(method.getParameterTypes(), params)) {
+    			method.setAccessible(true);
+    			return method;
+    		}
+    	}
+
+    	throw new NoSuchMethodException("Cannot find method in " + target + '(' + Arrays.toString(params) + ") " + returnType);
     }
 
     public static void addURLToClasspath(URL url) {
