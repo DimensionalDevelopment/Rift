@@ -18,7 +18,6 @@ import net.minecraft.tags.NetworkTagManager;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
-import org.dimdev.rift.listener.CustomPayloadHandler;
 import org.dimdev.rift.network.ClientMessageContext;
 import org.dimdev.rift.network.Message;
 import org.dimdev.riftloader.RiftLoader;
@@ -43,24 +42,15 @@ public class MixinNetHandlerPlayClient {
     @Shadow private NetworkTagManager networkTagManager;
     @Shadow private NBTQueryManager nbtQueryManager;
 
-    @SuppressWarnings("deprecation")
     @Inject(method = "handleCustomPayload", at = @At("HEAD"), cancellable = true)
     private void handleModCustomPayload(SPacketCustomPayload packet, CallbackInfo ci) {
+        if (Message.REGISTRY.isEmpty()) return;
+
         ResourceLocation channelName = packet.getChannelName();
-        PacketBuffer data = packet.getBufferData();
-
-        for (CustomPayloadHandler customPayloadHandler : RiftLoader.instance.getListeners(CustomPayloadHandler.class)) {
-            if (customPayloadHandler.clientHandlesChannel(channelName)) {
-                customPayloadHandler.clientHandleCustomPayload(channelName, data);
-            }
-        }
-
-        if(Message.REGISTRY.isEmpty()){
-            return;
-        }
-
         Class<? extends Message> messageClass = Message.REGISTRY.get(channelName);
         if (messageClass != null) {
+        	PacketBuffer data = packet.getBufferData();
+
             try {
                 Message message = RiftLoader.instance.newInstance(messageClass);
                 message.read(data);
