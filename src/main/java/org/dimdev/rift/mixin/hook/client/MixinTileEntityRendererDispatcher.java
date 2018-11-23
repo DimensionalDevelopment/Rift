@@ -24,7 +24,7 @@ public class MixinTileEntityRendererDispatcher {
             tileEntityRendererAdder.addTileEntityRenderers(renderers);
         }
 
-        for (TileEntityRenderer renderer : renderers.values()) {
+        for (TileEntityRenderer<?> renderer : renderers.values()) {
             renderer.setRendererDispatcher((TileEntityRendererDispatcher) (Object) this);
         }
     }
