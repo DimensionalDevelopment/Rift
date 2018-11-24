@@ -84,7 +84,7 @@ public class TestDimension extends Dimension {
         g = g * (sun * 0.0F + 0.15F);
         b = b * (sun * 0.0F + 0.15F);
 
-        return new Vec3d((double)r, (double)g, (double)b);
+        return new Vec3d(r, g, b);
 	}
 
 	@Override
