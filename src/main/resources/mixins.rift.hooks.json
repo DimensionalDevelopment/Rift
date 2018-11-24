@@ -48,7 +48,6 @@
     "client.MixinRenderManager",
     "client.MixinEntityPlayerSP",
     "client.MixinGameSettings",
-    "client.MixinGuiIngame",
-    "client.MixinIntegratedServer"
+    "client.MixinGuiIngame"
   ]
 }

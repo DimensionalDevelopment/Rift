@@ -18,7 +18,7 @@ public abstract class MixinBiome {
         }
     }
 
-    @Inject(method = "registerBiome", at = @At(value = "RETURN"))
+    @Inject(method = "register", at = @At(value = "RETURN"))
     private static void onRegisterBiome(int biomeId, String biomeName, Biome biome, CallbackInfo ci) {
         for (WorldChanger worldChanger : RiftLoader.instance.getListeners(WorldChanger.class)) {
             worldChanger.modifyBiome(biomeId, biomeName, biome);

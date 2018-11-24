@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 public class ItemPacketTester extends Item {
     private static final Logger log = LogManager.getLogger();
 
-    public ItemPacketTester(Builder builder) {
+    public ItemPacketTester(Properties builder) {
         super(builder);
     }
 
@@ -22,7 +22,7 @@ public class ItemPacketTester extends Item {
 
         int data = (int) (Math.random() * 1000);
         log.info("Sending test packet and message to server: " + data);
-        Minecraft.getMinecraft().getConnection().sendPacket(new CPacketTest(data));
+        Minecraft.getInstance().getConnection().sendPacket(new CPacketTest(data));
 
         new TestMessage(data).sendToServer();
 

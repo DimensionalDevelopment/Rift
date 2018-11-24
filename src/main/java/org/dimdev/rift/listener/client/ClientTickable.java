@@ -1,5 +1,7 @@
 package org.dimdev.rift.listener.client;
 
+import net.minecraft.client.Minecraft;
+
 public interface ClientTickable {
-    void clientTick();
+    void clientTick(Minecraft client);
 }

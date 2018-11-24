@@ -25,9 +25,9 @@ import org.spongepowered.asm.mixin.Shadow;
 @Mixin(BlockFluidRenderer.class)
 public abstract class MixinBlockFluidRenderer {
     @Shadow private static boolean isAdjacentFluidSameAs(IBlockReader world, BlockPos pos, EnumFacing side, IFluidState state) { return false; }
-    @Shadow private static boolean func_209556_a(IBlockReader p_209556_0_, BlockPos p_209556_1_, EnumFacing p_209556_2_, float p_209556_3_) { return false; }
-    @Shadow protected abstract float func_204504_a(IWorldReaderBase p_204504_1_, BlockPos p_204504_2_, Fluid p_204504_3_);
-    @Shadow protected abstract int func_204835_a(IWorldReader p_204835_1_, BlockPos p_204835_2_);
+    @Shadow private static boolean func_209556_a(IBlockReader world, BlockPos pos, EnumFacing side, float height) { return false; }
+    @Shadow protected abstract float getFluidHeight(IWorldReaderBase world, BlockPos pos, Fluid fluid);
+    @Shadow protected abstract int getCombinedLightUpMax(IWorldReader world, BlockPos pos);
     @Shadow private TextureAtlasSprite atlasSpriteWaterOverlay;
 
     @Overwrite
@@ -62,10 +62,10 @@ public abstract class MixinBlockFluidRenderer {
 
         boolean rendered = false;
 
-        float var17 = func_204504_a(world, pos, state.getFluid());
-        float var18 = func_204504_a(world, pos.south(), state.getFluid());
-        float var19 = func_204504_a(world, pos.east().south(), state.getFluid());
-        float var20 = func_204504_a(world, pos.east(), state.getFluid());
+        float var17 = getFluidHeight(world, pos, state.getFluid());
+        float var18 = getFluidHeight(world, pos.south(), state.getFluid());
+        float var19 = getFluidHeight(world, pos.east().south(), state.getFluid());
+        float var20 = getFluidHeight(world, pos.east(), state.getFluid());
 
         double x = pos.getX();
         double y = pos.getY();
@@ -115,7 +115,7 @@ public abstract class MixinBlockFluidRenderer {
                 var34 = texture.getInterpolatedV(8 + (-var37 - var36) * 16);
             }
 
-            int blockLight = func_204835_a(world, pos);
+            int blockLight = getCombinedLightUpMax(world, pos);
             int skyLight = blockLight >> 16;
 
             buffer.pos(x, y + var17, z).color(redMultiplier, greenMultiplier, blueMultiplier, 1).tex(minU, var28).lightmap(skyLight, blockLight).endVertex();
@@ -136,7 +136,7 @@ public abstract class MixinBlockFluidRenderer {
             minV = stillTexture.getMinV();
             maxV = stillTexture.getMaxV();
 
-            int blockLight = func_204835_a(world, pos.down());
+            int blockLight = getCombinedLightUpMax(world, pos.down());
             int skyLight = blockLight >> 16;
 
             float darkerRedMultiplier = 0.5F * redMultiplier;
@@ -212,7 +212,7 @@ public abstract class MixinBlockFluidRenderer {
                 float var60 = texture.getInterpolatedV((1 - maxU) * 16 * 0.5);
                 float var61 = texture.getInterpolatedV((1 - minV) * 16 * 0.5);
                 float var62 = texture.getInterpolatedV(8);
-                int var63 = func_204835_a(world, var55);
+                int var63 = getCombinedLightUpMax(world, var55);
                 int var64 = var63 >> 16;
                 float colorDarkness = direction < 2 ? 0.8F : 0.6F;
                 float var67 = colorDarkness * redMultiplier;

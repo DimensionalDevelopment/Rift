@@ -8,7 +8,6 @@ import net.minecraft.network.play.client.CPacketCustomPayload;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import org.dimdev.rift.injectedmethods.RiftCPacketCustomPayload;
-import org.dimdev.rift.listener.CustomPayloadHandler;
 import org.dimdev.rift.network.Message;
 import org.dimdev.rift.network.ServerMessageContext;
 import org.dimdev.riftloader.RiftLoader;
@@ -25,20 +24,15 @@ public class MixinNetHandlerPlayServer {
     @Shadow public EntityPlayerMP player;
     @Shadow @Final public NetworkManager netManager;
 
-    @SuppressWarnings("deprecation")
     @Inject(method = "processCustomPayload", at = @At("HEAD"), cancellable = true)
     private void handleModCustomPayload(CPacketCustomPayload packet, CallbackInfo ci) {
+    	if (Message.REGISTRY.isEmpty()) return;
+
         ResourceLocation channelName = ((RiftCPacketCustomPayload) packet).getChannelName();
-        PacketBuffer data = ((RiftCPacketCustomPayload) packet).getData();
-
-        for (CustomPayloadHandler customPayloadHandler : RiftLoader.instance.getListeners(CustomPayloadHandler.class)) {
-            if (customPayloadHandler.serverHandlesChannel(channelName)) {
-                customPayloadHandler.serverHandleCustomPayload(channelName, data);
-            }
-        }
-
         Class<? extends Message> messageClass = Message.REGISTRY.get(channelName);
         if (messageClass != null) {
+        	PacketBuffer data = ((RiftCPacketCustomPayload) packet).getData();
+
             try {
                 Message message = RiftLoader.instance.newInstance(messageClass);
                 message.read(data);
