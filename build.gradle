@@ -33,7 +33,7 @@ repositories {
     maven { url 'https://libraries.minecraft.net/' }
     maven { url 'https://www.dimdev.org/maven/' }
     maven { url = 'https://repo.spongepowered.org/maven/' }
-    mavenLocal()
+	maven { url 'http://repo.strezz.org/artifactory/list/Strezz-Central' }
 }
 
 dependencies {
@@ -44,7 +44,7 @@ dependencies {
 }
 
 minecraft {
-    version = '1.13.1'
+    version = '1.13.2'
     mappings = 'snapshot_20181106'
     runDir = 'run'
     tweakClass = 'org.dimdev.riftloader.launch.RiftLoaderClientTweaker'
