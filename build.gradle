@@ -3,6 +3,7 @@ buildscript {
         jcenter()
         maven { url 'https://www.dimdev.org/maven/' }
 		maven { url 'https://jitpack.io' }
+		maven { url = "https://files.minecraftforge.net/maven" }
         maven { url 'http://repo.spongepowered.org/maven' }
         maven { url 'https://plugins.gradle.org/m2/' }
     }
