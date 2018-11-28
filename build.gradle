@@ -2,11 +2,12 @@ buildscript {
     repositories {
         jcenter()
         maven { url 'https://www.dimdev.org/maven/' }
+		maven { url 'https://jitpack.io' }
         maven { url 'http://repo.spongepowered.org/maven' }
         maven { url 'https://plugins.gradle.org/m2/' }
     }
     dependencies {
-        classpath 'org.dimdev:ForgeGradle:2.4-SNAPSHOT'
+        classpath "com.github.Chocohead:ForgeGradle:moderniser-SNAPSHOT"
         classpath 'org.spongepowered:mixingradle:0.6-SNAPSHOT'
         classpath 'gradle.plugin.com.github.breadmoirai:github-release:2.0.1'
     }
@@ -31,6 +32,7 @@ targetCompatibility = 1.8
 repositories {
     mavenCentral()
     maven { url 'https://libraries.minecraft.net/' }
+	maven { url = "https://files.minecraftforge.net/maven" }
     maven { url 'https://www.dimdev.org/maven/' }
     maven { url = 'https://repo.spongepowered.org/maven/' }
 	maven { url 'http://repo.strezz.org/artifactory/list/Strezz-Central' }
