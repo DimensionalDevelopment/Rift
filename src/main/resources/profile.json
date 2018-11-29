@@ -1,8 +1,8 @@
 {
-    "inheritsFrom": "1.13.1",
-    "id": "1.13.1-rift-${version}",
-    "releaseTime": "2018-07-18T15:11:46+00:00",
-    "time": "2018-07-18T15:11:46+00:00",
+    "inheritsFrom": "1.13.2",
+    "id": "1.13.2-rift-${version}",
+    "releaseTime": "2018-11-29T09:45:00+00:00",
+    "time": "2018-11-29T09:50:00+00:00",
     "type": "release",
     "arguments": {
         "game": [
