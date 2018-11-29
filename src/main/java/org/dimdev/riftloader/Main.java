@@ -20,7 +20,7 @@ public class Main {
             "https://repo1.maven.org/maven2/org/ow2/asm/asm-tree/6.2/asm-tree-6.2.jar",
             "https://libraries.minecraft.net/net/minecraft/launchwrapper/1.12/launchwrapper-1.12.jar"
     };
-    public static final String VANILLA_SERVER = "https://launcher.mojang.com/mc/game/1.13/server/d0caafb8438ebd206f99930cfaecfa6c9a13dca0/server.jar";
+    public static final String VANILLA_SERVER = "https://launcher.mojang.com/v1/objects/3737db93722a9e39eeada7c27e7aca28b144ffa7/server.jar";
     // public static final String SPIGOT_SERVER = "https://cdn.getbukkit.org/spigot/spigot-1.13.jar";
 
     public static void main(String... args) throws Throwable {
@@ -98,7 +98,7 @@ public class Main {
             }
 
             // Copy the version json
-            File versionJson = new File(minecraftFolder, "versions/1.13-rift-@VERSION@/1.13-rift-@VERSION@.json");
+            File versionJson = new File(minecraftFolder, "versions/1.13.2-rift-@VERSION@/1.13.2-rift-@VERSION@.json");
             versionJson.getParentFile().mkdirs();
             Files.copy(Main.class.getResourceAsStream("/profile.json"), versionJson.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
@@ -126,7 +126,7 @@ public class Main {
                                                                        "      \"type\": \"custom\",\n" +
                                                                        "      \"created\": \"2018-08-13T00:00:00.000Z\",\n" +
                                                                        "      \"lastUsed\": \"2100-01-01T00:00:00.000Z\",\n" +
-                                                                       "      \"lastVersionId\": \"1.13-rift-@VERSION@\"\n" +
+                                                                       "      \"lastVersionId\": \"1.13.2-rift-@VERSION@\"\n" +
                                                                        "    },");
 
                     Files.write(profilesJson.toPath(), contents.getBytes());
@@ -149,7 +149,7 @@ public class Main {
             }
 
             JOptionPane.showMessageDialog(null,
-                    "Rift @VERSION@ for Minecraft 1.13 has been successfully installed!\n" +
+                    "Rift @VERSION@ for Minecraft 1.13.2 has been successfully installed!\n" +
                     "\n" +
                     "It is available in the dropdown menu of the vanilla Minecraft launcher.\n" +
                     "You'll need to restart the Minecraft Launcher if you had it open when\n" +
