@@ -13,8 +13,8 @@
     "mainClass": "net.minecraft.launchwrapper.Launch",
     "libraries": [
         {
-            "name": "org.dimdev:rift:${version}",
-            "url": "https://www.dimdev.org/maven/"
+            "name": "com.github.Chocohead:Rift:jitpack-SNAPSHOT",
+            "url": "https://www.jitpack.io/"
         },
         {
             "name": "org.dimdev:mixin:0.7.11-SNAPSHOT",
