@@ -57,7 +57,7 @@ Remember to change the `group` and `archivesBaseName` for the mod you're making 
 Obviously the obfuscated mappings have changed so any access transformers will need to be updated. There is the beginnings of a tool provided for automatically doing this [here](https://github.com/Chocohead/Rift/blob/newerest/src/debug/java/com/chocohead/rift/AccessTransformerUpdater.java). The same tool can also be used for more easily adding access transformer entries as it can go straight from MCP name to matching Notch names.
 
 There have also been a few API changes within Rift to account for changes made in Minecraft 1.13.1:
-* The deprecated has `CustomPayloadHandler` been removed in favour of using `MessageAdder`
+* The deprecated `CustomPayloadHandler` has been removed in favour of using `MessageAdder`
 * `DimensionTypeAdder` no longer expects a set of `DimensionType`s but is a callback for registering them directly now `DimensionType` is not an enum. It provides a utility method `addDimensionType` for this purpose.
 * `ClientTickable#tick` now provides the `Minecraft` client instance directly to match `ServerTickable#tick` providing `MinecraftServer`
 
