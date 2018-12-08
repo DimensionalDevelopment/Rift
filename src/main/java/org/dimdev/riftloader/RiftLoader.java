@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.dimdev.accesstransform.AccessTransformationSet;
 import org.dimdev.accesstransform.AccessTransformer;
+import org.dimdev.riftloader.ModInfo.Listener;
 import org.dimdev.riftloader.listener.InitializationListener;
 import org.dimdev.riftloader.listener.Instantiator;
 import org.dimdev.utils.InstanceListMap;
@@ -169,19 +170,24 @@ public class RiftLoader {
         }
 
         // Load the listener classes
+        List<Listener> allListeners = new ArrayList<>();
         for (ModInfo modInfo : modInfoMap.values()) {
             if (modInfo.listeners != null) {
                 for (ModInfo.Listener listener : modInfo.listeners) {
                     if (listener.side.includes(side)) {
-                        Class<?> listenerClass;
-                        try {
-                            listenerClass = Launch.classLoader.findClass(listener.className);
-                            listenerClasses.add(listenerClass);
-                        } catch (ReflectiveOperationException e) {
-                            throw new RuntimeException("Failed to find listener class " + listener.className, e);
-                        }
+                    	allListeners.add(listener);
                     }
                 }
+            }
+        }
+        allListeners.sort(Comparator.<Listener>comparingInt(listener -> listener.priority).reversed());
+        for (Listener listener : allListeners) {
+        	Class<?> listenerClass;
+            try {
+                listenerClass = Launch.classLoader.findClass(listener.className);
+                listenerClasses.add(listenerClass);
+            } catch (ReflectiveOperationException e) {
+                throw new RuntimeException("Failed to find listener class " + listener.className, e);
             }
         }
 
