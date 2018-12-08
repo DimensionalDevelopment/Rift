@@ -7,6 +7,8 @@ import net.minecraft.launchwrapper.LaunchClassLoader;
 import org.dimdev.rift.Rift.RiftTokens;
 import org.dimdev.riftloader.listener.InitializationListener;
 
+import org.spongepowered.asm.mixin.Mixins;
+
 import java.io.File;
 import java.util.List;
 
@@ -19,6 +21,7 @@ public class OptifineLoader implements InitializationListener {
         ((List<String>) Launch.blackboard.get("TweakClasses")).add("org.dimdev.riftloader.OptifineLoader$Tweaker");
         Launch.classLoader.addClassLoaderExclusion("optifine.");
         RiftTokens.hasOptifine = true;
+        Mixins.addConfiguration("mixins.rift.optifine.json");
     }
 
     public static class Tweaker implements ITweaker {

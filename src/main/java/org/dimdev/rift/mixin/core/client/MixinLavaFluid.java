@@ -26,4 +26,9 @@ public class MixinLavaFluid implements RiftFluid {
     public int getColorMultiplier(IWorldReader world, BlockPos pos) {
         return 0xFFFFFF;
     }
+
+    @Override
+    public boolean ignoreOptifine() {
+    	return false;
+    }
 }
