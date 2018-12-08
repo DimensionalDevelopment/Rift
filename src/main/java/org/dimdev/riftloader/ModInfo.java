@@ -17,11 +17,15 @@ public class ModInfo {
                 return new Gson().toJsonTree(listener);
             })
             .registerTypeAdapter(Listener.class, (JsonDeserializer<Listener>) (json, type, context) -> {
-                if (json.isJsonPrimitive() && json.isJsonPrimitive() && ((JsonPrimitive) json).isString()) {
+                if (json.isJsonPrimitive() && ((JsonPrimitive) json).isString()) {
                     return new Listener(json.getAsString());
                 }
 
-                return new Gson().fromJson(json, type);
+                Listener listener = new Gson().fromJson(json, Listener.class);
+                if (listener.className == null) throw new JsonSyntaxException("Listener with no class!");
+                //If the side isn't provided Gson helpfully returns null
+                if (listener.side == null) listener.side = Side.BOTH;
+                return listener;
             })
             .create();
 

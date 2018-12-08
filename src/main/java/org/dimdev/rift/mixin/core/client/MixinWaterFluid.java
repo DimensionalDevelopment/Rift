@@ -27,4 +27,9 @@ public class MixinWaterFluid implements RiftFluid {
     public int getColorMultiplier(IWorldReader world, BlockPos pos) {
         return BiomeColors.getWaterColor(world, pos);
     }
+
+    @Override
+    public boolean ignoreOptifine() {
+    	return false;
+    }
 }
