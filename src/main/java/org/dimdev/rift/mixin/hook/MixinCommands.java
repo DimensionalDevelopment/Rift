@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 @Mixin(Commands.class)
 public class MixinCommands {
     // Workaround for https://github.com/SpongePowered/Mixin/issues/267
-    @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Lcom/mojang/brigadier/CommandDispatcher;findAmbiguities(Lcom/mojang/brigadier/AmbiguityConsumer;)V"))
+    @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Lcom/mojang/brigadier/CommandDispatcher;findAmbiguities(Lcom/mojang/brigadier/AmbiguityConsumer;)V"), remap = false)
     public void findAmbiguities(CommandDispatcher<CommandSource> dispatcher, AmbiguityConsumer<CommandSource> consumer) {
         for (CommandAdder commandAdder : RiftLoader.instance.getListeners(CommandAdder.class)) {
             commandAdder.registerCommands(dispatcher);

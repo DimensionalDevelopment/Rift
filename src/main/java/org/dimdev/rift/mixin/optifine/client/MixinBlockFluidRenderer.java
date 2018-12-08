@@ -39,7 +39,7 @@ public class MixinBlockFluidRenderer {
 		}
 	}
 
-	@Redirect(at = @At(value = "INVOKE_ASSIGN", target = "Lnet/optifine/CustomColors;getFluidColor(Lnet/minecraft/world/IWorldReader;Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/util/math/BlockPos;)I", shift = Shift.BEFORE), method = "render(Lnet/minecraft/world/IWorldReader;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/client/renderer/BufferBuilder;Lnet/minecraft/fluid/IFluidState;)Z", constraints = "OPTIFINE(1+)")
+	@Redirect(at = @At(value = "INVOKE_ASSIGN", target = "Lnet/optifine/CustomColors;getFluidColor(Lnet/minecraft/world/IWorldReader;Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/util/math/BlockPos;)I", shift = Shift.BEFORE), method = "render(Lnet/minecraft/world/IWorldReader;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/client/renderer/BufferBuilder;Lnet/minecraft/fluid/IFluidState;)Z", constraints = "OPTIFINE(1+)", remap = false)
 	public int getFluidColours(BlockFluidRenderer me, int optifine, IWorldReader world, BlockPos pos, BufferBuilder buffer, IFluidState state) {
 		if (state.getFluid() instanceof RiftFluid) {
 			RiftFluid fluid = (RiftFluid) state.getFluid();
