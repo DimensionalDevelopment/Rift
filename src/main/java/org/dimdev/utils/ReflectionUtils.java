@@ -3,6 +3,7 @@ package org.dimdev.utils;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -31,6 +32,17 @@ public class ReflectionUtils {
         } catch (Throwable t) {
             throw t instanceof RuntimeException ? (RuntimeException) t : new RuntimeException(t);
         }
+    }
+
+    public static Field findField(Class<?> target, Class<?> fieldType) throws NoSuchFieldException {
+    	for (Field field : target.getDeclaredFields()) {
+    		if (field.getType() == fieldType) {
+    			field.setAccessible(true);
+    			return field;
+    		}
+    	}
+
+    	throw new NoSuchFieldException("Cannot find field in " + target + '#' + fieldType);
     }
 
     public static Method findMethod(Class<?> target, Class<?> returnType, Class<?>... params) throws NoSuchMethodException {
