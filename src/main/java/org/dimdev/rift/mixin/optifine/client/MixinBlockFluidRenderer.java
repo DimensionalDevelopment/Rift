@@ -19,7 +19,7 @@ import org.dimdev.rift.injectedmethods.RiftFluid;
 
 @Mixin(BlockFluidRenderer.class)
 public class MixinBlockFluidRenderer {
-	@Redirect(at = @At(value = "FIELD", target = "atlasSpritesWater:[Lnet/minecraft/client/renderer/texture/TextureAtlasSprite;", opcode = Opcodes.GETFIELD), method = "render(Lnet/minecraft/world/IWorldReader;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/client/renderer/BufferBuilder;Lnet/minecraft/fluid/IFluidState;)Z", constraints = "OPTIFINE(1+)")
+	@Redirect(at = @At(value = "FIELD", target = "Lnet/minecraft/client/renderer/BlockFluidRenderer;atlasSpritesWater:[Lnet/minecraft/client/renderer/texture/TextureAtlasSprite;", opcode = Opcodes.GETFIELD), method = "render(Lnet/minecraft/world/IWorldReader;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/client/renderer/BufferBuilder;Lnet/minecraft/fluid/IFluidState;)Z", constraints = "OPTIFINE(1+)")
 	public TextureAtlasSprite[] getWaterFluidTextures(BlockFluidRenderer me, IWorldReader world, BlockPos pos, BufferBuilder buffer, IFluidState state) {
 		if (state.getFluid() instanceof RiftFluid) {
 			RiftFluid fluid = (RiftFluid) state.getFluid();
@@ -29,7 +29,7 @@ public class MixinBlockFluidRenderer {
 		}
 	}
 
-	@Redirect(at = @At(value = "FIELD", target = "atlasSpritesLava:[Lnet/minecraft/client/renderer/texture/TextureAtlasSprite;", opcode = Opcodes.GETFIELD), method = "render(Lnet/minecraft/world/IWorldReader;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/client/renderer/BufferBuilder;Lnet/minecraft/fluid/IFluidState;)Z", constraints = "OPTIFINE(1+)")
+	@Redirect(at = @At(value = "FIELD", target = "Lnet/minecraft/client/renderer/BlockFluidRenderer;atlasSpritesLava:[Lnet/minecraft/client/renderer/texture/TextureAtlasSprite;", opcode = Opcodes.GETFIELD), method = "render(Lnet/minecraft/world/IWorldReader;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/client/renderer/BufferBuilder;Lnet/minecraft/fluid/IFluidState;)Z", constraints = "OPTIFINE(1+)")
 	public TextureAtlasSprite[] getLavaFluidTextures(BlockFluidRenderer me, IWorldReader world, BlockPos pos, BufferBuilder buffer, IFluidState state) {
 		if (state.getFluid() instanceof RiftFluid) {
 			RiftFluid fluid = (RiftFluid) state.getFluid();
