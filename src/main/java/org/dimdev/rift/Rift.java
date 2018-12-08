@@ -52,7 +52,7 @@ public class Rift implements InitializationListener {
 				return isObf ? 1 : 0;
 
 			case "OPTIFINE":
-				return hasOptifine ? 1 : 0;
+				return hasOptifine ? 2 : 0;
 
 			default:
 				return null;

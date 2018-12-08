@@ -32,7 +32,7 @@ public abstract class MixinBlockFluidRenderer {
     @Shadow protected abstract int getCombinedLightUpMax(IWorldReader world, BlockPos pos);
     @Shadow private TextureAtlasSprite atlasSpriteWaterOverlay;
 
-    @Overwrite(constraints = "OPTIFINE(0)")
+    @Overwrite(constraints = "OPTIFINE(0-1)")
     public boolean render(IWorldReader world, BlockPos pos, BufferBuilder buffer, IFluidState state) {
         boolean isLava = state.isTagged(FluidTags.LAVA);
 

@@ -23,7 +23,7 @@ public class MixinVanillaPack {
      * from being overwritten by mods.
      */
     @Nullable
-    @Overwrite(constraints = "OPTIFINE(0)")
+    @Overwrite(constraints = "OPTIFINE(0-1)")
     protected InputStream getInputStreamVanilla(ResourcePackType type, ResourceLocation location) {
         String pathString = type.getDirectoryName() + "/" + location.getNamespace() + "/" + location.getPath();
 
