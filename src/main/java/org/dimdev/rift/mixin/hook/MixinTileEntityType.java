@@ -9,6 +9,7 @@ import net.minecraft.util.datafix.DataFixesManager;
 import net.minecraft.util.datafix.TypeReferences;
 import net.minecraft.util.registry.IRegistry;
 import org.apache.logging.log4j.Logger;
+import org.dimdev.rift.Rift;
 import org.dimdev.rift.listener.TileEntityTypeAdder;
 import org.dimdev.riftloader.RiftLoader;
 import org.spongepowered.asm.mixin.Final;
@@ -29,7 +30,7 @@ public abstract class MixinTileEntityType {
 
         try {
         	//Schema#getChoiceType can throw an IAE that vanilla won't catch, so we catch that too
-            dataFixerType = DataFixesManager.getDataFixer().getSchema(DataFixUtils.makeKey(1628)).getChoiceType(TypeReferences.BLOCK_ENTITY, id);
+            dataFixerType = DataFixesManager.getDataFixer().getSchema(DataFixUtils.makeKey(Rift.DATAFIXER_VERSION)).getChoiceType(TypeReferences.BLOCK_ENTITY, id);
         } catch (IllegalStateException | IllegalArgumentException e) {
             LOGGER.debug("No data fixer registered for block entity {}", id);
         }
