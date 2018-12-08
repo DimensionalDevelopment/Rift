@@ -19,7 +19,7 @@ import java.util.Map;
 public class MixinRecipeManager {
     @Shadow @Final private Map<ResourceLocation, IRecipe> recipes;
 
-    @Inject(method = "onResourceManagerReload", at = @At(value = "INVOKE", target = "Ljava/util/Map;size()I"))
+    @Inject(method = "onResourceManagerReload", at = @At(value = "INVOKE", target = "Ljava/util/Map;size()I", remap = false))
     private void onLoadRecipes(IResourceManager resourceManager, CallbackInfo ci) {
         for (RecipeAdder recipeAdder : RiftLoader.instance.getListeners(RecipeAdder.class)) {
             recipeAdder.addRecipes(recipes, resourceManager);
