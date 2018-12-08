@@ -60,7 +60,7 @@ minecraft {
 mixin {
     defaultObfuscationEnv notch
     add sourceSets.main, 'mixins.rift.refmap.json'
-    token("OPTIFINE", 0)
+    token("OPTIFINE", 1)
 }
 
 sourceSets {
