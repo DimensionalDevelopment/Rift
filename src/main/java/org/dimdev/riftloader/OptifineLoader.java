@@ -14,6 +14,7 @@ public class OptifineLoader implements InitializationListener {
         //noinspection unchecked
         ((List<String>) Launch.blackboard.get("TweakClasses")).add("org.dimdev.riftloader.OptifineLoader$Tweaker");
         Launch.classLoader.addClassLoaderExclusion("optifine.");
+        RiftTokens.hasOptifine = true;
     }
 
     public static class Tweaker implements ITweaker {

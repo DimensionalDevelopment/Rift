@@ -17,7 +17,9 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.IWorldReaderBase;
+
 import org.dimdev.rift.injectedmethods.RiftFluid;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -30,7 +32,7 @@ public abstract class MixinBlockFluidRenderer {
     @Shadow protected abstract int getCombinedLightUpMax(IWorldReader world, BlockPos pos);
     @Shadow private TextureAtlasSprite atlasSpriteWaterOverlay;
 
-    @Overwrite
+    @Overwrite(constraints = "OPTIFINE(0)")
     public boolean render(IWorldReader world, BlockPos pos, BufferBuilder buffer, IFluidState state) {
         boolean isLava = state.isTagged(FluidTags.LAVA);
 
@@ -75,7 +77,6 @@ public abstract class MixinBlockFluidRenderer {
         float maxU;
         float minV;
         float maxV;
-        float var34;
 
         if (renderTop && !func_209556_a(world, pos, EnumFacing.UP, Math.min(Math.min(var17, var18), Math.min(var19, var20)))) {
             rendered = true;
@@ -87,6 +88,7 @@ public abstract class MixinBlockFluidRenderer {
             float var28;
             float var30;
             float var32;
+            float var34;
             TextureAtlasSprite texture;
             float var37;
 
