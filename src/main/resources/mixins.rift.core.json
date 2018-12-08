@@ -6,13 +6,11 @@
   "package": "org.dimdev.rift.mixin.core",
   "refmap": "mixins.rift.refmap.json",
   "mixins": [
-    "MixinMinecraftServer",
-    "MixinVanillaPack"
+    "MixinMinecraftServer"
   ],
   "client": [
     "client.MixinClientBrandRetriever",
     "client.MixinLayerArmorBase",
-    "client.MixinBlockFluidRenderer",
     "client.MixinWaterFluid",
     "client.MixinLavaFluid",
     "client.MixinItemRenderer"

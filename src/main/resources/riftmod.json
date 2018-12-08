@@ -5,7 +5,14 @@
     "Runemoro"
   ],
   "listeners": [
-    "org.dimdev.rift.Rift",
+	{
+		"class": "org.dimdev.rift.Rift",
+		"side": "both",
+		"priority": 10
+	}, {
+		"class": "org.dimdev.rift.LateRift",
+		"priority": -10
+	},
     "org.dimdev.rift.resources.ResourceManager",
     "org.dimdev.rift.network.MessageRegistrator"
   ]
