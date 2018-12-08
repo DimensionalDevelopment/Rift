@@ -9,6 +9,7 @@ import net.minecraft.util.datafix.TypeReferences;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.dimdev.rift.Rift;
 import org.dimdev.rift.listener.EntityTypeAdder;
 import org.dimdev.riftloader.RiftLoader;
 import org.spongepowered.asm.mixin.Final;
@@ -41,7 +42,7 @@ public abstract class MixinEntityType {
 
             if (serializable) {
                 try {
-                    dataFixerType = DataFixesManager.getDataFixer().getSchema(DataFixUtils.makeKey(1628)).getChoiceType(TypeReferences.ENTITY_TYPE, id);
+                    dataFixerType = DataFixesManager.getDataFixer().getSchema(DataFixUtils.makeKey(Rift.DATAFIXER_VERSION)).getChoiceType(TypeReferences.ENTITY_TYPE, id);
                 } catch (IllegalStateException | IllegalArgumentException ignored) {
                     LOGGER.debug("No data fixer registered for entity {}", id);
                 }

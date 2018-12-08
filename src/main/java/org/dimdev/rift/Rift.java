@@ -13,7 +13,9 @@ import org.spongepowered.asm.mixin.extensibility.IEnvironmentTokenProvider;
 import net.minecraft.launchwrapper.Launch;
 
 public class Rift implements InitializationListener {
+	public static final int DATAFIXER_VERSION = 1631;
     private static final Logger LOGGER = LogManager.getLogger();
+
     @Override
     public void onInitialization() {
         LOGGER.info("Loading Rift!");
