@@ -24,8 +24,10 @@ public class Main {
     // public static final String SPIGOT_SERVER = "https://cdn.getbukkit.org/spigot/spigot-1.13.jar";
 
     public static void main(String... args) throws Throwable {
-        if (args.length == 0 || args[0].equals("--install")) {
-            runClientInstaller();
+        if (args.length == 0) {
+        	runClientInstaller(false);
+        } else if (args[0].equals("--install")) {
+        	runClientInstaller(true);
         } else if (args[0].equals("--server")) {
             File serverJar = new File("server.jar");
             if (!serverJar.isFile()) {
@@ -79,7 +81,7 @@ public class Main {
         return target;
     }
 
-    public static void runClientInstaller() {
+    public static void runClientInstaller(boolean ask) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Throwable t) {
@@ -97,13 +99,30 @@ public class Main {
                 minecraftFolder = new File(System.getProperty("user.home") + "/.minecraft");
             }
 
+            if (ask) {
+	            JFileChooser dlg = new JFileChooser(minecraftFolder);
+	            dlg.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+	            dlg.setDialogTitle("Select install directory");
+	            int res = dlg.showOpenDialog(null);
+	            if (res == JFileChooser.APPROVE_OPTION) {
+	            	minecraftFolder = dlg.getSelectedFile();
+	            } else {
+	            	return; //Cancelled picking an install directory
+	            }
+            }
+
             // Copy the version json
             File versionJson = new File(minecraftFolder, "versions/1.13.2-rift-@VERSION@/1.13.2-rift-@VERSION@.json");
             versionJson.getParentFile().mkdirs();
             Files.copy(Main.class.getResourceAsStream("/profile.json"), versionJson.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
             File fakeJar = new File(minecraftFolder, "versions/1.13.2-rift-@VERSION@/1.13.2-rift-@VERSION@.jar");
-            fakeJar.createNewFile();
+            File maybeRealJar = new File(minecraftFolder, "versions/1.13.2/1.13.2.jar");
+            if (maybeRealJar.exists()) {
+            	Files.copy(maybeRealJar.toPath(), fakeJar.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            } else {
+            	fakeJar.createNewFile();
+            }
 
             // Make mods directory
             try {
@@ -156,7 +175,8 @@ public class Main {
             }
 
             JOptionPane.showMessageDialog(null,
-                    "Rift @VERSION@ for Minecraft 1.13.2 has been successfully installed!\n" +
+                    "Rift @VERSION@ for Minecraft 1.13.2 has been successfully installed" +
+                    (ask ? " to\n" + minecraftFolder.getAbsolutePath() + "\n" : "!\n") +
                     "\n" +
                     "It is available in the dropdown menu of the vanilla Minecraft launcher.\n" +
                     "You'll need to restart the Minecraft Launcher if you had it open when\n" +
