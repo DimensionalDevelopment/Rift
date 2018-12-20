@@ -122,9 +122,13 @@ public class Main {
                         contents = contents.replaceAll(",\n *\"rift\": \\{[^}]*},", ",");
                         contents = contents.replaceAll(",?\n *\"rift\": \\{[^}]*},?", "");
                     }
+                    if (contents.contains("\"Rift\"")) {
+                        contents = contents.replaceAll(",\n *\"Rift\": \\{[^}]*},", ",");
+                        contents = contents.replaceAll(",?\n *\"Rift\": \\{[^}]*},?", "");
+                    }
 
                     contents = contents.replace("\n  \"profiles\": {", "\n  \"profiles\": {\n" +
-                                                                       "    \"rift\": {\n" +
+                                                                       "    \"Rift\": {\n" +
                                                                        "      \"name\": \"Rift\",\n" +
                                                                        "      \"type\": \"custom\",\n" +
                                                                        "      \"created\": \"2018-08-13T00:00:00.000Z\",\n" +
