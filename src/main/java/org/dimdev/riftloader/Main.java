@@ -102,6 +102,9 @@ public class Main {
             versionJson.getParentFile().mkdirs();
             Files.copy(Main.class.getResourceAsStream("/profile.json"), versionJson.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
+            File fakeJar = new File(minecraftFolder, "versions/1.13.2-rift-@VERSION@/1.13.2-rift-@VERSION@.jar");
+            fakeJar.createNewFile();
+
             // Make mods directory
             try {
                 File modsFolder = new File(minecraftFolder, "mods");
@@ -119,9 +122,13 @@ public class Main {
                         contents = contents.replaceAll(",\n *\"rift\": \\{[^}]*},", ",");
                         contents = contents.replaceAll(",?\n *\"rift\": \\{[^}]*},?", "");
                     }
+                    if (contents.contains("\"Rift\"")) {
+                        contents = contents.replaceAll(",\n *\"Rift\": \\{[^}]*},", ",");
+                        contents = contents.replaceAll(",?\n *\"Rift\": \\{[^}]*},?", "");
+                    }
 
                     contents = contents.replace("\n  \"profiles\": {", "\n  \"profiles\": {\n" +
-                                                                       "    \"rift\": {\n" +
+                                                                       "    \"Rift\": {\n" +
                                                                        "      \"name\": \"Rift\",\n" +
                                                                        "      \"type\": \"custom\",\n" +
                                                                        "      \"created\": \"2018-08-13T00:00:00.000Z\",\n" +
