@@ -102,6 +102,9 @@ public class Main {
             versionJson.getParentFile().mkdirs();
             Files.copy(Main.class.getResourceAsStream("/profile.json"), versionJson.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
+            File fakeJar = new File(minecraftFolder, "versions/1.13.2-rift-@VERSION@/1.13.2-rift-@VERSION@.jar");
+            fakeJar.createNewFile();
+
             // Make mods directory
             try {
                 File modsFolder = new File(minecraftFolder, "mods");
