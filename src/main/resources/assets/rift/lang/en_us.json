@@ -6,5 +6,7 @@
   "riftmodlist.view": "View",
   "riftmodlist.done": "Done",
   "riftmodlist.search_mods": "Search Mods...",
-  "riftmodlist.config_done": "Done & Save"
+  "riftmodlist.versions": "Version: %s",
+  "riftmodlist.url": "Website: %s",
+  "riftmodlist.id": "Mod ID: %s"
 }
