@@ -9,7 +9,6 @@ import net.minecraft.client.gui.GuiSlot;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.util.ResourceLocation;
 import org.dimdev.riftloader.ModInfo;
 
 import java.util.ArrayList;
@@ -76,15 +75,12 @@ public class GuiModsContent extends GuiSlot {
 		return left + width / 2 - getListWidth() / 2 + 2;
 	}
 	
-	private final ResourceLocation packIcon = new ResourceLocation("textures/misc/unknown_pack.png");
-	
 	@Override
 	protected void drawSlot(int slotIndex, int xPos, int yPos, int heightIn, int mouseXIn, int mouseYIn, float partialTicks) {
 		int i = this.getY(slotIndex);
 		int j = this.getX(slotIndex);
 		ModInfo mod = modList.get(slotIndex);
-		//Minecraft.getInstance().getTextureManager().bindTexture(mod.getModIcon());
-		Minecraft.getInstance().getTextureManager().bindTexture(packIcon);
+		Minecraft.getInstance().getTextureManager().bindTexture(ModList.getModIcon(mod.id, mod.source));
 		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Gui.drawModalRectWithCustomSizedTexture(j, i, 0, 0, 32, 32, 32, 32);
 		String modName = mod.name;
@@ -104,7 +100,6 @@ public class GuiModsContent extends GuiSlot {
 		GuiButton viewButton = new GuiButton(700 + slotIndex, left + width / 2 + getListWidth() / 2 - 61, i + 6, 50, 20,
 				I18n.format("riftmodlist.view")) {
 		};
-		viewButton.enabled = false;
 		viewButton.render(mouseXIn, mouseYIn, partialTicks);
 	}
 	
@@ -125,9 +120,9 @@ public class GuiModsContent extends GuiSlot {
 			index++;
 		}
 		if (p_mouseClicked_1_ > x && p_mouseClicked_1_ < x + 50 && p_mouseClicked_3_ > y + 6 && p_mouseClicked_3_ < y + 26) {
-			//Minecraft.getInstance().getSoundHandler().play(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
-			//Minecraft.getInstance().displayGuiScreen(new GuiModListView(modList.get(index)));
-			//currentIndex = -1;
+			Minecraft.getInstance().getSoundHandler().play(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+			Minecraft.getInstance().displayGuiScreen(new GuiModsView(modList.get(index)));
+			currentIndex = -1;
 		} else if (isMouseInList(p_mouseClicked_1_, p_mouseClicked_3_)) {
 			Minecraft.getInstance().getSoundHandler().play(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
 			currentIndex = index;

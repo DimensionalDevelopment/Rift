@@ -43,6 +43,9 @@ public class ModInfo {
 
     public String id;
     public String name;
+    public String description;
+    public String version;
+    public String url;
     public List<String> authors = new ArrayList<>();
     public List<Listener> listeners = new ArrayList<>();
 }
