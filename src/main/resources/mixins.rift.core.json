@@ -14,5 +14,6 @@
     "client.MixinWaterFluid",
     "client.MixinLavaFluid",
     "client.MixinItemRenderer"
+    "client.MixinMainMenu"
   ]
 }
