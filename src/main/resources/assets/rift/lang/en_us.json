@@ -1,12 +1,12 @@
 {
-  "riftmodlist.mods": "Mods List",
-  "riftmodlist.openFolder": "Open Mods Folder",
-  "riftmodlist.authors": "By",
-  "riftmodlist.noone": "No One",
-  "riftmodlist.view": "View",
-  "riftmodlist.done": "Done",
-  "riftmodlist.search_mods": "Search Mods...",
-  "riftmodlist.versions": "Version: %s",
-  "riftmodlist.url": "Website: %s",
-  "riftmodlist.id": "Mod ID: %s"
+  "rift.modlist.mods": "Mods List",
+  "rift.modlist.openFolder": "Open Mods Folder",
+  "rift.modlist.authors": "By",
+  "rift.modlist.noone": "No One",
+  "rift.modlist.view": "View",
+  "rift.modlist.done": "Done",
+  "rift.modlist.search_mods": "Search Mods...",
+  "rift.modlist.versions": "Version: %s",
+  "rift.modlist.url": "Website: %s",
+  "rift.modlist.id": "Mod ID: %s"
 }
