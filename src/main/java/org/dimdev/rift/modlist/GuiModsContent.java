@@ -1,7 +1,7 @@
 package org.dimdev.rift.modlist;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
@@ -120,17 +120,17 @@ public class GuiModsContent extends GuiSlot {
             index++;
         }
         if (p_mouseClicked_1_ > x && p_mouseClicked_1_ < x + 50 && p_mouseClicked_3_ > y + 6 && p_mouseClicked_3_ < y + 26) {
-            Minecraft.getInstance().getSoundHandler().play(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+            Minecraft.getInstance().getSoundHandler().play(SimpleSound.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
             Minecraft.getInstance().displayGuiScreen(new GuiModsView(modList.get(index)));
             currentIndex = -1;
         } else if (isMouseInList(p_mouseClicked_1_, p_mouseClicked_3_)) {
-            Minecraft.getInstance().getSoundHandler().play(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+            Minecraft.getInstance().getSoundHandler().play(SimpleSound.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
             currentIndex = index;
         }
         return super.mouseClicked(p_mouseClicked_1_, p_mouseClicked_3_, p_mouseClicked_5_);
     }
     
-    private boolean isMouseInList(double p_mouseClicked_1_, double p_mouseClicked_3_) {
+    public boolean isMouseInList(double p_mouseClicked_1_, double p_mouseClicked_3_) {
         return p_mouseClicked_3_ > 40 && p_mouseClicked_3_ < parent.height - 40;
     }
     
@@ -147,11 +147,11 @@ public class GuiModsContent extends GuiSlot {
         String currentId = currentIndex > 0 ? modList.get(currentIndex).id : "";
         List<ModInfo> modList = new ArrayList<>();
         if (searchTerm.replaceAll(" ", "").equals(""))
-            modList = new LinkedList<>(parent.modList);
+            modList = new LinkedList<>(GuiMods.modList);
         else
-            for(ModInfo mod : parent.modList) {
+            for(ModInfo mod : GuiMods.modList) {
                 List<String> list = new LinkedList<>(mod.authors);
-                list.addAll(Arrays.asList(new String[]{mod.id, mod.name, mod.source.getName()}));
+                list.addAll(Arrays.asList(mod.id, mod.name, mod.source.getName()));
                 if (hasMatch(searchTerm, list.toArray(new String[list.size()])))
                     modList.add(mod);
             }

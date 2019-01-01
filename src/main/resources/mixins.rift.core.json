@@ -13,7 +13,7 @@
     "client.MixinLayerArmorBase",
     "client.MixinWaterFluid",
     "client.MixinLavaFluid",
-    "client.MixinItemRenderer"
+    "client.MixinItemRenderer",
     "client.MixinMainMenu"
   ]
 }

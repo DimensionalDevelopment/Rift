@@ -55,6 +55,7 @@ minecraft {
 
     replace "@VERSION@", project.version
     replaceIn "org/dimdev/riftloader/Main.java"
+    replaceIn "org/dimdev/rift/mixin/core/client/MixinMainMenu.java"
 }
 
 mixin {
@@ -72,6 +73,10 @@ sourceSets {
 
 processResources {
     filesMatching('profile.json') {
+        expand 'version': project.version
+    }
+
+    filesMatching('riftmod.json') {
         expand 'version': project.version
     }
 

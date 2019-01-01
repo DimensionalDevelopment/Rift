@@ -4,6 +4,7 @@
   "authors": [
     "Runemoro"
   ],
+  "version": "${version}",
   "listeners": [
 	{
 		"class": "org.dimdev.rift.Rift",

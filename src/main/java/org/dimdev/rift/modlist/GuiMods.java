@@ -72,8 +72,8 @@ public class GuiMods extends GuiScreen {
                 Minecraft.getInstance().displayGuiScreen(previousGui);
             }
         });
-        this.eventListeners.add(searchBox);
-        this.eventListeners.add(guiModListContent);
+        this.children.add(searchBox);
+        this.children.add(guiModListContent);
         this.searchBox.setFocused(true);
         this.searchBox.setCanLoseFocus(false);
     }
